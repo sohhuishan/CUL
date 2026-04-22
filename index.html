@@ -1,0 +1,2481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberLogitec OPUS / LMS / Allegro — User Wiki</title>
+<style>
+  :root {
+    --bg: #f8f9fa;
+    --bg-sidebar: #f0efe6;
+    --bg-article: #ffffff;
+    --border: #a2a9b1;
+    --border-light: #eaecf0;
+    --link: #0645ad;
+    --link-hover: #3366bb;
+    --link-visited: #0b0080;
+    --text: #202122;
+    --text-muted: #54595d;
+    --heading: #000;
+    --code-bg: #f8f9fa;
+    --accent: #1e5094;
+    --accent-warm: #c17a00;
+    --info-bg: #eaf3ff;
+    --info-border: #36c;
+    --warn-bg: #fef6e7;
+    --warn-border: #ac6600;
+    --tip-bg: #e8f5e9;
+    --tip-border: #14866d;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    font-family: 'Linux Libertine', 'Georgia', 'Times', serif;
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--text);
+    background: var(--bg);
+  }
+  .topbar {
+    background: #fff;
+    border-bottom: 1px solid var(--border);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+  .brand {
+    font-weight: bold;
+    font-size: 20px;
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .brand small { font-weight: normal; color: var(--text-muted); font-size: 12px; margin-left: 8px;}
+  .search {
+    flex: 1;
+    max-width: 420px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .search:focus { outline: 2px solid var(--accent); border-color: var(--accent); }
+  .menu-btn {
+    background: none; border: 1px solid var(--border); padding: 6px 10px;
+    cursor: pointer; border-radius: 4px; font-family: inherit;
+    display: none;
+  }
+  .layout {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .sidebar {
+    width: 280px;
+    min-width: 280px;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border);
+    padding: 18px 14px;
+    font-size: 13.5px;
+    overflow-y: auto;
+    position: sticky;
+    top: 54px;
+    max-height: calc(100vh - 54px);
+  }
+  .sidebar h3 {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+    margin: 16px 0 4px 0;
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-weight: bold;
+  }
+  .sidebar h3:first-child { margin-top: 0; }
+  .sidebar ul { list-style: none; padding: 0; margin: 0 0 8px 0; }
+  .sidebar li { padding: 2px 0; }
+  .sidebar a {
+    color: var(--link); text-decoration: none;
+    display: block; padding: 3px 6px; border-radius: 3px;
+  }
+  .sidebar a:hover { background: #e4e2d4; text-decoration: underline; }
+  .sidebar a.active { background: #d8d5c4; font-weight: bold; }
+  .sidebar .sub { padding-left: 12px; font-size: 12.5px; }
+  .sidebar details { margin-bottom: 4px; }
+  .sidebar details summary {
+    cursor: pointer; padding: 3px 6px; border-radius: 3px;
+    font-weight: bold; color: var(--accent);
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 13px;
+    user-select: none;
+  }
+  .sidebar details summary:hover { background: #e4e2d4; }
+  .sidebar details[open] summary { background: #e4e2d4; }
+  main {
+    flex: 1;
+    min-width: 0;
+    background: var(--bg-article);
+    padding: 24px 40px 80px 40px;
+    border-right: 1px solid var(--border);
+  }
+  article { max-width: 900px; }
+  h1, h2, h3, h4 { color: var(--heading); font-family: 'Linux Libertine', Georgia, serif; }
+  h1 { font-size: 2em; border-bottom: 2px solid var(--border); padding-bottom: 0.2em; margin-top: 0; }
+  h2 { font-size: 1.5em; border-bottom: 1px solid var(--border-light); padding-bottom: 0.2em; margin-top: 1.4em; }
+  h3 { font-size: 1.2em; margin-top: 1.2em; color: #333; }
+  h4 { font-size: 1.05em; margin-top: 1em; color: #333; font-style: italic; font-weight: bold; }
+  p { margin: 0.6em 0; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; color: var(--link-hover); }
+  a:visited { color: var(--link-visited); }
+  code {
+    background: var(--code-bg); padding: 1px 5px;
+    border: 1px solid #eaecf0; border-radius: 2px;
+    font-family: 'Consolas', 'Courier New', monospace;
+    font-size: 0.92em;
+  }
+  pre { background: var(--code-bg); padding: 12px; border: 1px solid #eaecf0; border-radius: 3px; overflow-x: auto; }
+  table { border-collapse: collapse; margin: 1em 0; width: 100%; font-size: 0.95em; }
+  th, td { border: 1px solid #a2a9b1; padding: 6px 10px; text-align: left; vertical-align: top; }
+  th { background: #eaecf0; font-family: Helvetica, Arial, sans-serif; font-size: 0.95em; }
+  tr:nth-child(even) td { background: #f8f9fa; }
+  .nav-path {
+    background: #f5f5f5; border-left: 4px solid var(--accent);
+    padding: 8px 14px; margin: 10px 0;
+    font-family: 'Helvetica', Arial, sans-serif; font-size: 0.92em;
+    color: #333;
+  }
+  .nav-path strong { color: var(--accent); }
+  .infobox {
+    float: right; width: 280px; margin: 0 0 14px 18px;
+    border: 1px solid var(--border); background: #f8f9fa;
+    padding: 0; font-size: 0.88em; font-family: 'Helvetica', Arial, sans-serif;
+    clear: right;
+  }
+  .infobox h3 {
+    margin: 0; padding: 8px 12px;
+    background: var(--accent); color: white;
+    font-size: 1em; font-family: 'Helvetica', Arial, sans-serif;
+    border-bottom: 1px solid var(--border);
+  }
+  .infobox table { margin: 0; font-size: 0.95em; }
+  .infobox th, .infobox td { border: none; border-bottom: 1px solid var(--border-light); padding: 4px 10px; }
+  .infobox th { background: #e8e8e8; width: 40%; }
+  .callout {
+    margin: 14px 0; padding: 10px 16px; border-radius: 4px;
+    border-left: 5px solid; font-size: 0.96em;
+  }
+  .callout strong { text-transform: uppercase; font-size: 0.82em; letter-spacing: 0.5px; font-family: Helvetica, Arial, sans-serif; }
+  .callout.info { background: var(--info-bg); border-color: var(--info-border); }
+  .callout.warn { background: var(--warn-bg); border-color: var(--warn-border); }
+  .callout.tip  { background: var(--tip-bg);  border-color: var(--tip-border); }
+  .toc {
+    background: #f8f9fa; border: 1px solid var(--border);
+    padding: 8px 14px; margin: 14px 0; font-size: 0.92em;
+    display: inline-block; min-width: 300px;
+  }
+  .toc h4 { margin: 0 0 6px 0; font-family: Helvetica, Arial, sans-serif; font-size: 0.95em; }
+  .toc ol { margin: 0 0 0 20px; padding: 0; }
+  .toc ol ol { margin-left: 16px; }
+  .toc a { color: var(--link); }
+  .breadcrumb {
+    font-size: 0.85em; color: var(--text-muted);
+    margin-bottom: 8px; font-family: Helvetica, Arial, sans-serif;
+  }
+  .breadcrumb a { color: var(--text-muted); }
+  .footer {
+    max-width: 900px; margin-top: 40px; padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+    color: var(--text-muted); font-size: 0.85em;
+  }
+  .hide { display: none !important; }
+  .highlight { background: yellow; }
+  .pill {
+    display: inline-block; padding: 2px 8px; border-radius: 10px;
+    font-size: 0.75em; font-family: Helvetica, Arial, sans-serif;
+    font-weight: bold; margin-right: 4px;
+  }
+  .pill.coa { background: #1e5094; color: white; }
+  .pill.joo { background: #7b1e94; color: white; }
+  .pill.pso { background: #1e9473; color: white; }
+  .pill.tes { background: #c17a00; color: white; }
+  .pill.trs { background: #944e1e; color: white; }
+  .module-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px; margin: 20px 0;
+  }
+  .module-card {
+    border: 1px solid var(--border-light); border-radius: 4px;
+    padding: 14px; background: #fdfdfd;
+  }
+  .module-card h3 { margin-top: 0; font-size: 1.1em; }
+  .module-card a { display: inline-block; margin-top: 8px; font-size: 0.9em; }
+  kbd {
+    background: #eee; border: 1px solid #ccc; border-radius: 3px;
+    padding: 1px 5px; font-family: Consolas, monospace; font-size: 0.85em;
+    box-shadow: inset 0 -1px 0 #aaa;
+  }
+  .search-results {
+    background: #fff; border: 1px solid var(--border); padding: 12px;
+    margin-top: 4px; max-height: 400px; overflow-y: auto;
+    position: absolute; top: 44px; left: 0; right: 0;
+    font-family: Helvetica, Arial, sans-serif; font-size: 13px;
+    display: none;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  }
+  .search-results .result { padding: 6px 8px; cursor: pointer; border-radius: 3px; }
+  .search-results .result:hover { background: #eaf3ff; }
+  .search-results .result .title { font-weight: bold; color: var(--link); }
+  .search-results .result .ctx { color: var(--text-muted); font-size: 11.5px; margin-top: 2px; }
+  .search-wrap { position: relative; flex: 1; max-width: 420px; }
+  @media (max-width: 900px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; max-height: none; position: static; display: none; }
+    .sidebar.open { display: block; }
+    main { padding: 16px; border-right: none; }
+    .menu-btn { display: block; }
+    .infobox { float: none; width: 100%; margin: 10px 0; }
+  }
+  .no-article { color: var(--text-muted); font-style: italic; }
+  dl.fields dt { font-weight: bold; font-family: Helvetica, Arial, sans-serif; margin-top: 10px; color: var(--accent); }
+  dl.fields dd { margin-left: 0; margin-bottom: 6px; padding-left: 16px; border-left: 2px solid var(--border-light); }
+  .field-table th:nth-child(1), .field-table td:nth-child(1) { width: 26%; }
+  .field-table th:nth-child(2), .field-table td:nth-child(2) { width: 12%; }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a href="#Home" class="brand">OPUS Wiki <small>(CyberLogitec / LMS / Allegro reference)</small></a>
+  <div class="search-wrap">
+    <input id="search" class="search" type="text" placeholder="Search the wiki (try 'CSR', 'port tariff', 'booking'…)" autocomplete="off">
+    <div id="searchResults" class="search-results"></div>
+  </div>
+  <button class="menu-btn" onclick="document.querySelector('.sidebar').classList.toggle('open')">&#9776; Menu</button>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <h3>Getting Started</h3>
+  <ul>
+    <li><a href="#Home">Home</a></li>
+    <li><a href="#What-is-OPUS">What is OPUS / LMS / Allegro</a></li>
+    <li><a href="#Navigation">How to navigate the system</a></li>
+    <li><a href="#UI-patterns">Common UI patterns</a></li>
+    <li><a href="#Core-concepts">Core concepts &amp; acronyms</a></li>
+  </ul>
+
+  <h3>Modules</h3>
+  <details open>
+    <summary>COA — Cost Accrual</summary>
+    <ul class="sub">
+      <li><a href="#COA">Overview</a></li>
+      <li><a href="#COA-CostTable">Cost Table &amp; C/A Code</a></li>
+      <li><a href="#COA-UC-CM">Manage Unit Cost (CM)</a></li>
+      <li><a href="#COA-UC-OP">Manage Unit Cost (OP)</a></li>
+      <li><a href="#COA-Estimated">Estimated Performance</a></li>
+      <li><a href="#COA-Allocation">Allocate Network Cost</a></li>
+      <li><a href="#COA-Reports">Multi-Dimension Reports</a></li>
+      <li><a href="#COA-Simulation">Simulation</a></li>
+    </ul>
+  </details>
+  <details>
+    <summary>JOO — Joint Operation</summary>
+    <ul class="sub">
+      <li><a href="#JOO">Overview</a></li>
+      <li><a href="#JOO-Setup">Setup</a></li>
+      <li><a href="#JOO-Settlement">Settlement Creation</a></li>
+      <li><a href="#JOO-Monthly">Monthly Clearance</a></li>
+      <li><a href="#JOO-CSR">CSR Creation &amp; Approval</a></li>
+      <li><a href="#JOO-Reports">Reports &amp; TDR/RDR</a></li>
+    </ul>
+  </details>
+  <details>
+    <summary>PSO — Port Service Order</summary>
+    <ul class="sub">
+      <li><a href="#PSO">Overview</a></li>
+      <li><a href="#PSO-Tariff">Port Tariff Management</a></li>
+      <li><a href="#PSO-Simulation">Tariff Simulation</a></li>
+      <li><a href="#PSO-Planned">Planned Expense &amp; Estimation</a></li>
+      <li><a href="#PSO-Invoice">Port Charge Invoice</a></li>
+      <li><a href="#PSO-Canal">Canal Transit</a></li>
+    </ul>
+  </details>
+  <details>
+    <summary>TES — Terminal / Off-dock</summary>
+    <ul class="sub">
+      <li><a href="#TES">Overview</a></li>
+      <li><a href="#TES-MR">MR (Marine Rail) Invoice</a></li>
+      <li><a href="#TES-OffDock">Off-Dock CY Invoice</a></li>
+      <li><a href="#TES-Storage">Marine Terminal Storage</a></li>
+      <li><a href="#TES-AGMT">Agreement (AGMT) Creation</a></li>
+    </ul>
+  </details>
+  <details>
+    <summary>TRS — Transportation</summary>
+    <ul class="sub">
+      <li><a href="#TRS">Overview</a></li>
+      <li><a href="#TRS-AGMT">Agreement (Rate Contract)</a></li>
+      <li><a href="#TRS-SO">Service Order (S/O)</a></li>
+      <li><a href="#TRS-WO">Work Order (W/O)</a></li>
+      <li><a href="#TRS-Invoice">Invoice Audit</a></li>
+      <li><a href="#TRS-USARail">USA / CA Rail</a></li>
+    </ul>
+  </details>
+
+  <h3>Workflows</h3>
+  <ul>
+    <li><a href="#AccrualFlow"><b>★ Accrual flow diagram</b></a></li>
+      <li><a href="#WF-CostAccrual">Monthly Cost Accrual (end-to-end)</a></li>
+    <li><a href="#WF-Invoice">Vendor Invoice Processing</a></li>
+    <li><a href="#WF-CSR">CSR → ERP interface</a></li>
+    <li><a href="#WF-Closing">Month-end Closing</a></li>
+  </ul>
+
+  <h3>Reference</h3>
+  <ul>
+    <li><a href="#Glossary">Glossary (shipping + LMS)</a></li>
+    <li><a href="#Codes">Key codes &amp; abbreviations</a></li>
+    <li><a href="#FAQ">FAQ &amp; troubleshooting</a></li>
+    <li><a href="#Tips">Tips for Cost Controllers</a></li>
+    <li><a href="#Sources">Sources</a></li>
+  </ul>
+</aside>
+<main>
+<div id="articles">
+
+<!-- ======================== HOME ======================== -->
+<article id="Home">
+  <h1>OPUS Container Wiki — the unofficial CyberLogitec reference</h1>
+  <p class="breadcrumb">Home</p>
+  <p><b>CyberLogitec OPUS Container</b> (sometimes also referred to as <b>LMS</b>, <b>Allegro</b>, or just "the Cyberlogitec system") is the enterprise shipping suite used by your company to run container operations — from creating a booking, issuing a service order, auditing vendor invoices, posting the settlement to the ERP, through to performance analysis and profitability reporting.</p>
+  <p>This wiki consolidates the five main OPUS Container user manuals into a single, searchable reference written from the perspective of a cost / finance user. It explains <b>what each screen is for</b>, <b>what to put in each field</b>, <b>how the UI interprets your input</b>, and how the modules tie together at the end of the month.</p>
+
+  <h2>Start here</h2>
+  <div class="module-grid">
+    <div class="module-card"><h3>New to OPUS?</h3><p>Start with the concepts that appear everywhere in the system: VVD, BKG, CSR, BSA, CM vs OP.</p><a href="#What-is-OPUS">→ What is OPUS</a> · <a href="#Core-concepts">→ Core concepts</a></div>
+    <div class="module-card"><h3>Finding things on screen</h3><p>Navigation structure, menu breadcrumbs, and the UI patterns (grids, retrieve, tabs, save) used across all modules.</p><a href="#Navigation">→ Navigation</a> · <a href="#UI-patterns">→ UI patterns</a></div>
+    <div class="module-card"><h3>By module</h3><p>Each module has its own section. Your day-to-day as a Cost Controller lives mainly in <b>COA</b> (accrual &amp; analysis), <b>PSO</b> (port charges), <b>TES</b> (terminal / depot invoices) and <b>TRS</b> (inland transport invoices).</p><a href="#COA">→ COA</a> · <a href="#PSO">→ PSO</a> · <a href="#TES">→ TES</a> · <a href="#TRS">→ TRS</a> · <a href="#JOO">→ JOO</a></div>
+    <div class="module-card"><h3>Workflows</h3><p>End-to-end walkthroughs: monthly accrual, invoice processing, month-end closing.</p><a href="#WF-CostAccrual">→ Cost accrual workflow</a> · <a href="#WF-Invoice">→ Invoice processing</a></div>
+  </div>
+
+  <h2>Module map at a glance</h2>
+  <table>
+    <tr><th>Module</th><th>Full name</th><th>What it does</th><th>Who uses it</th></tr>
+    <tr><td><span class="pill coa">COA</span></td><td>CNTR Business Performance Analysis / Cost Accrual</td><td>Estimates cost and contribution margin per booking and voyage; single source of truth for profitability and cost accrual.</td><td>Cost, Trade, Sales</td></tr>
+    <tr><td><span class="pill joo">JOO</span></td><td>Joint Operation</td><td>Calculates receivables and payables between your carrier and alliance / slot-sharing partners.</td><td>Joint-ops accounting</td></tr>
+    <tr><td><span class="pill pso">PSO</span></td><td>Port Service Order</td><td>Manages port tariffs, port-charge estimates, port invoices and canal transit fees.</td><td>Cost, Vessel Ops</td></tr>
+    <tr><td><span class="pill tes">TES</span></td><td>TML INV (Terminal Invoice)</td><td>Handles invoices from marine terminals and off-dock depots: stevedorage, THC, storage.</td><td>Cost, Terminal Ops</td></tr>
+    <tr><td><span class="pill trs">TRS</span></td><td>Transportation Service</td><td>Inland transport: CY &amp; Door service orders, work orders, invoice audits. Covers rail, truck and feeder.</td><td>Cost, Logistics</td></tr>
+  </table>
+
+  <div class="callout tip"><strong>Tip for Cost Controllers:</strong> Every cost module ultimately produces a <b>CSR</b> (Consultation Slip Request) that posts into the ERP as the A/P voucher. When accrual vs. actual differ, the root cause is almost always either (a) mis-mapped C/A codes in COA, or (b) an agreement not loaded in PSO/TES/TRS so the audit fell back to defaults. Both are explained in the workflow articles.</div>
+
+  <div class="module-card"><h3>★ How accrual works (diagram)</h3><p>Visual map of every module and how they feed the accrual cycle — click any box to jump to that screen.</p><a href="#AccrualFlow">→ Accrual flow diagram</a></div>
+</article>
+
+<!-- ======================== WHAT IS OPUS ======================== -->
+<article id="What-is-OPUS" class="hide">
+  <h1>What is OPUS / LMS / Allegro?</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Getting Started</p>
+
+  <aside class="infobox">
+    <h3>Quick facts</h3>
+    <table>
+      <tr><th>Vendor</th><td>CyberLogitec Co., Ltd. (South Korea)</td></tr>
+      <tr><th>Suite name</th><td>OPUS Container</td></tr>
+      <tr><th>Segment</th><td>Liner / Container Shipping</td></tr>
+      <tr><th>Type</th><td>Web-based ERP-like liner suite</td></tr>
+      <tr><th>Main competitor</th><td>Kale Logistics, Softship, CargoWise, in-house systems</td></tr>
+    </table>
+  </aside>
+
+  <p><b>OPUS Container</b> is a modular, browser-based liner-shipping suite built by CyberLogitec. It covers the full container-carrier business cycle: commercial (rates, booking, B/L), operations (vessels, terminals, equipment), logistics (inland transport), and finance (accrual, settlement, invoice, interface to ERP).</p>
+  <p>You may hear the system called three different names inside your company — they refer to the same family but not always to the same thing:</p>
+  <dl class="fields">
+    <dt>OPUS Container</dt><dd>The official CyberLogitec product name. All of the user manuals you've been given are titled <i>OPUS Container User Manual – [Module]</i>.</dd>
+    <dt>LMS</dt><dd>"Logistics Management System." At your company this is the internal nickname for the transport / logistics-cost side of OPUS — essentially the <a href="#PSO">PSO</a>, <a href="#TES">TES</a> and <a href="#TRS">TRS</a> modules plus their agreement &amp; invoice screens. The companion <i>LMS User Guide</i> PDFs are written by your company's rollout team, not by CyberLogitec, and describe your company's actual configuration (office codes, cost-code mapping, approval routing).</dd>
+    <dt>Allegro</dt><dd>Historically CyberLogitec named an earlier generation of the product "ALLEGRO". Many liner companies still call the whole suite "Allegro" out of habit even after it was rebranded OPUS. If someone says "check Allegro" they almost certainly mean "log into OPUS".</dd>
+  </dl>
+
+  <h2>Module architecture</h2>
+  <p>OPUS is organised into dozens of sub-modules with three-letter codes. The ones you interact with daily, and the ones this wiki covers, are the cost and settlement modules:</p>
+  <table>
+    <tr><th>Code</th><th>Area</th><th>Purpose</th></tr>
+    <tr><td><b>COA</b></td><td>Sales Mgmt</td><td>Profitability analysis, cost accrual, performance reporting (CM by BKG, OP by VVD)</td></tr>
+    <tr><td><b>JOO</b></td><td>Joint Operation</td><td>Slot-hire, OUS, reefer and DG surcharges, monthly clearance between carriers</td></tr>
+    <tr><td><b>PSO</b></td><td>Vessel Ops</td><td>Port tariff, port charge invoice, canal transit, monthly port-charge estimate</td></tr>
+    <tr><td><b>TES</b></td><td>Service Mgmt</td><td>Marine-rail (MR) invoice, off-dock CY invoice, marine-terminal storage</td></tr>
+    <tr><td><b>TRS</b></td><td>Service Mgmt</td><td>Inland transportation: CY / Door service order, work order, invoice audit; USA/CA rail billing</td></tr>
+  </table>
+  <p>Around these sit the upstream modules that <i>create the transactions</i> you are costing:</p>
+  <table>
+    <tr><th>Code</th><th>Module</th><th>Relevance</th></tr>
+    <tr><td>BKG</td><td>Booking</td><td>Source of cargo data — every COA CM calculation hangs off a BKG.</td></tr>
+    <tr><td>B/L</td><td>Bill of Lading</td><td>Confirms the shipment; triggers DEM/DET clocks.</td></tr>
+    <tr><td>VSK</td><td>Vessel Schedule</td><td>Creates the VVD records that PSO and JOO settle against.</td></tr>
+    <tr><td>EQR / CTM</td><td>Equipment</td><td>Container moves; triggers TRS repo, TES storage, EQ holding cost.</td></tr>
+    <tr><td>SCE</td><td>Service Contract Execution</td><td>Turns a booking leg into a transport candidate that TRS picks up.</td></tr>
+    <tr><td>MDA</td><td>Master Data</td><td>Offices, currencies, service providers, vessel particulars. Everything references MDA.</td></tr>
+    <tr><td>ERP</td><td>Financials (SAP / Oracle)</td><td>Destination for all CSRs — the AP / GL system outside OPUS.</td></tr>
+  </table>
+
+  <h2>Who does what in OPUS — a Cost Controller's mental model</h2>
+  <p>Think of OPUS as a pipeline, not a single application. Each module owns one stage of the lifecycle and hands data to the next one. A useful mental model:</p>
+  <ol>
+    <li><b>Sales sells a slot</b> — creates a BKG.</li>
+    <li><b>COA accrues the cost</b> of that BKG in real time using unit-cost tables you maintain.</li>
+    <li><b>Operations runs the move</b> — the vessel sails (VSK), containers are handled at the terminal (TES), trucked inland (TRS), ports are called (PSO), slots are swapped with partners (JOO).</li>
+    <li><b>Vendors send invoices.</b> You audit them in TES / TRS / PSO.</li>
+    <li><b>Each confirmed invoice becomes a CSR</b> that lands in the ERP as an A/P voucher.</li>
+    <li><b>COA recalculates</b> the booking cost against actuals and drives the profitability reports.</li>
+  </ol>
+  <p>Most of the complaints you'll hear ("why doesn't my accrual match actual?", "why is this booking red?", "why is CSR stuck?") are about breakages at one of those handoffs — and the troubleshooting pattern is always the same: trace the data back one module at a time.</p>
+</article>
+
+<!-- ======================== NAVIGATION ======================== -->
+<article id="Navigation" class="hide">
+  <h1>How to navigate the system</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Getting Started</p>
+
+  <h2>The three-level menu</h2>
+  <p>OPUS uses a classic three-level menu structure. Every screen in the manuals is introduced with a <i>Navigation:</i> path of the form:</p>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Register C/A Code</strong></div>
+  <p>Read left-to-right this is:</p>
+  <ol>
+    <li><b>Top-level menu</b> (Sales Management, Service Management, Vessel Operation, Trade Management, etc.) — the big horizontal tabs or top bar in OPUS.</li>
+    <li><b>Module name</b> (<i>CNTR BIZ PFMC Analysis</i> = COA, <i>TML INV</i> = TES, <i>Port Service Order</i> = PSO, <i>Joint Operation</i> = JOO, <i>Transportation Service</i> = TRS). This is the second-level menu within the module group.</li>
+    <li><b>Function group</b> (Cost Table, Invoice, Agreement, CSR Creation, Report…).</li>
+    <li><b>Screen</b> (Register C/A Code, MR Invoice Creation &amp; Correction, Port Tariff Creation…). This is what actually opens as a tab.</li>
+  </ol>
+
+  <h2>Where to find each module from the top bar</h2>
+  <table>
+    <tr><th>You want to…</th><th>Start from top menu</th><th>Then drill into…</th></tr>
+    <tr><td>Check profitability / accrue cost (<a href="#COA">COA</a>)</td><td>Sales Management</td><td>CNTR BIZ PFMC Analysis</td></tr>
+    <tr><td>Handle alliance / slot settlements (<a href="#JOO">JOO</a>)</td><td>Accounting — Estimate</td><td>Joint Operation</td></tr>
+    <tr><td>Manage port tariff / port invoice (<a href="#PSO">PSO</a>)</td><td>Vessel Operation</td><td>Port Service Order</td></tr>
+    <tr><td>Audit terminal / depot invoice (<a href="#TES">TES</a>)</td><td>Service Management</td><td>TML INV</td></tr>
+    <tr><td>Audit inland transport invoice (<a href="#TRS">TRS</a>)</td><td>Service Management</td><td>Transportation Service</td></tr>
+  </table>
+  <p>Menu labels vary slightly by deployment — your company may have renamed "Sales Management" to "Trade Management" or similar. Use the <i>module code</i> (COA, PSO, TES, TRS, JOO) as your anchor when talking to support; the underlying program names are stable.</p>
+
+  <h2>Tabs stay open</h2>
+  <p>OPUS opens each screen as a <b>tab inside the workspace</b>. You can have a dozen screens open at once — useful when, for example, you want to keep the <i>Port Tariff Inquiry</i> open while creating the <i>Port Charge Invoice</i>. Close tabs you aren't using to keep memory light; heavy reports in the background will slow the current screen.</p>
+  <p>Unsaved changes in a tab are <b>not preserved if you navigate away</b> by clicking a menu link. Always <kbd>Save</kbd> before switching screens.</p>
+
+  <h2>Keyboard &amp; shortcut patterns</h2>
+  <table>
+    <tr><th>Action</th><th>Typical control</th></tr>
+    <tr><td>Retrieve / load data</td><td><kbd>F8</kbd> or the <b>Retrieve</b> button (magnifier icon)</td></tr>
+    <tr><td>Save</td><td><kbd>Ctrl+S</kbd> or <b>Save</b> button (floppy icon)</td></tr>
+    <tr><td>New row in a grid</td><td><b>Row Add</b> button</td></tr>
+    <tr><td>Delete row in a grid</td><td>Tick the <b>Del</b> column, then Save</td></tr>
+    <tr><td>Export to Excel</td><td><b>Down Excel</b> button (present on almost every inquiry screen)</td></tr>
+    <tr><td>Upload from Excel</td><td><b>Up Excel</b> button (not on every screen)</td></tr>
+    <tr><td>Popup lookup (LOV)</td><td>Magnifier next to a field — opens a filter dialog</td></tr>
+    <tr><td>Close current tab</td><td><kbd>Ctrl+W</kbd> or the &times; on the tab</td></tr>
+  </table>
+
+  <h2>Office scope — why you can't see some data</h2>
+  <p>Every user account is tied to one or more <b>Offices</b> in MDA. Inquiries and reports are filtered by the user's office scope. If a booking, invoice, or CSR "is missing", two causes dominate:</p>
+  <ul>
+    <li>You are looking outside your office's scope. Either broaden the <i>Office</i> filter on the screen or request additional office access.</li>
+    <li>The transaction is saved under a <i>Loading</i> office different from your <i>Contract</i> office — see <a href="#COA-CostTable">Office View (Contract vs Loading)</a> in the COA article.</li>
+  </ul>
+</article>
+
+<!-- ======================== UI PATTERNS ======================== -->
+<article id="UI-patterns" class="hide">
+  <h1>Common UI patterns across all modules</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Getting Started</p>
+
+  <p>Once you have used one OPUS screen you have seen them all. Every screen is a combination of three standard blocks. Recognising them turns any unfamiliar screen into one you can work with.</p>
+
+  <h2>1. The header / filter block</h2>
+  <p>Top of the screen. Fields with yellow (mandatory) or white (optional) backgrounds, plus a <b>Retrieve</b> button. Typical fields you'll see here:</p>
+  <dl class="fields">
+    <dt>Office</dt><dd>Always defaults to your logged-in office. Change it only if you have cross-office authority.</dd>
+    <dt>VVD (Vessel/Voyage/Direction)</dt><dd>Three-part key that identifies a specific voyage leg. Example: <code>HMMA 2604E</code> = vessel <code>HMMA</code>, voyage <code>2604</code>, direction <code>E</code> (eastbound). Virtually every ops/cost screen uses VVD.</dd>
+    <dt>Period</dt><dd>From / To dates. Retrieval window — keep this narrow (≤ 1 month) on heavy inquiries to avoid timeouts.</dd>
+    <dt>Service Provider (S/P)</dt><dd>Vendor code from MDA. Has a magnifier lookup — you can search by name.</dd>
+    <dt>Status</dt><dd>Dropdown — e.g. <i>Open / Confirm / Cancel</i>, or <i>Save / Approved / Rejected</i>.</dd>
+  </dl>
+
+  <h2>2. The main data grid</h2>
+  <p>A spreadsheet-style grid below the filter. OPUS grids behave the same way everywhere:</p>
+  <ul>
+    <li><b>Del</b> column on the far left — tick it and Save to delete the row.</li>
+    <li><b>STS</b> column — shows <code>Ins</code> (new row you are about to save), <code>Upd</code> (row you changed), or blank (unchanged).</li>
+    <li><b>Mandatory columns</b> marked with a small ✓ in the header. You will get a save error if any are empty.</li>
+    <li><b>LOV columns</b> — double-click the cell to open a lookup popup.</li>
+    <li><b>Sortable headers</b> — click a column header to sort.</li>
+    <li><b>Row Add</b> button below the grid to append a new row.</li>
+    <li><b>Down Excel / Up Excel</b> — the primary way you move data in and out of OPUS. See the tip below.</li>
+  </ul>
+
+  <div class="callout tip"><strong>Tip — always use Down Excel first.</strong> Before editing a grid with more than a handful of rows, export (<b>Down Excel</b>), edit in Excel, then re-upload (<b>Up Excel</b>). It is faster and gives you an auditable backup of your change. The upload validates every row before committing.</div>
+
+  <h2>3. Tabs within the screen</h2>
+  <p>Many cost screens use tabs to separate <i>what matched</i> from <i>what didn't</i> when you audit an invoice. The convention is:</p>
+  <table>
+    <tr><th>Tab name</th><th>Meaning</th></tr>
+    <tr><td>Coincidence</td><td>Container records that matched the agreement/rate successfully. These will become the paid amount if you confirm.</td></tr>
+    <tr><td>Discrepancy</td><td>Container records that <i>didn't</i> match — wrong size, wrong date, no agreement loaded, etc. Needs your attention.</td></tr>
+    <tr><td>Cost Calc. / Cost Calculation</td><td>The rolled-up amounts by cost item. This is what posts to the ERP.</td></tr>
+    <tr><td>Cost Calc. (SR by FD / FP)</td><td>Storage Revenue by Free Day / by Free Pool — two different storage-fee calculation methods that coexist because different depots use different free-day schemes.</td></tr>
+  </table>
+  <p>A complete audit means the <b>Discrepancy</b> tab is empty (or only contains rows you've manually justified) and the <b>Cost Calc</b> totals match the vendor invoice within your tolerance.</p>
+
+  <h2>Save → Confirm → Interface</h2>
+  <p>Every transactional screen in OPUS moves through three states, in this order:</p>
+  <ol>
+    <li><b>Save</b> — your edits are stored but nothing is posted. You can still edit / delete.</li>
+    <li><b>Confirm</b> — the document is locked. It's now ready to become a CSR. Edits are blocked; you have to <b>Cancel Confirm</b> first, if the screen allows.</li>
+    <li><b>Interface</b> (via CSR Creation) — the document is sent to the ERP's AP queue. After this, corrections require an ERP-side reversal.</li>
+  </ol>
+  <p>When in doubt, <b>Save</b> freely, <b>Confirm</b> cautiously, and <b>Interface only after month-end checks</b>.</p>
+
+  <div class="callout warn"><strong>Watch out:</strong> OPUS will happily let you Confirm an invoice with a Discrepancy tab full of unresolved rows — those rows simply won't be billed. Always check the Discrepancy tab count is zero (or equals the rows you intentionally excluded) before pressing Confirm.</div>
+</article>
+
+<!-- ======================== CORE CONCEPTS ======================== -->
+<article id="Core-concepts" class="hide">
+  <h1>Core concepts &amp; acronyms</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Getting Started</p>
+
+  <p>OPUS is dense with three-letter acronyms. This section is the cheat-sheet you'll refer to for the rest of your life with this system. See also the full <a href="#Glossary">Glossary</a>.</p>
+
+  <h2>VVD — Vessel / Voyage / Direction</h2>
+  <p>The fundamental key in liner shipping. One VVD = one leg of one vessel's one voyage in one direction. Example: <code>MSCX 2612W</code> is vessel <code>MSCX</code>, voyage number <code>2612</code>, westbound. A vessel's round trip has two VVDs (one each direction); some pendulum / multi-leg strings create more.</p>
+  <p>Virtually every operational cost in OPUS attaches to a VVD — port charges in PSO, slot settlement in JOO, allocation basis in COA.</p>
+
+  <h2>BKG — Booking</h2>
+  <p>The commercial contract for a shipment. One BKG covers one cargo movement, can be multi-container, multi-leg. In COA, every <b>CM (Contribution Margin)</b> calculation is per BKG — you accrue cargo-variable cost and recognise revenue at BKG level.</p>
+
+  <h2>B/L — Bill of Lading</h2>
+  <p>Issued at loading port. Locks the commercial terms and triggers the demurrage / detention clock. In liner cost terms, B/L is where the "revenue" number becomes firm and DEM/DET becomes calculable.</p>
+
+  <h2>CSR — Consultation Slip Request</h2>
+  <p>The OPUS-internal voucher that requests a posting in the ERP. Each confirmed invoice in TES / TRS / PSO / JOO produces a CSR. The CSR has:</p>
+  <ul>
+    <li><b>A/P CSR</b> — you owe the vendor (a payable).</li>
+    <li><b>A/R CSR</b> — the partner owes you (a receivable). Common in JOO when your slot is underutilised by the partner.</li>
+    <li><b>CSR Approval</b> step — an approver signs off inside OPUS before it interfaces.</li>
+    <li><b>CSR I/F Inquiry</b> — shows whether the ERP accepted it.</li>
+  </ul>
+  <p>Anything that is "not closed" at month-end almost always traces back to a CSR in <i>Saved</i> but not <i>Approved</i> state.</p>
+
+  <h2>CM vs OP — Contribution Margin vs Operating Profit</h2>
+  <p>Two profitability layers that COA calculates:</p>
+  <table>
+    <tr><th>Level</th><th>Revenue captured</th><th>Costs deducted</th><th>Unit of analysis</th></tr>
+    <tr><td><b>CM (Contribution Margin)</b></td><td>Freight + miscellaneous per BKG</td><td>Cargo-variable costs (THC, inland, documentation, DG surcharge, etc.)</td><td>Per BKG — answers "is this booking worth taking?"</td></tr>
+    <tr><td><b>OP (Operating Profit)</b></td><td>Revenue at VVD level</td><td>CM costs + operation-variable (bunker, port charge, canal) + operation-fixed (EQ holding, general expenses)</td><td>Per VVD — answers "did this voyage cover its run-cost?"</td></tr>
+  </table>
+
+  <h2>BSA — Basic Slot Allocation</h2>
+  <p>When you share a service with alliance partners, each carrier is contractually entitled to a fixed <b>number of slots</b> (TEU) on each VVD. BSA defines those entitlements. JOO settles:</p>
+  <ul>
+    <li><b>Slot Hire</b> = your BSA × slot price (you pay for your allocation whether you use it or not).</li>
+    <li><b>OUS — Over-Used Slot</b> = slots used above BSA, settled retroactively using TDR (Terminal Departure Report) or RDR (Regional Departure Report).</li>
+    <li><b>Surcharges</b> — Reefer, DG (dangerous goods), Tank — extra charges for those specific container types.</li>
+  </ul>
+
+  <h2>TDR / RDR</h2>
+  <dl class="fields">
+    <dt>TDR — Terminal Departure Report</dt><dd>Per-terminal container load report produced after each vessel departs. Used to calculate <i>actual</i> slot usage by carrier.</dd>
+    <dt>RDR — Regional Departure Report</dt><dd>Aggregated at region (e.g. Asia, Europe) level. Used when the settlement agreement is by region, not by terminal.</dd>
+  </dl>
+
+  <h2>C/A Code — Chart of Account Code</h2>
+  <p>The OPUS cost hierarchy is different from the ERP's GL accounts. COA maintains its own cost codes with three layers (<i>Main Group → Sub Group → C/A Code → Cost Item</i>) and a mapping to "SO Cost Code" (used by TES/TRS) and "Financial Cost Code" (used by PSO and the ERP). Maintaining this mapping correctly is the single most important thing you do for accrual-to-actual tie-out.</p>
+
+  <h2>U/C — Unit Cost</h2>
+  <p>The cost of one move, one day, one TEU-slot, etc. COA maintains two families of unit costs:</p>
+  <ul>
+    <li><b>U/C-CM</b> — cargo-variable unit costs (Node/Link, Agent commission, DEM/DET, EQ Repo, Avg RPB, Slot Internal Pricing). Used to compute CM per booking.</li>
+    <li><b>U/C-OP</b> — operation unit costs (EQ Holding, General Expense, Port Tariff, Bunker, In-House Hire). Used to compute OP per VVD.</li>
+  </ul>
+
+  <h2>Node / Link</h2>
+  <p>A <b>Node</b> is a point (port, inland depot, customer door). A <b>Link</b> is the movement between two nodes (port-to-port sea leg, CY-to-door trucking leg). All logistics costs in COA are either Node costs (stevedorage, THC) or Link costs (sea freight share, inland haulage).</p>
+
+  <h2>DEM / DET — Demurrage &amp; Detention</h2>
+  <p>Customer-side charges when a container sits past its free time:</p>
+  <ul>
+    <li><b>Demurrage</b> — container stuck at the <i>port</i> past free time (usually customer hasn't picked up / delivered).</li>
+    <li><b>Detention</b> — container stuck <i>outside</i> the port past free time (usually at the customer's yard).</li>
+  </ul>
+  <p>Both show up as revenue on your side and as unit-cost inputs in COA's <i>Manage U/C-CM &gt; DEM/DET</i> screen.</p>
+
+  <h2>MRI / RPB / Slot Internal Pricing</h2>
+  <dl class="fields">
+    <dt>MRI — Master Rate Index</dt><dd>Reference cost index used when a contract rate isn't available, so COA still has a cost to plug in for the accrual.</dd>
+    <dt>Avg RPB — Average Revenue Per Box</dt><dd>Used to fill revenue on bookings where no B/L has issued yet.</dd>
+    <dt>Slot Internal Pricing</dt><dd>Transfer-pricing rate used when one office sells to another office's booking — the cost of slots "bought internally" from another region.</dd>
+  </dl>
+
+  <h2>Offices: Contract vs Loading</h2>
+  <p>Every booking has two office attributes:</p>
+  <ul>
+    <li><b>Contract Office</b> — the office whose customer signed the contract (usually sales origin).</li>
+    <li><b>Loading Office</b> — the office at the port where the container is loaded.</li>
+  </ul>
+  <p>Reports can be viewed either way. As a Cost Controller you'll typically use <b>Loading View</b> (to tie costs to the operations office that incurred them) and Trade/Sales will use <b>Contract View</b> (to tie revenue to the office that earned it).</p>
+</article>
+
+<!-- ======================== COA OVERVIEW ======================== -->
+<article id="COA" class="hide">
+  <h1><span class="pill coa">COA</span> Cost Accrual / CNTR Business Performance Analysis</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Modules › COA See <a href="#AccrualFlow">★ the Accrual flow diagram</a> for a visual overview with links to every related screen.</p>
+
+  <aside class="infobox">
+    <h3>COA at a glance</h3>
+    <table>
+      <tr><th>Full name</th><td>CNTR Business Performance Analysis (also: Cost Accrual)</td></tr>
+      <tr><th>Top menu</th><td>Sales Management</td></tr>
+      <tr><th>Purpose</th><td>Compute CM per BKG and OP per VVD using unit-cost tables + actual feeds</td></tr>
+      <tr><th>Upstream data</th><td>BKG, VSK, SCE, PSO, TES, TRS, JOO</td></tr>
+      <tr><th>Downstream</th><td>All P&amp;L / profitability reports, Budget vs Actual dashboards</td></tr>
+      <tr><th>Frequency</th><td>Continuous (event-driven) + weekly batch recalc</td></tr>
+    </table>
+  </aside>
+
+  <h2>What COA actually does</h2>
+  <p>COA is the brain of the cost side of OPUS. It does not generate invoices or payments — that is done in PSO / TES / TRS / JOO. What COA does is turn thousands of individual cost events into one coherent picture of profitability per booking and per voyage.</p>
+  <p>Three things happen in COA:</p>
+  <ol>
+    <li><b>You maintain reference data.</b> C/A codes, unit costs (U/C-CM and U/C-OP), port tariffs, bunker rates, EQ holding costs. This is the "cost table" layer.</li>
+    <li><b>COA applies the unit costs to each booking and voyage</b> to compute an <i>estimated</i> CM and OP the moment the BKG is created. This is the "estimated performance" layer — your cost accrual.</li>
+    <li><b>COA recalculates when actuals arrive</b> (from the invoice modules) and drives the reporting / simulation layer.</li>
+  </ol>
+
+  <h2>COA sub-sections covered in this wiki</h2>
+  <table>
+    <tr><th>Section</th><th>What's in it</th><th>Link</th></tr>
+    <tr><td>Cost Table</td><td>Set up C/A codes, cost items, P&amp;L report structure, week period, USA service mode, feeder term</td><td><a href="#COA-CostTable">→ open</a></td></tr>
+    <tr><td>Manage U/C — CM</td><td>Node/Link U/C, MRI, EQ Repo, Agent commission, DEM/DET, Avg RPB, Slot Internal Pricing</td><td><a href="#COA-UC-CM">→ open</a></td></tr>
+    <tr><td>Manage U/C — OP</td><td>EQ Holding, General Expense, Port Tariff, Bunker Fee, In-House Hire</td><td><a href="#COA-UC-OP">→ open</a></td></tr>
+    <tr><td>Estimated Performance</td><td>Target VVD, Lane/VSL tables, Network Cost, Slot Charter In/Out, cross-check vs BKG</td><td><a href="#COA-Estimated">→ open</a></td></tr>
+    <tr><td>Allocate Network Cost</td><td>Network cost allocation to BKG, Allocation Results, BKG Cost Recalculation, Weekly Batch Monitoring</td><td><a href="#COA-Allocation">→ open</a></td></tr>
+    <tr><td>Multi-Dimension Report</td><td>Node Cost, Route Cost, P&amp;L by Lane / VV, Inquiry by BKG, Office Report vs Pre-Week, Logistics PFMC</td><td><a href="#COA-Reports">→ open</a></td></tr>
+    <tr><td>Simulation</td><td>CM Simulation per Route, Feasibility Study</td><td><a href="#COA-Simulation">→ open</a></td></tr>
+  </table>
+
+  <h2>High-level business process</h2>
+  <ol>
+    <li><b>Map accounts</b>. Set up the C/A codes and map Logistics / Source account codes to them. This is the <i>once-a-quarter</i> work that quietly breaks all your numbers if it's wrong.</li>
+    <li><b>Maintain unit costs</b>. Cargo-variable (U/C-CM) and operation (U/C-OP) unit costs. Keep them current; outdated unit costs = variance against actual.</li>
+    <li><b>Create Target VVD &amp; Network Cost</b>. At the start of every cycle, create the voyages you expect to analyse and attach a network cost (the "budget" per voyage).</li>
+    <li><b>COA picks up bookings automatically</b>. Each new BKG gets an estimated CM using your unit costs.</li>
+    <li><b>Weekly batch recalculates</b> affected BKGs when actuals land (invoices confirmed in PSO/TES/TRS/JOO).</li>
+    <li><b>You run the reports</b> — Node Cost, Route Cost, P&amp;L by Lane/VV — to explain variances to management.</li>
+  </ol>
+  <p>The <a href="#WF-CostAccrual">Monthly Cost Accrual workflow</a> walks through all this step-by-step with the screens.</p>
+</article>
+
+<!-- ======================== COA Cost Table ======================== -->
+<article id="COA-CostTable" class="hide">
+  <h1>COA — Cost Table &amp; C/A Code setup</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Cost Table</p>
+
+  <p>The Cost Table is the master-data layer of COA. It defines the <b>cost elements</b> that every downstream calculation refers to. Get this wrong and every subsequent COA number is wrong too. Get it right once and it rarely needs touching.</p>
+
+  <h2>The C/A Code hierarchy</h2>
+  <p>COA has a four-level hierarchy plus three parallel "cost code" views:</p>
+  <table>
+    <tr><th>Level</th><th>Name</th><th>Example</th></tr>
+    <tr><td>1</td><td>Profit Level</td><td>Sales / Contribution Margin / Operating Profit</td></tr>
+    <tr><td>2</td><td>Main Grouping</td><td>Freight Revenue, Cargo Variable Cost, EQ Fixed Cost, Business Activity Cost, Operation Variable Cost, Operation Fixed Cost</td></tr>
+    <tr><td>3</td><td>Sub Grouping</td><td>THC Origin, Inland Haul, Stevedorage, Port Charge, Bunker…</td></tr>
+    <tr><td>4</td><td>C/A Code (Performance View Code)</td><td>4-digit code e.g. <code>OTHC</code> (Origin THC)</td></tr>
+    <tr><td>5</td><td>Cost Item</td><td>Lowest leaf — the actual line you'll see in reports</td></tr>
+  </table>
+  <p>On top of this, three parallel code sets link the C/A Code out to other systems:</p>
+  <ul>
+    <li><b>Performance View Code</b> — what you see in COA reports.</li>
+    <li><b>SO Cost Code</b> — what TES / TRS use on service orders and invoices.</li>
+    <li><b>Financial Cost Code</b> — what PSO uses, and what interfaces to the ERP (so this is effectively your mapping to the GL accounts).</li>
+  </ul>
+  <p>Maintaining the mapping between these three is the single most important cost-controller task in COA. A mismatched SO Cost Code will cause the invoice-side amount to post to a different Performance View row than the accrual, producing phantom "variance".</p>
+
+  <h2>The Cost Table screens</h2>
+
+  <h3>Register Main Group Cost Code</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Register Main Group Cost Code</strong></div>
+  <p>Set up the major categories used in the COA reporting framework. This is typically done once at implementation; you rarely add main groups.</p>
+  <p>Key fields: <code>Main Group Code</code>, <code>Description</code>, <code>Profit Level</code> (S / CM / OP).</p>
+
+  <h3>Register Sub Group Cost Code</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Register Sub Group Cost Code</strong></div>
+  <p>Sub-groups sit under each main group. This is where you express <i>"within Cargo Variable Cost, I track these buckets: origin THC, destination THC, inland, documentation, loading, stripping…"</i> You <i>will</i> occasionally add sub-groups when the business introduces a new service type.</p>
+
+  <h3>Register C/A Code <span style="font-weight: normal; font-size: 0.7em; color: var(--text-muted)">(most important)</span></h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Register C/A Code</strong></div>
+  <p>This is the central screen. It has two sub-screens: "Cost Element" setup and "SO Cost Code" setup.</p>
+  <h4>Cost Element setup (what the report shows)</h4>
+  <table class="field-table">
+    <tr><th>Field</th><th>Mandatory</th><th>What to put / how UI interprets it</th></tr>
+    <tr><td>Profit Level</td><td>Yes</td><td>Pick Sales, CM, or OP. Determines which report layer this code appears in.</td></tr>
+    <tr><td>Main Grouping</td><td>Yes</td><td>Freight Revenue / Misc Revenue / Cargo Variable Cost / EQ Fixed Cost / Business Activity Cost / Op Variable / Op Fixed.</td></tr>
+    <tr><td>Sub Grouping</td><td>Yes</td><td>Pick from the sub-groups you set up earlier.</td></tr>
+    <tr><td>Grp Code</td><td>Yes</td><td>4-character code — your company's convention (e.g. <code>OTHC</code>, <code>IHAL</code>, <code>PTRF</code>).</td></tr>
+    <tr><td>Performance View Code</td><td>Yes</td><td>Same 4-char code by convention — this is what reports use.</td></tr>
+    <tr><td>View Hierarchy</td><td>No</td><td>Lowest granularity available: BKG or VVD. Port charges will be VVD-only; inland will be BKG.</td></tr>
+    <tr><td>Hire-Cost select</td><td>No</td><td>Tick if this code is a hire-based (per-day or per-trip) cost rather than per-move. Affects which U/C table OPUS looks up.</td></tr>
+  </table>
+  <h4>SO Cost Code setup (mapping to TES/TRS)</h4>
+  <p>Below the Cost Element block, the SO Cost Code grid maps each C/A code to the cost code used on Service Orders. One C/A code can map to many SO Cost Codes (many cost codes in TES/TRS roll up into one reporting bucket).</p>
+
+  <h3>Register Cost Item</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Register Cost Item</strong></div>
+  <p>The leaf level. Cost Items are the actual line items you'll see in reports. They roll up into C/A codes. Typically driven by upstream ERP lines.</p>
+
+  <h3>P&amp;L Report Item Management</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; P&amp;L Report Item Management</strong></div>
+  <p>This is where the <b>format of the P&amp;L report</b> is designed. You assign each Cost / Revenue Item to a display row in the P&amp;L and decide its order. If a new cost line appears below "Total" in your monthly report, this is the screen that needs fixing.</p>
+
+  <h3>Week Period Management</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Set-Up C/A Code &gt; Week Period Management</strong></div>
+  <p>Because trade divisions close their weeks on different days, COA lets each division define its own week boundaries. You rarely edit this, but a wrong setting here makes weekly batch runs miss a day of bookings.</p>
+
+  <h3>Feeder Term Inquiry</h3>
+  <p>Per location-pair setting of feeder terms (free days, additional rates).</p>
+
+  <h3>USA Service Mode</h3>
+  <p>US-specific rules (e.g. Memphis-type IPI vs rail-only). Toggles which unit-cost table COA looks up for a US-origin or US-destination booking.</p>
+
+  <div class="callout warn"><strong>Office View — Contract vs Loading.</strong> On the <i>Report View Management</i> popup inside Register C/A Code, you decide per Office Level whether a given user sees <b>Contract View</b> (perf by office that contracted the booking) or <b>Loading View</b> (perf by the port-of-load office). Regional HQ typically sees Contract; local Sales sees Loading. Changing this setting retroactively re-slices every report — don't touch without coordination.</div>
+</article>
+
+<!-- ======================== COA Manage U/C-CM ======================== -->
+<article id="COA-UC-CM" class="hide">
+  <h1>COA — Manage U/C-CM (cargo-variable unit costs)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Manage U/C-CM</p>
+
+  <p>This section of COA maintains all the <b>cargo-variable</b> unit costs — the costs that move with each booking, not with each voyage. These are the numbers COA plugs in when it computes a CM for a new booking before any actual invoice has arrived.</p>
+
+  <h2>Node/Link U/C Adjustment</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Manage U/C-CM &gt; Node/Link U/C Adjustment</strong></div>
+  <p>Core screen. Enters unit costs per <b>Node</b> (port / depot) and per <b>Link</b> (trade leg). Examples:</p>
+  <ul>
+    <li><b>Node cost</b>: Stevedorage at Port Klang, THC at Singapore, off-dock storage at Ho Chi Minh City ODCY.</li>
+    <li><b>Link cost</b>: Sea-freight share on the Asia–Europe main leg, inland-haul Chicago to Memphis, feeder Laem Chabang to Singapore.</li>
+  </ul>
+  <h4>Typical fields</h4>
+  <table class="field-table">
+    <tr><th>Field</th><th>Mandatory</th><th>Interpretation</th></tr>
+    <tr><td>Cost Code</td><td>Yes</td><td>The C/A code this U/C applies to.</td></tr>
+    <tr><td>Node / Link</td><td>Yes</td><td>Location or leg the cost applies to.</td></tr>
+    <tr><td>EQ Size / Type</td><td>Yes</td><td>20GP, 40GP, 40HC, 40RF, etc. Different rates per size/type.</td></tr>
+    <tr><td>Rate</td><td>Yes</td><td>Unit cost (usually USD per move or per TEU).</td></tr>
+    <tr><td>Currency</td><td>Yes</td><td>Source currency; COA converts with the MDA FX rate.</td></tr>
+    <tr><td>Effective From / To</td><td>Yes</td><td>Date range — keep these current; overlaps trigger a warning but do commit.</td></tr>
+  </table>
+  <div class="callout tip"><strong>Tip:</strong> Use <b>Down Excel</b> to export, edit the whole table in Excel, and <b>Up Excel</b> to re-upload. Cleanest way to do a quarterly refresh.</div>
+
+  <h2>MRI Inquiry</h2>
+  <p>Shows the Master Rate Index — a fallback rate used when a specific Node/Link U/C isn't defined. You can't edit MRI here, only inquire. If an accrual is using MRI when you expected a specific contract rate, that's a sign a Node/Link row is missing.</p>
+
+  <h2>EQ Repo Cost</h2>
+  <p>Empty repositioning unit cost. When COA knows a container has to be moved empty from surplus location A to deficit location B (e.g. empty repo from Europe to Asia), it adds this as part of the booking cost.</p>
+  <h4>Fields:</h4>
+  <ul>
+    <li><i>From Node → To Node</i> pair</li>
+    <li><i>Mode</i> (sea, rail, truck)</li>
+    <li><i>Rate per TEU</i> and effective window</li>
+  </ul>
+
+  <h2>Agent Other Commission Inquiry</h2>
+  <p>Agent commissions that aren't tied to a specific rate contract — typically a residual percentage applied to bookings handled by certain agent codes. Read-only here; maintained in the MDA agent master.</p>
+
+  <h2>DEM/DET</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Manage U/C-CM &gt; DEM/DET</strong></div>
+  <p>Demurrage and detention rates per port / country and tariff band (e.g. 1-5 days free, $40/day days 6-10, $80/day thereafter). These come <i>in</i> as revenue and as accrual cost on bookings where your side pays the port.</p>
+  <h4>UI note:</h4>
+  <p>DEM/DET rates in OPUS are usually organised as a <b>ladder</b> — bands of days with increasing rates. The grid has one row per band. If you edit the middle band, check the "From Day" on the row below it is still contiguous.</p>
+
+  <h2>Avg RPB — Average Revenue Per Box</h2>
+  <p>COA will accrue revenue on a booking even before the B/L is issued, using this Avg RPB table. Keep this close to realised yield or your CM will look artificially high/low for bookings in flight.</p>
+
+  <h2>Slot Internal Pricing</h2>
+  <p>Transfer-pricing rate used when slots are "sold" internally between offices (e.g. Regional HQ owns the slot and sells it to a local office's customer). The same trip appears as a cost to the local office and a revenue to HQ; Slot Internal Pricing defines the rate.</p>
+  <p>This screen is usually maintained by the Trade team and updated annually. Changes here ripple across hundreds of bookings.</p>
+</article>
+
+<!-- ======================== COA Manage U/C-OP ======================== -->
+<article id="COA-UC-OP" class="hide">
+  <h1>COA — Manage U/C-OP (operation unit costs)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Manage U/C-OP</p>
+  <p>U/C-OP costs are the fixed-ish, <b>per-voyage</b> costs that COA uses to compute Operating Profit at VVD level. Unlike U/C-CM (which flows per booking), these accrue per voyage regardless of cargo.</p>
+
+  <h2>EQ Holding Cost</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Manage U/C-OP &gt; EQ Holding Cost</strong></div>
+  <p>The per-day cost of holding a container in the fleet: lease / hire, depreciation, repair amortisation. COA uses this × average holding days × TEU count to charge each VVD. Rates vary by EQ size/type and owner type (own, short-term lease, long-term lease, etc.).</p>
+
+  <h2>General Expense</h2>
+  <p>Lump-sum operation overhead allocated per voyage (office costs, insurance, etc.), usually defined per lane and lane-level TEU basis.</p>
+
+  <h2>Port Tariff</h2>
+  <p>Per-port rate for PSO-related charges (berthing, pilotage, tug, lines, garbage, water). These are a <b>shadow copy</b> of the PSO tariff tables — maintained here for accrual purposes. When PSO processes an actual port invoice, COA recalculates the VVD using actuals and this shadow copy becomes a variance line.</p>
+  <p>In practice, you maintain the canonical tariff in <a href="#PSO-Tariff">PSO &gt; Port Tariff Creation</a> and push it to COA through the standard sync. Don't edit here unless a specific port has to use a different accrual basis.</p>
+
+  <h2>Bunker Fee</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Cost Table &gt; Manage U/C-OP &gt; Bunker Fee</strong></div>
+  <p>Cost of bunker fuel per tonne per bunker type (IFO 380, VLSFO 0.5%, MGO, LSMGO). Set per region / bunker port because prices differ (e.g. Rotterdam vs Singapore vs Panama). Updated monthly or when bunker market moves materially — this number is usually the single biggest driver of OP variance at VVD level.</p>
+
+  <h2>In-House Hire Rate / Daily Hire by Vessel</h2>
+  <p>For vessels under time-charter from within the group or chartered-in. Sets the daily hire COA charges the VVD. Driven by the vessel lease master; usually read-only for Cost Controllers.</p>
+</article>
+
+<!-- ======================== COA Estimated Performance ======================== -->
+<article id="COA-Estimated" class="hide">
+  <h1>COA — Estimated Performance (Target VVD, Network Cost, Slot Charter)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Estimated Performance</p>
+
+  <p>Estimated Performance is the <b>"set up the voyage for accrual"</b> layer. Before COA can allocate cost to bookings on a voyage, it needs to know:</p>
+  <ol>
+    <li>which VVDs you want to analyse (<b>Target VVD</b>),</li>
+    <li>what it costs to run each VVD (<b>Network Cost</b>), and</li>
+    <li>how much of that cost is your own (vs. chartered out) capacity (<b>Slot Charter In/Out</b>).</li>
+  </ol>
+  <p>All of this is the voyage-level "budget" against which actuals will later be compared.</p>
+
+  <h2>Create Target VVD</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Estimated PFMC &gt; Create Target VVD &gt; Target VVD</strong></div>
+  <p>Pulls the list of VVDs from the Vessel Schedule module (VSK) and lets you mark which ones COA should analyse. By default all scheduled VVDs are in scope; you might de-select short-sea feeders or deadheads you don't cost separately.</p>
+  <p>Downstream of this screen:</p>
+  <ul>
+    <li><b>Create Lane Table</b> — rolls target VVDs into the lane structure for reporting.</li>
+    <li><b>Create VSL Table</b> — the vessel-level view: which vessels carry target VVDs, their nominal slot capacity, etc.</li>
+    <li><b>Crosscheck between COA vs. BKG</b> — diagnostic screen that flags Bookings referencing a VVD that isn't in Target VVD (you'll get "missing cost" alerts).</li>
+    <li><b>Omission Port Management</b> — record that the vessel skipped a scheduled port, so COA doesn't charge you a port call that didn't happen.</li>
+    <li><b>Lane Transit Time</b> — days each lane takes; drives EQ holding cost allocation.</li>
+  </ul>
+  <div class="callout tip"><strong>Cost Controller workflow:</strong> Every Monday, run <b>Crosscheck COA vs. BKG</b>. Any booking it surfaces is one that COA couldn't fully cost because the VVD wasn't targeted — add it to Target VVD, then re-run the batch.</div>
+
+  <h2>Create Network Cost</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Estimated PFMC &gt; Create Network Cost &gt; Network Cost by VVD</strong></div>
+  <p>This is where the voyage gets its <b>estimated total operating cost</b> — the lump sum that will be allocated across bookings. COA pulls from U/C-OP:</p>
+  <ul>
+    <li>Bunker (tonnes × rate from Bunker Fee)</li>
+    <li>Port charges (from Port Tariff)</li>
+    <li>Canal transit (if applicable)</li>
+    <li>Time-charter hire / daily hire</li>
+    <li>EQ holding allocated by days × TEU</li>
+    <li>General expense</li>
+  </ul>
+  <p>You can override any line here for a specific VVD before it's allocated. Override reasons should go in the remark column so you can justify variances later.</p>
+
+  <h4>Re-Assignment by Bound</h4>
+  <p>By default Network Cost is split by bound (E/W, N/S) based on the lane direction split ratio. If a particular voyage is grossly unbalanced (e.g. 80% load westbound, near-empty eastbound), use <b>Re-Assignment by Bound</b> to shift more cost to the loaded bound so westbound bookings absorb their fair share.</p>
+
+  <h4>Re-Assignment by Bound (Slot Internal Pricing)</h4>
+  <p>Same idea but for slots sold to other offices at internal transfer price. Rebalances the internal-pricing cost across bounds.</p>
+
+  <h2>Create Slot Charter In / Out</h2>
+  <p>Your slot capacity on a VVD isn't always 100% your own. Some is chartered in (you rent slots from partners) and some is chartered out (you rent slots to partners). This screen records both so COA doesn't over-allocate network cost to your own bookings.</p>
+  <table>
+    <tr><th>Screen</th><th>What it records</th></tr>
+    <tr><td>BSA &amp; Slot-swap by VVD</td><td>Your Basic Slot Allocation on each VVD, plus any slot swaps with partners (you give X on this VVD, receive Y on the next).</td></tr>
+    <tr><td>Company Sales / Slot Chtr-out</td><td>Slots you sold to an external carrier. These are treated as a revenue line; cost stays on your VVD but the slot is excluded from bookings' allocation base.</td></tr>
+  </table>
+</article>
+
+<!-- ======================== COA Allocation ======================== -->
+<article id="COA-Allocation" class="hide">
+  <h1>COA — Allocate Network Cost &amp; Booking Recalculation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Allocation</p>
+
+  <p>Once the Target VVDs and Network Costs are set and the Slot Charter adjustments are in, COA <b>allocates</b> the voyage-level cost down to each booking. This is the step that produces the OP-level number per BKG.</p>
+
+  <h2>Allocate Network Cost</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Estimated PFMC &gt; Allocation Network Cost</strong></div>
+  <p>Allocation is driver-based:</p>
+  <ul>
+    <li><b>Bunker / Port / Canal</b> → allocated per TEU on the target VVD's actual load (or planned, if actual not yet closed).</li>
+    <li><b>EQ holding</b> → allocated per container × holding days on each leg.</li>
+    <li><b>Time-charter hire</b> → per TEU-day on the VVD.</li>
+    <li><b>General Expense</b> → flat per TEU or per BKG, per the rule set up in U/C-OP.</li>
+  </ul>
+  <p>The results live in the <b>Allocation Results</b> screen:</p>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Estimated PFMC &gt; Allocation Network Cost &gt; Allocation Results</strong></div>
+  <p>Three useful outputs on this screen:</p>
+  <ol>
+    <li>Total VVD cost vs. total allocated — should balance to zero residual.</li>
+    <li>Per-BKG allocated op-cost (what's in OP).</li>
+    <li>Unmatched cost — what couldn't be allocated (usually because the BKG referenced a VVD outside Target VVD).</li>
+  </ol>
+
+  <h2>BKG Cost Recalculation</h2>
+  <p>When a unit cost or agreement is updated <i>after</i> bookings have already been costed, those bookings carry stale numbers until this screen recalculates them.</p>
+  <p>Typical triggers:</p>
+  <ul>
+    <li>New DEM/DET tariff loaded — recalculate affected BKGs to pick up the new band.</li>
+    <li>Bunker adjustment applied — rerun for the affected VVDs' BKGs.</li>
+    <li>Agent commission rate changed for a trade.</li>
+  </ul>
+  <p>Scope by <b>VVD / Lane / Period</b> and press <b>Execute</b>. The screen shows affected BKG count before you commit — always sanity-check that before you click.</p>
+
+  <h2>Weekly Batch Monitoring</h2>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Estimated PFMC &gt; Weekly Batch Monitoring</strong></div>
+  <p>COA's Weekly Batch:</p>
+  <ul>
+    <li>Refreshes Target VVD list from VSK.</li>
+    <li>Pulls new actuals from PSO, TES, TRS, JOO confirmed invoices.</li>
+    <li>Re-allocates Network Cost on any VVD that has moved.</li>
+    <li>Recomputes CM for bookings affected by rate / agreement changes.</li>
+  </ul>
+  <p>The monitoring screen shows <b>status per batch run</b> — Success / Fail / Partial — plus record counts. Fails usually come from master data problems (currency missing, VVD not found). Escalate these to IT or run the diagnostic reports.</p>
+
+  <div class="callout warn"><strong>Critical month-end check:</strong> The Weekly Batch <i>must</i> complete successfully on the last weekly run of the month before you sign off the accrual. If "Partial" or "Fail", do not close — escalate. A failed batch means some BKGs carry yesterday's unit costs, not today's.</div>
+</article>
+
+<!-- ======================== COA Reports ======================== -->
+<article id="COA-Reports" class="hide">
+  <h1>COA — Multi-Dimension Report</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Reports</p>
+
+  <p>This is where you spend most of your reporting time as a Cost Controller. The Multi-Dimension Report section has two families: <b>Sales PFMC</b> (booking / revenue-centric) and <b>Logistics PFMC</b> (cost / volume-centric).</p>
+
+  <h2>Sales PFMC reports</h2>
+
+  <h3>Node Cost</h3>
+  <div class="nav-path"><strong>Sales Management &gt; CNTR BIZ PFMC Analysis &gt; Multi-Dimension Report &gt; Sales PFMC &gt; Node Cost</strong></div>
+  <p>Per-node summary of all cost recognised at that port / depot for the period. Useful for checking "is Singapore THC tracking budget?" or "why did Hong Kong storage spike this week?".</p>
+
+  <h3>Route Cost</h3>
+  <p>Per-route summary (origin-destination pair). Splits the total cost along the move. A port-pair like CNSHA → USLAX aggregates all BKG-level CM costs on that lane.</p>
+
+  <h3>Inquiry by Customized Condition</h3>
+  <p>The power-user screen. You pick any combination of Office, Lane, Trade, Customer, Commodity, EQ Type, Date window — and the report slices CM / OP accordingly. This is how you answer ad-hoc "what's the CM for reefer traffic on the trans-Pacific, ex-Shanghai, for Q1?" questions.</p>
+
+  <h3>Inquiry by BKG</h3>
+  <p>One row per BKG with all cost components shown explicitly — revenue, THC origin, inland, stevedorage, storage, DEM/DET, freight revenue, allocated op-cost, CM, OP. Drill-down view when you want to understand a single booking.</p>
+
+  <h3>Inquiry by Source Data</h3>
+  <p>Shows the raw <b>source</b> transactions that contributed to a COA number — which PSO invoice, which TES invoice, which TRS work order. Invaluable when explaining a variance: "COA says $45k port charge for this VVD; here are the three PSO invoices."</p>
+
+  <h3>Office Report — vs Pre Week</h3>
+  <p>Week-on-week delta per office. This is the screen managers typically look at on Monday mornings.</p>
+
+  <h3>P&amp;L by Lane / P&amp;L by VV</h3>
+  <p>Structured P&amp;L (Sales → CM → OP) organised by lane or by voyage. Exportable to Excel; this is often the source of your monthly PowerPoint.</p>
+
+  <h2>Logistics PFMC reports</h2>
+  <p>Volume- and cost-centric views aimed at Logistics and Operations, not sales.</p>
+  <table>
+    <tr><th>Report</th><th>Purpose</th></tr>
+    <tr><td>Logistics Vol. by Office Allocation</td><td>TEU counts attributed to each office — reconciles to operations reports.</td></tr>
+    <tr><td>Logistics Exp. by Lane</td><td>Expense split per lane; useful for lane-level variance commentary.</td></tr>
+    <tr><td>Logistics Exp. by Office</td><td>Same expense, viewed by office.</td></tr>
+    <tr><td>Logistics Exp. by Node &amp; Link</td><td>Finest slice — per node and per link. Where unit-cost reviews start.</td></tr>
+  </table>
+
+  <div class="callout tip"><strong>Tip:</strong> Every inquiry screen has <b>Down Excel</b>. Build your monthly dashboards by pulling the Excel exports into your own pivot tables, rather than re-running the reports every time. The screens timeout on large pulls; Excel exports don't, and you have an audit trail of what the number was on that day.</div>
+</article>
+
+<!-- ======================== COA Simulation ======================== -->
+<article id="COA-Simulation" class="hide">
+  <h1>COA — Simulation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#COA">COA</a> › Simulation</p>
+
+  <p>Simulation lets you ask "what if?" without committing any data. Useful when evaluating new services, new pricing, or new equipment mix.</p>
+
+  <h2>CM Simulation per Route</h2>
+  <div class="nav-path"><strong>Trade Management &gt; Container Business Performance &gt; COA Simulation &gt; CM Simulation per Route</strong></div>
+  <p>Enter a hypothetical booking — route, EQ type, TEU, rate — and COA returns the expected CM using current U/C-CM tables. Used when:</p>
+  <ul>
+    <li>Sales wants to quote a new customer and needs the floor price.</li>
+    <li>Trade is evaluating a new service and wants to pre-price expected volumes.</li>
+    <li>You're stress-testing the impact of a THC hike at an origin port.</li>
+  </ul>
+
+  <h2>Simulation — Feasibility Study</h2>
+  <p>Whole-voyage or whole-service level "what if". You design a candidate service (ports, rotation, vessel, expected volumes) and COA returns expected OP. Used only occasionally, but powerful when considering a string redesign.</p>
+
+  <div class="callout info"><strong>Simulation does not write.</strong> Nothing in Simulation posts to real COA tables. You can safely try anything here.</div>
+</article>
+
+<!-- ======================== JOO OVERVIEW ======================== -->
+<article id="JOO" class="hide">
+  <h1><span class="pill joo">JOO</span> Joint Operation — Slot Hire &amp; Alliance Settlement</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Modules › JOO</p>
+
+  <aside class="infobox">
+    <h3>JOO at a glance</h3>
+    <table>
+      <tr><th>Full name</th><td>Joint Operation</td></tr>
+      <tr><th>Top menu</th><td>Accounting / Estimate (varies)</td></tr>
+      <tr><th>Purpose</th><td>Settle A/R and A/P between your carrier and alliance partners (slot sharing, VSA)</td></tr>
+      <tr><th>Source data</th><td>BSA master, VSK (vessel schedule), TDR, RDR</td></tr>
+      <tr><th>Downstream</th><td>A/R CSR, A/P CSR → ERP</td></tr>
+      <tr><th>Frequency</th><td>Monthly clearance</td></tr>
+    </table>
+  </aside>
+
+  <h2>Why this module exists</h2>
+  <p>In liner shipping, you almost never sail your own ships full with your own cargo. You share services with other carriers — either as a <b>Vessel Sharing Agreement (VSA)</b>, a <b>Slot Purchase Agreement</b>, or as part of a full <b>Alliance</b>. Every month, one carrier owes another for:</p>
+  <ul>
+    <li>Your fixed slot entitlement (<b>Slot Hire</b> based on BSA).</li>
+    <li>Slots used above entitlement (<b>Over-Used Slot</b> — OUS — based on TDR/RDR).</li>
+    <li>Special container charges (<b>Reefer / DG / Tank surcharges</b>).</li>
+    <li>Any other bilateral arrangements.</li>
+  </ul>
+  <p>JOO is the OPUS module that accumulates these amounts by carrier × VVD, applies the contractual terms from your BSA master, and produces A/P and A/R CSRs to the ERP.</p>
+
+  <h2>Settlement options</h2>
+  <p>Each Master Agreement specifies <b>how</b> the settlement is calculated. JOO supports three:</p>
+  <table>
+    <tr><th>Option</th><th>What is settled</th><th>When used</th></tr>
+    <tr><td><b>Round</b></td><td>Full round-trip (both bounds)</td><td>Symmetric loops where the round-trip is priced as one.</td></tr>
+    <tr><td><b>Bound</b></td><td>Each bound (E/W or N/S) separately</td><td>Asymmetric trades where eastbound and westbound prices differ.</td></tr>
+    <tr><td><b>Cycle</b></td><td>One specific rotation cycle</td><td>Short sea / feeder services with named cycles.</td></tr>
+  </table>
+
+  <h2>JOO sub-sections covered</h2>
+  <ul>
+    <li><a href="#JOO-Setup">Setup</a> — Settlement Item, Financial Affairs, Authority Office, Basic Port, Target Voyage, Service Provider / Customer code.</li>
+    <li><a href="#JOO-Settlement">Settlement Creation</a> — Slot Hire, OUS (TDR/RDR), Reefer, DG/Tank, Other.</li>
+    <li><a href="#JOO-Monthly">Monthly Clearance</a> — combined monthly clearance creation and inquiry.</li>
+    <li><a href="#JOO-CSR">CSR Creation &amp; Approval</a> — A/P CSR, A/R CSR, approval and I/F status.</li>
+    <li><a href="#JOO-Reports">Reports &amp; TDR/RDR</a> — monthly summaries, TDR / RDR upload and inquiry.</li>
+  </ul>
+</article>
+
+<!-- ======================== JOO Setup ======================== -->
+<article id="JOO-Setup" class="hide">
+  <h1>JOO — Setup</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#JOO">JOO</a> › Setup</p>
+  <p>Setup defines the reference data that determines <b>what</b> you settle and <b>with whom</b>. Usually maintained by a joint-ops accounting super-user. You rarely change these day-to-day but you need to understand them to diagnose settlement errors.</p>
+
+  <h2>Settlement Item List</h2>
+  <p>A settlement item is a financial matrix that drives CSR creation and estimation. Examples:</p>
+  <ul>
+    <li><code>SLOT_HIRE_E</code> — slot hire for eastbound bookings</li>
+    <li><code>OUS_TDR</code> — over-used slot settled via TDR</li>
+    <li><code>REEFER_SC</code> — reefer surcharge</li>
+    <li><code>DG_SC</code> — DG surcharge</li>
+  </ul>
+  <p>Only the super-user can register / edit items. If a new surcharge type is agreed with a partner, this is where it gets added.</p>
+
+  <h2>Financial Affairs Creation &amp; Inquiry</h2>
+  <p>Each settlement item needs a <b>financial affair</b> record tying it to:</p>
+  <ul>
+    <li>A specific <b>counterparty carrier</b> (the partner you're settling with).</li>
+    <li>A <b>trade / lane</b>.</li>
+    <li>A <b>settlement option</b> (Round / Bound / Cycle).</li>
+    <li>Account code / cost centre / currency.</li>
+    <li>Customer and S/P codes where needed.</li>
+  </ul>
+  <p>Think of it as: <i>"For item SLOT_HIRE_E, with Carrier XYZ, on the Trans-Pacific trade, settle Bound-wise in USD, post to cost centre 12345."</i> Get this wrong and slot-hire will post to the wrong GL account.</p>
+
+  <h2>Authority Office Creation</h2>
+  <p>Controls which office is allowed to execute a settlement for a given Financial Affair. Only super-users can edit.</p>
+
+  <h2>Basic Port Creation &amp; Inquiry by Settlement Item</h2>
+  <p>JOO needs to know "which ports count as settlement-valid for this item" — because if a vessel skips a port, that settlement might not apply. You can register up to <b>three alternative ports</b> (basic + two pair-basics) to handle port skips gracefully.</p>
+
+  <h2>Target Voyage Creation &amp; Inquiry by Settlement Item</h2>
+  <p>Shows the VVDs in scope for each settlement item. For Round / Bound settlements, target VVDs are auto-created from VSK. For Cycle settlements, you manually pick the target VVDs from the L/R schedule.</p>
+
+  <h2>Service Provider &amp; Customer Code Inquiry</h2>
+  <p>Maintain the JOO-side S/P and customer code records. These sit alongside MDA and exist because joint-ops counterparties sometimes need separate identifiers (e.g., a carrier who is both a partner and a customer under different contracts).</p>
+</article>
+
+<!-- ======================== JOO Settlement ======================== -->
+<article id="JOO-Settlement" class="hide">
+  <h1>JOO — Settlement Creation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#JOO">JOO</a> › Settlement</p>
+
+  <h2>Slot Hire Creation</h2>
+  <div class="nav-path"><strong>Accounting — Estimate &gt; Joint Operation &gt; Settlement &gt; Basic Creation &gt; Slot Hire Creation</strong></div>
+  <p>Settles <b>Basic Slot Allocation</b>. The screen reads <code>BSA type / TEU / Slot Price</code> from the BSA module and multiplies them to produce the slot-hire amount per VVD per carrier.</p>
+  <h4>Screen layout</h4>
+  <ul>
+    <li>Filter: Carrier, Lane, VVD, Period.</li>
+    <li>Retrieves candidate BSA records; tick the rows to settle.</li>
+    <li><b>Create</b> button computes the settlement amount.</li>
+  </ul>
+
+  <h2>Over-Used Slot Hire Creation with RDR</h2>
+  <p>When your carrier has used more slots than the BSA, the <b>overshoot</b> is billed separately. RDR (Regional Departure Report) is the data source when the agreement is at region granularity. Upload the RDR file, JOO reconciles used slots vs BSA, and creates the OUS amount.</p>
+
+  <h2>Over-Used Slot Hire Creation with TDR</h2>
+  <p>Same idea but using TDR (terminal-level). Typically more precise because it's per terminal, which matches multi-port rotations better.</p>
+
+  <h2>Reefer Surcharge Creation</h2>
+  <p>Reefer containers cost the operator extra (power, monitoring). When you load reefer on a partner's vessel, you pay that surcharge. This screen retrieves reefer TEU counts from TDR/RDR and multiplies by the reefer rate from the Financial Affair.</p>
+
+  <h2>DG &amp; Tank Surcharge Creation</h2>
+  <p>Same pattern for dangerous goods and tank containers. Both typically billed as $/TEU surcharge.</p>
+
+  <h2>OUS &amp; Other Settlement Creation (manual)</h2>
+  <p>Escape hatch for special settlements that don't fit a standard template — e.g. a one-off retroactive adjustment, a contractual reimbursement. Enter manually.</p>
+
+  <h2>Slot Hire Adjustment</h2>
+  <p>Retroactive fix. If a CSR has already been created for a slot hire but the agreed rate changes (or BSA is corrected), use this screen to issue an adjustment settlement. The original CSR is not modified — a new one is issued for the delta.</p>
+</article>
+
+<!-- ======================== JOO Monthly ======================== -->
+<article id="JOO-Monthly" class="hide">
+  <h1>JOO — Monthly Clearance</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#JOO">JOO</a> › Monthly Clearance</p>
+
+  <p>Monthly clearance is the <b>close-the-month</b> process. All the individual settlements you created during the month need to be combined, netted (off-set), and turned into CSRs for the ERP.</p>
+
+  <h2>Combined Monthly Clearance Creation</h2>
+  <p>Per carrier, JOO totals all settled items (revenue + expense) for the month. This is the "you owe me / I owe you" reconciliation. Off-set is applied: if you have both payable and receivable with Carrier XYZ, JOO can net them into a single position (if your agreement allows).</p>
+
+  <h2>Monthly Clearance Status by Carrier &amp; Lane</h2>
+  <p>Inquiry view — see which carriers still have unsettled items, by lane. Useful checklist at month-end close.</p>
+
+  <h2>Combined Monthly Clearance Inquiry</h2>
+  <p>Look up already-combined records. Shows the total per carrier after off-set. A CSR can only be created <i>after</i> the monthly combined record exists — if your CSR Creation screen shows nothing, it's because this step wasn't completed.</p>
+
+  <h2>Combined Data Inquiry</h2>
+  <p>Raw retrieval of combined data — used when troubleshooting.</p>
+
+  <div class="callout warn"><strong>Critical order:</strong> Settlement Create → Combined Monthly Clearance → CSR Creation. You cannot skip Combined; CSR Creation won't find the records if you do.</div>
+</article>
+
+<!-- ======================== JOO CSR ======================== -->
+<article id="JOO-CSR" class="hide">
+  <h1>JOO — CSR Creation &amp; Approval</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#JOO">JOO</a> › CSR</p>
+
+  <h2>A/P CSR Creation</h2>
+  <p>Creates a payable CSR for the carrier (you owe them after netting). Retrieves the combined clearance record and writes a CSR header + lines ready for ERP interface.</p>
+
+  <h2>A/R CSR Creation</h2>
+  <p>Creates a receivable CSR — they owe you. Same mechanism, opposite direction.</p>
+
+  <h2>CSR Approval</h2>
+  <p>Approver screen. The approver either:</p>
+  <ul>
+    <li><b>Approve</b> — CSR is locked and eligible for ERP interface.</li>
+    <li><b>Reject</b> — CSR goes back for corrections; creator has to fix and resubmit.</li>
+  </ul>
+  <p>Rejection reason should go in the remark field so the creator sees why.</p>
+
+  <h2>CSR List Inquiry</h2>
+  <p>Lookup all CSRs you've created, with status filter. Essential for month-end reconciliation ("which CSRs are still in <i>Saved</i> state?").</p>
+
+  <h2>Estimate Performance Creation</h2>
+  <p>Uses the BSA TEU × slot price to produce an <i>estimated</i> JOO expense/revenue, which COA can accrue against. Actuals from Settlement later replace the estimate.</p>
+</article>
+
+<!-- ======================== JOO Reports ======================== -->
+<article id="JOO-Reports" class="hide">
+  <h1>JOO — Reports &amp; TDR / RDR</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#JOO">JOO</a> › Reports</p>
+
+  <h2>Summary of Monthly Clearance Status by Carrier</h2>
+  <p>Month-over-month summary by carrier of all joint-op activity. Your default monthly reporting output.</p>
+
+  <h2>Target Voyage vs Unsettled Status</h2>
+  <p>Which VVDs should have been settled this month but haven't been? Critical for month-end — every target VVD must be either settled or explicitly excluded before close.</p>
+
+  <h2>Settlement Status for Basic Allocation</h2>
+  <p>Reports per BSA record whether settlement is created, pending, or completed.</p>
+
+  <h2>Booking Data Inquiry</h2>
+  <p>Retrieves bookings that drove a settlement — used when investigating "why is carrier XYZ's OUS higher than expected this month?".</p>
+
+  <h2>TDR / RDR management</h2>
+  <p>Sub-section for the raw Terminal Departure Report and Regional Departure Report data:</p>
+  <ul>
+    <li><b>TDR Upload Inquiry</b> — list of TDR files received, upload status, errors.</li>
+    <li><b>TDR Inquiry by VVD</b> — TDR data sliced by voyage.</li>
+    <li><b>RDR Upload Inquiry</b> — same for RDR.</li>
+    <li><b>RDR Inquiry by Lane</b> — RDR sliced by lane.</li>
+  </ul>
+  <p>If OUS is miscalculating, start here: is the TDR / RDR data loaded and clean?</p>
+</article>
+
+<!-- ======================== PSO OVERVIEW ======================== -->
+<article id="PSO" class="hide">
+  <h1><span class="pill pso">PSO</span> Port Service Order — Tariffs, Port Charges, Canal</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Modules › PSO</p>
+
+  <aside class="infobox">
+    <h3>PSO at a glance</h3>
+    <table>
+      <tr><th>Full name</th><td>Port Service Order</td></tr>
+      <tr><th>Top menu</th><td>Vessel Operation</td></tr>
+      <tr><th>Purpose</th><td>Manage port tariffs, estimate and audit port-charge invoices, process canal fees</td></tr>
+      <tr><th>Source data</th><td>VSK (vessel schedule), MDA (vessel particulars, S/P master)</td></tr>
+      <tr><th>Downstream</th><td>CSR → ERP; accrual feed to COA (U/C-OP Port Tariff)</td></tr>
+      <tr><th>Frequency</th><td>Per-port-call (estimate) + per-invoice (actual)</td></tr>
+    </table>
+  </aside>
+
+  <h2>What PSO does</h2>
+  <p>When a vessel berths, a host of port expenses are incurred: berthing, pilotage, tug assistance, mooring, water, garbage, light dues, etc. Each port has its own tariff, sometimes based on GRT (Gross Register Tonnage), sometimes NRT, sometimes LOA (Length Overall), sometimes a mix. PSO is the module that:</p>
+  <ol>
+    <li>Stores the tariff rules for every port your vessels call.</li>
+    <li>Calculates the <b>expected</b> port charge for each VVD (so COA can accrue).</li>
+    <li>Processes the <b>actual</b> invoice from the Port Office / Port Agent and audits it against the tariff.</li>
+    <li>Handles <b>canal transit</b> fees (Suez, Panama) — advance-payment workflow and actual settlement.</li>
+    <li>Creates CSRs for ERP posting.</li>
+  </ol>
+
+  <h2>Why tariffs are complex</h2>
+  <p>Port tariffs aren't a single rate — they're a ladder of formulas, conditions, and exceptions. PSO supports two construction methods:</p>
+  <dl class="fields">
+    <dt>Tariff List method</dt><dd>The simplest case. Tariff follows a clean <code>Object × Object Rate</code> matrix, e.g. <code>NRT × rate per NRT</code>. You enter the rates and PSO multiplies. Used by ports with "civil service" tariffs.</dd>
+    <dt>Formula Selection method</dt><dd>For complex tariffs that don't fit Object × Rate. You build the tariff as a <b>formula</b> (e.g. <code>IF GRT &gt; 10000 AND LOA &gt; 200 THEN rate_band_A ELSE rate_band_B</code>), using operators and <b>Objects</b> (NRT, GRT, LOA, DWT, etc.) from the Object List.</dd>
+  </dl>
+
+  <h2>PSO sub-sections</h2>
+  <ul>
+    <li><a href="#PSO-Tariff">Port Tariff Management</a> — creation, inquiry, lane/port expense ratio, vessel info, tariff value.</li>
+    <li><a href="#PSO-Simulation">Tariff Simulation</a> — dry-run calculator.</li>
+    <li><a href="#PSO-Planned">Planned Expense &amp; Monthly Estimation</a> — create the voyage-level estimate.</li>
+    <li><a href="#PSO-Invoice">Port Charge Invoice Creation</a> — actual invoice audit &amp; confirm.</li>
+    <li><a href="#PSO-Canal">Canal Transit List</a> — Suez / Panama / Kiel transit fees.</li>
+  </ul>
+</article>
+
+<!-- ======================== PSO Tariff ======================== -->
+<article id="PSO-Tariff" class="hide">
+  <h1>PSO — Port Tariff Management</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#PSO">PSO</a> › Port Tariff</p>
+
+  <h2>Default Setting</h2>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Setup &gt; Default Setting</strong></div>
+  <p>Customises the "default cost items" you see when creating an invoice. You pick the account codes your office handles frequently (berthing, pilotage, tug, etc.), and those appear automatically on the Port Charge Invoice Creation screen. Saves you clicking through a long menu every time.</p>
+  <h4>Fields:</h4>
+  <ul>
+    <li><b>Port Code</b>, <b>Service Provider Code</b> — scope</li>
+    <li><b>Charge Type</b> — tick the categories relevant to this office</li>
+    <li><b>Applicable Cost Items</b> — individual items within those categories</li>
+  </ul>
+
+  <h2>Port Tariff Creation — Tariff List</h2>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Port Tariff &gt; Port Tariff Creation &gt; Tariff List</strong></div>
+  <p>Used for <i>Object × Object Rate</i> style tariffs. You enter the rate per Object (NRT, GRT, LOA, etc.), and PSO auto-generates the port charge for each VVD by multiplying the vessel's Object value by the rate.</p>
+  <h4>How to use:</h4>
+  <ol>
+    <li>Select the <b>Port</b> and <b>Account Code</b> (e.g. Berthing Fee, Tug).</li>
+    <li>Pick the <b>Object</b> (NRT for berthing, # of tugs × hours for tug fee).</li>
+    <li>Enter the <b>Rate</b> per unit of Object.</li>
+    <li>Effective from / to dates.</li>
+    <li>Save.</li>
+  </ol>
+
+  <h2>Port Tariff Creation — Formula Selection</h2>
+  <p>For complex tariffs, pick <b>Formula Selection</b> instead. You assign an existing tariff formula (previously built in <i>Formula &amp; Condition Creation</i>) to the Port/Account combo and provide the rate parameters. The formula is evaluated each time the charge is calculated.</p>
+
+  <h2>Formula &amp; Condition Creation</h2>
+  <p>Where custom formulas live. Uses operators (+, −, ×, ÷, IF/THEN/ELSE, AND/OR, comparisons) and Objects from the Object List. Most tariff admins build these once per port during implementation.</p>
+
+  <h2>Object List</h2>
+  <p>The vocabulary of Objects available in formulas. Standard Objects include:</p>
+  <ul>
+    <li><b>NRT</b> — Net Register Tonnage</li>
+    <li><b>GRT</b> — Gross Register Tonnage</li>
+    <li><b>LOA</b> — Length Overall</li>
+    <li><b>DWT</b> — Deadweight Tonnage</li>
+    <li><b>TEU</b> — vessel's nominal TEU capacity</li>
+    <li>Count variables — <b>Tug Count</b>, <b>Pilot Hours</b>, <b>Line Count</b>.</li>
+  </ul>
+
+  <h2>Port Tariff Inquiry</h2>
+  <p>Read-only listing of every tariff stored — base tariff, surcharges, discounts — with effective dates. Your reference when verifying an invoice: "Does PSO agree with the rate the port agent charged?"</p>
+
+  <h2>Lane / Port Expense Ratio Creation</h2>
+  <p>For pendulum lanes (one vessel serves multiple trade lanes) you need to <b>split</b> the port charge between revenue lanes. This screen sets the ratio. Without it, COA would charge the entire port call to just one lane and under/over-state the others' OP.</p>
+
+  <h2>Vessel Information Management</h2>
+  <p>Read-only view of vessel particulars (from MDA) that feed the tariff formulas — NRT, GRT, LOA, etc. If a port charge looks off and the formula is right, it's almost always a wrong Object value here.</p>
+
+  <h2>Tariff Value Management</h2>
+  <p>Where you maintain the <b>regular values</b> of count Objects (e.g. "Tug Count = 2 for every call to Port X") and per-port effective dates. When a port changes their default tug count, this is where you update.</p>
+</article>
+
+<!-- ======================== PSO Simulation ======================== -->
+<article id="PSO-Simulation" class="hide">
+  <h1>PSO — Tariff Simulation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#PSO">PSO</a> › Simulation</p>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Port Tariff &gt; Tariff Simulation</strong></div>
+  <p>A calculator to test your tariff setup without posting anything. Pick a Port, VVD, and Account — PSO runs the tariff formulas against the vessel's actual NRT/GRT/LOA and returns the calculated charge.</p>
+  <p>Useful for:</p>
+  <ul>
+    <li>Verifying a newly-loaded tariff rule before Operations relies on it.</li>
+    <li>Preparing monthly estimates for a new service with vessels you haven't called a given port before.</li>
+    <li>Quick validation when a port agent's actual invoice looks unusual.</li>
+  </ul>
+</article>
+
+<!-- ======================== PSO Planned ======================== -->
+<article id="PSO-Planned" class="hide">
+  <h1>PSO — Planned Expense &amp; Monthly Estimation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#PSO">PSO</a> › Planned Expense</p>
+
+  <h2>Estimate Creation (batch)</h2>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Planned Expense &gt; Estimate Creation</strong></div>
+  <p>Selects Target VVDs from VSK and triggers the batch that computes estimated port charges per VVD using current tariff.</p>
+
+  <h2>Estimate Expense Creation</h2>
+  <p>Inspect the batch results. If a VVD didn't get an estimate (tariff missing, vessel info missing), manually create here. You can also update a calculated amount if the estimate needs manual override — always record the reason in the remark column.</p>
+
+  <h2>Monthly Estimation Creation</h2>
+  <p>Roll up estimated port charges for a period. This is what the CFO / controller reviews as the "port-charge accrual for the month" — and what COA will use in its U/C-OP &gt; Port Tariff shadow.</p>
+  <div class="callout tip"><strong>Monthly process:</strong> Run <b>Estimate Creation</b> early in the month to get the preliminary number, then again at month-end after all actual invoices have been processed. The variance between the two is your <b>accrual-vs-actual</b> for port charges.</div>
+</article>
+
+<!-- ======================== PSO Invoice ======================== -->
+<article id="PSO-Invoice" class="hide">
+  <h1>PSO — Port Charge Invoice Creation</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#PSO">PSO</a> › Invoice</p>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Invoice &gt; Port Charge Invoice Creation</strong></div>
+  <p>The heart of PSO day-to-day. Auditor's workflow for the actual invoice received from a port or port-agent service provider.</p>
+
+  <h2>Workflow</h2>
+  <ol>
+    <li><b>Retrieve the S/P invoice</b>. Enter S/P code, invoice number, date. If the S/P already pre-filed the invoice via EDI, PSO has it; otherwise you enter the invoice header manually.</li>
+    <li><b>Pull the expected tariff calculation</b>. PSO runs the Object × Rate / formula against the vessel particulars for the VVD(s) on the invoice.</li>
+    <li><b>Compare line-by-line</b>. Any variance between expected and S/P-invoiced is flagged. Common reasons:
+      <ul>
+        <li>S/P used a different Object value (e.g. they measured LOA differently).</li>
+        <li>Tariff rate changed and you haven't loaded the new effective date.</li>
+        <li>Additional service (extra tug, overtime pilot) not in the base tariff — you can add these as supplementary items.</li>
+      </ul>
+    </li>
+    <li><b>Audit</b>. Accept, adjust, or dispute each line.</li>
+    <li><b>Select additional cost items</b>. The Default Setting pre-fills common items; add others as needed.</li>
+    <li><b>Save → Confirm</b>. Saving is reversible; Confirming locks it for CSR creation.</li>
+  </ol>
+
+  <h2>UI item description</h2>
+  <table class="field-table">
+    <tr><th>Field / Button</th><th>Purpose</th></tr>
+    <tr><td>INV OFC</td><td>Your office code (auto-filled).</td></tr>
+    <tr><td>S/P Code</td><td>Service-provider code.</td></tr>
+    <tr><td>Invoice No</td><td>From the S/P's invoice.</td></tr>
+    <tr><td>Currency</td><td>From master; check it matches the S/P's currency.</td></tr>
+    <tr><td>VVD</td><td>Voyage the invoice relates to.</td></tr>
+    <tr><td>Charge Type / Cost Items grid</td><td>Line-level; displays tariff expectation vs S/P invoiced.</td></tr>
+    <tr><td>Additional Items</td><td>Ad-hoc lines (overtime, extra tug hours) not in base tariff.</td></tr>
+    <tr><td>Save / Confirm</td><td>Standard state transitions; Confirm is required before CSR.</td></tr>
+  </table>
+  <div class="callout warn"><strong>Don't Confirm mid-dispute.</strong> If a S/P disputes a line, <b>Save</b> only — never <b>Confirm</b>. Confirm locks the invoice for CSR and you'll have to cancel-confirm to adjust, which creates audit trail noise.</div>
+</article>
+
+<!-- ======================== PSO Canal ======================== -->
+<article id="PSO-Canal" class="hide">
+  <h1>PSO — Canal Transit List</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#PSO">PSO</a> › Canal</p>
+  <div class="nav-path"><strong>Vessel Operation &gt; Port Service Order &gt; Invoice &gt; Canal Transit List</strong></div>
+  <p>Canal fees (Suez, Panama) are different from port charges because:</p>
+  <ul>
+    <li>Payment is often required <b>in advance</b> before transit (especially Suez).</li>
+    <li>The canal authority issues a preliminary then a final invoice; the difference has to be tracked.</li>
+  </ul>
+  <p>This screen retrieves the canal transit list created by VSK (every VVD that includes a canal transit segment is picked up automatically) and lets you:</p>
+  <ul>
+    <li>Record the <b>Advance Payment requested</b> by the agent.</li>
+    <li>Record the <b>Actual Advance Payment paid</b>.</li>
+    <li>Reconcile preliminary vs final charge.</li>
+  </ul>
+  <p>Canal charges flow into CSR creation like regular port charges.</p>
+</article>
+
+<!-- ======================== TES OVERVIEW ======================== -->
+<article id="TES" class="hide">
+  <h1><span class="pill tes">TES</span> Terminal / Off-dock Invoice (TML INV)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Modules › TES</p>
+
+  <aside class="infobox">
+    <h3>TES at a glance</h3>
+    <table>
+      <tr><th>Full name</th><td>Terminal Invoice (TML INV)</td></tr>
+      <tr><th>Top menu</th><td>Service Management</td></tr>
+      <tr><th>Purpose</th><td>Process all invoices from marine terminals and off-dock depots — stevedorage, THC, storage, on-dock rail</td></tr>
+      <tr><th>Source data</th><td>BKG, CTM (container moves), VSK, SCE</td></tr>
+      <tr><th>Downstream</th><td>CSR → ERP; unit-cost feed to COA</td></tr>
+      <tr><th>Frequency</th><td>Per invoice (typically 1-4× per month per terminal)</td></tr>
+    </table>
+  </aside>
+
+  <p>TES handles all the cost at the port of loading, discharge, or transshipment that relate to <b>moving</b> containers on/off the vessel and <b>storing</b> them. It also handles off-dock depot storage and on-dock rail charges in US ports.</p>
+
+  <h2>The four invoice types</h2>
+  <p>TES supports four distinct invoice flavours, each with its own creation screen because the audit logic differs:</p>
+  <table>
+    <tr><th>Invoice type</th><th>What it covers</th><th>Typical fees</th></tr>
+    <tr><td><b>Marine Terminal Invoice (MR)</b></td><td>On-terminal handling at the marine terminal</td><td>Stevedorage, THC, plug-in reefer power at terminal, DG handling</td></tr>
+    <tr><td><b>On-Dock Rail Charge Invoice</b></td><td>Rail service performed on-terminal (common in USWC)</td><td>Rail handling, on-dock rail fee</td></tr>
+    <tr><td><b>Off-Dock CY Invoice</b></td><td>Off-dock (off-terminal) container yard</td><td>Terminal handling at ODCY + storage (by Free Day or Free Pool)</td></tr>
+    <tr><td><b>Marine Terminal Storage Invoice</b></td><td>Storage at the marine terminal itself</td><td>Storage fees for containers sitting longer than free time inside the terminal</td></tr>
+  </table>
+
+  <h2>How the audit works</h2>
+  <p>Every TES invoice audit follows the same three-tab pattern:</p>
+  <ol>
+    <li><b>Coincidence</b> — containers where the agreement-based calculation matches the S/P's invoiced amount. These go straight to the Cost Calc. tab.</li>
+    <li><b>Discrepancy</b> — containers where the two don't agree. You investigate each: wrong size code in the S/P file? Free days miscounted? Agreement row missing? Reclassify or fix.</li>
+    <li><b>Cost Calc.</b> — the final rolled-up amounts per cost item. What posts to the ERP.</li>
+  </ol>
+  <p>Off-Dock CY and Marine Terminal Storage additionally split Cost Calc into <b>SR by FD</b> (Storage Revenue by Free Day) and <b>SR by FP</b> (Free Pool) — two different storage-charge models.</p>
+
+  <h2>TES sub-sections</h2>
+  <ul>
+    <li><a href="#TES-MR">MR (Marine Rail) Invoice Creation &amp; Correction</a></li>
+    <li><a href="#TES-OffDock">Off-Dock CY Invoice Creation &amp; Correction</a></li>
+    <li><a href="#TES-Storage">Marine Terminal Storage Invoice</a></li>
+    <li><a href="#TES-AGMT">Agreement (AGMT) Creation &amp; Inquiry</a></li>
+  </ul>
+</article>
+
+<!-- ======================== TES MR ======================== -->
+<article id="TES-MR" class="hide">
+  <h1>TES — MR Invoice Creation &amp; Correction</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TES">TES</a> › MR Invoice</p>
+  <div class="nav-path"><strong>Service Management &gt; TML INV &gt; Invoice &gt; Invoice Creation &gt; MR Invoice Creation &amp; Correction</strong></div>
+
+  <p>MR = Marine Rail. Despite the name, this screen handles the bulk of marine-terminal charges your carrier pays per move (stevedorage, THC, etc.). "Marine Rail" really means "marine-terminal handling including any on-dock rail piece".</p>
+
+  <h2>Work process</h2>
+  <ol>
+    <li>Enter <b>S/P Code</b> and <b>Invoice No</b>. <b>INV OFC</b> (invoice office) is auto-filled from your user profile. Currency comes from master data.</li>
+    <li>If the invoice is already registered (via EDI or earlier save), info populates. If not, enter the header.</li>
+    <li>TES pulls the list of containers from the S/P's invoice (or from the EDI file).</li>
+    <li>TES runs each container against the <b>AGMT</b> (terminal agreement) to compute the expected amount.</li>
+    <li>Open the three tabs:
+      <ul>
+        <li><b>Coincidence</b> — expected = invoiced. Accept.</li>
+        <li><b>Discrepancy</b> — reconcile; you can override the expected, reclassify, or add a remark.</li>
+        <li><b>Cost Calc.</b> — inspect the roll-up.</li>
+      </ul>
+    </li>
+    <li><b>Save</b> while working. <b>Confirm</b> when you're ready for CSR.</li>
+  </ol>
+
+  <h2>Common discrepancy reasons</h2>
+  <table>
+    <tr><th>Reason</th><th>Fix</th></tr>
+    <tr><td>S/P charged for 40HC but CTM has 40GP for this container</td><td>Verify with ops — usually an S/P data-entry error; dispute the line.</td></tr>
+    <tr><td>Agreement rate updated mid-month; S/P used old rate</td><td>Dispute with S/P; adjust in TES to reflect the correct rate.</td></tr>
+    <tr><td>Container not in CTM (the S/P invoiced a move that didn't happen)</td><td>Dispute; remove from the invoice.</td></tr>
+    <tr><td>Agreement not yet loaded for new port / new S/P</td><td>Stop; go to AGMT Creation, load the rate, retry.</td></tr>
+    <tr><td>Reefer / DG / OOG surcharge applied but container record doesn't flag it</td><td>Check BKG for special cargo flags; correct BKG or accept the surcharge.</td></tr>
+  </table>
+</article>
+
+<!-- ======================== TES OffDock ======================== -->
+<article id="TES-OffDock" class="hide">
+  <h1>TES — Off-Dock CY Invoice Creation &amp; Correction</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TES">TES</a> › Off-Dock CY</p>
+  <div class="nav-path"><strong>Service Management &gt; TML INV &gt; Invoice &gt; Invoice Creation &gt; Off-Dock CY Invoice Creation &amp; Correction</strong></div>
+
+  <p>Off-Dock CY = Off-Dock Container Yard. Handles invoices for container yards that are <i>outside</i> the marine terminal perimeter — typical in Asia and South America, where terminals are congested and carriers use nearby depots.</p>
+
+  <h2>Five tabs (more than MR because of storage)</h2>
+  <table>
+    <tr><th>Tab</th><th>Purpose</th></tr>
+    <tr><td>Coincidence</td><td>Matched containers (both handling and storage).</td></tr>
+    <tr><td>Discrepancy</td><td>Mismatched — the usual suspects: wrong free-days, wrong size, container not found.</td></tr>
+    <tr><td>Cost Calc. (TMNL)</td><td>Terminal-side cost roll-up (handling, stevedorage equivalent at ODCY).</td></tr>
+    <tr><td>Cost Calc. (SR by FD)</td><td>Storage Revenue by Free Day — charges after the free-days limit.</td></tr>
+    <tr><td>Cost Calc. (SR by FP)</td><td>Storage Revenue by Free Pool — a pool-based free-time model some ODCYs use.</td></tr>
+  </table>
+
+  <h2>Storage models: FD vs FP</h2>
+  <dl class="fields">
+    <dt>Free Day (FD)</dt><dd>Each container gets a fixed number of free days in the yard; charges start on day N+1. Most common globally.</dd>
+    <dt>Free Pool (FP)</dt><dd>The S/P gives the carrier a <i>pool</i> of container-days per month. Any container-day over that pool is billable. Common at some Asian ODCYs with big carriers.</dd>
+  </dl>
+  <p>For the same invoice, parts of the charge might be FD-based and parts FP-based — that's why OPUS shows both tabs.</p>
+
+  <div class="callout tip"><strong>Data tip:</strong> The <b>Storage Dwell</b> and <b>Storage Fee Estimation</b> spreadsheets your team already produces from terminal EDI are essentially the same calculation as TES Off-Dock CY + MR Storage. When TES disagrees with your spreadsheet, usually the free-day count is different because the spreadsheet uses Cargo Available Date and TES uses Move-in Date. Always reconcile on the date definition first.</div>
+</article>
+
+<!-- ======================== TES Storage ======================== -->
+<article id="TES-Storage" class="hide">
+  <h1>TES — Marine Terminal Storage Invoice</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TES">TES</a> › MR Storage</p>
+  <div class="nav-path"><strong>Service Management &gt; TML INV &gt; Invoice &gt; Invoice Creation &gt; Marine Terminal Storage Invoice Creation &amp; Correction</strong></div>
+
+  <p>This is the <i>storage at the marine terminal</i> counterpart to the off-dock screen. Used when a container overstays the free days inside the marine terminal itself (vs. being trucked to an off-dock depot).</p>
+  <p>Layout is similar to Off-Dock CY but with four tabs instead of five (no "Terminal handling" tab since storage is the entire subject):</p>
+  <ul>
+    <li>Coincidence</li>
+    <li>Discrepancy</li>
+    <li>Cost Calc. (SR by FD)</li>
+    <li>Cost Calc. (SR by FP)</li>
+  </ul>
+  <p>The audit logic is identical to Off-Dock CY — the only real difference is that the terminal invoicing you is a marine terminal rather than an off-dock depot, so the AGMT lookup targets the marine-terminal agreement instead of the ODCY agreement.</p>
+</article>
+
+<!-- ======================== TES AGMT ======================== -->
+<article id="TES-AGMT" class="hide">
+  <h1>TES — Agreement (AGMT) Creation &amp; Inquiry</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TES">TES</a> › AGMT</p>
+  <div class="nav-path"><strong>Service Management &gt; TML INV &gt; Agreement &gt; AGMT Creation</strong></div>
+
+  <p>AGMT is the terminal/depot rate contract. Without an AGMT loaded, TES can't audit an invoice from that S/P — it has nothing to compare against.</p>
+
+  <h2>Two AGMT types</h2>
+  <dl class="fields">
+    <dt>Stevedore agreement</dt><dd>Per-move handling rates. Rates per EQ size × type × bound × commodity (rates can vary by full/empty, size, reefer, DG…).</dd>
+    <dt>Storage agreement</dt><dd>Free-day allowance + ladder of daily charges after free days. Can be FD or FP model (see <a href="#TES-OffDock">Off-Dock CY</a>).</dd>
+  </dl>
+  <p>You create both under the same S/P if the S/P does both handling and storage.</p>
+
+  <h2>Features that save time</h2>
+  <ul>
+    <li><b>Auto-creation</b> — populate a new AGMT from an existing one and edit deltas.</li>
+    <li><b>Auto-extend</b> — when a contract is renewed with the same rates, extend the effective window without re-keying.</li>
+    <li><b>Manual upload</b> — upload a rate-sheet Excel directly into AGMT.</li>
+  </ul>
+
+  <h2>AGMT Inquiry</h2>
+  <p>Three views:</p>
+  <table>
+    <tr><th>View</th><th>Use</th></tr>
+    <tr><td>Summary</td><td>List of agreements with status; good for overall inventory.</td></tr>
+    <tr><td>Detail</td><td>Drill into a specific AGMT's line-by-line rates.</td></tr>
+    <tr><td>Levy Cost Inquiry</td><td>Shows additional levies (port authority, environmental charge, gate fee) embedded in the AGMT.</td></tr>
+  </table>
+
+  <h2>Code Inquiry</h2>
+  <p>Reference tables:</p>
+  <ul>
+    <li><b>Cost Code</b> — logistics cost codes tied to TES.</li>
+    <li><b>Carrier Code</b> — for multi-carrier terminals, who each carrier is.</li>
+    <li><b>Terminal Cost Code</b> — the terminal-specific line items.</li>
+    <li><b>Terminal Agreement Cost Code</b> — mapping between the terminal cost line and your AGMT line.</li>
+    <li><b>Terminal AGMT Verify Method</b> — audit-method metadata (e.g. auto-match, manual-verify-required).</li>
+  </ul>
+</article>
+
+<!-- ======================== TRS OVERVIEW ======================== -->
+<article id="TRS" class="hide">
+  <h1><span class="pill trs">TRS</span> Transportation Service — Inland (Rail, Truck, Feeder)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Modules › TRS</p>
+
+  <aside class="infobox">
+    <h3>TRS at a glance</h3>
+    <table>
+      <tr><th>Full name</th><td>Transportation Service</td></tr>
+      <tr><th>Top menu</th><td>Service Management</td></tr>
+      <tr><th>Purpose</th><td>Issue service orders for inland transport, track work orders, audit transport invoices</td></tr>
+      <tr><th>Covers</th><td>Truck, rail, barge feeder — everything from the port to the door</td></tr>
+      <tr><th>Source data</th><td>BKG, SCE (transport candidates), EQR, CHS (chassis), LSE (lease)</td></tr>
+      <tr><th>Downstream</th><td>CSR → ERP</td></tr>
+    </table>
+  </aside>
+
+  <h2>What TRS does</h2>
+  <p>Every container that doesn't stay at the port needs to get somewhere. TRS is the module that:</p>
+  <ol>
+    <li>Stores the <b>rate agreement</b> with each transport vendor (trucker, railroad, feeder operator).</li>
+    <li>Issues a <b>Service Order (S/O)</b> to the vendor telling them what to move.</li>
+    <li>Issues a <b>Work Order (W/O)</b> — usually same content sent via EDI / email / fax.</li>
+    <li>Receives the vendor's invoice, <b>audits</b> it line-by-line against the W/O + agreement, then produces a CSR for the ERP.</li>
+  </ol>
+
+  <h2>Service Orders by region</h2>
+  <p>TRS has separate S/O creation screens by region because the transport realities differ a lot:</p>
+  <table>
+    <tr><th>Region S/O</th><th>Why it's separate</th></tr>
+    <tr><td>Europe CY &amp; Door</td><td>Multi-mode (truck + rail + barge), heavy use of intermodal, km/haul rates.</td></tr>
+    <tr><td>USA/CA CY &amp; Door</td><td>Huge intermodal rail network; STCC commodity codes; rail surcharges.</td></tr>
+    <tr><td>Asia CY &amp; Door</td><td>Truck-dominated; heavy door delivery; feeder complexity.</td></tr>
+    <tr><td>Empty Repo &amp; EQ On/Off Hire</td><td>Empty repositioning between depots; on/off-hire movements of leased EQ.</td></tr>
+    <tr><td>Chassis &amp; Genset</td><td>For N. America particularly — chassis moves aren't container moves.</td></tr>
+    <tr><td>Supplement / Other</td><td>Escape hatches for supplementary or non-standard S/Os.</td></tr>
+  </table>
+
+  <h2>TRS sub-sections</h2>
+  <ul>
+    <li><a href="#TRS-AGMT">Agreement (Rate Contract)</a></li>
+    <li><a href="#TRS-SO">Service Order (S/O) Creation &amp; Correction</a></li>
+    <li><a href="#TRS-WO">Work Order (W/O) Issue &amp; Inquiry</a></li>
+    <li><a href="#TRS-Invoice">Invoice Audit &amp; Confirm</a></li>
+    <li><a href="#TRS-USARail">USA / CA Rail Billing &amp; 404 EDI</a></li>
+  </ul>
+</article>
+
+<!-- ======================== TRS AGMT ======================== -->
+<article id="TRS-AGMT" class="hide">
+  <h1>TRS — Agreement (Rate Contract)</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TRS">TRS</a> › Agreement</p>
+  <div class="nav-path"><strong>Service Management &gt; Transportation Service &gt; Agreement &gt; Agreement Creation</strong></div>
+
+  <p>The rate contract you have with each transport vendor. Without this, TRS can't issue a priced S/O or audit an invoice.</p>
+
+  <h2>Six "rate types"</h2>
+  <p>TRS organises rate dimensions as <b>six rate types</b>, each of which can carry its own surcharges:</p>
+  <table>
+    <tr><th>Rate type</th><th>Meaning</th></tr>
+    <tr><td>Cost Mode</td><td>CY / Door / Empty / On-dock rail / etc.</td></tr>
+    <tr><td>Trans Mode</td><td>Truck / Rail / Barge / Multi-modal.</td></tr>
+    <tr><td>Cargo Type</td><td>Full / Empty / Hazmat.</td></tr>
+    <tr><td>Customer Code</td><td>Rate applies only to specified customers (for consignee-nominated rates).</td></tr>
+    <tr><td>Commodity Code</td><td>STCC / commodity-specific rates.</td></tr>
+    <tr><td>Rail Service</td><td>IPI / MLB / RIPI / direct rail service types.</td></tr>
+  </table>
+  <p>Underneath each rate type you can register surcharges (fuel surcharge, seasonal, stop-off fee, etc.) that apply automatically when the rate is used.</p>
+
+  <h2>Agreement USA Rail Surcharge</h2>
+  <p>USA/CA rail has so many surcharge types that CyberLogitec gives it its own screen (fuel surcharge by rail carrier, intermodal fees, port congestion, demurrage on rail cars, etc.). Maintained separately from the main agreement; applied as an overlay when USA rail rates are used.</p>
+
+  <h2>Agreement Correction / Inquiry / Inquiry By Route</h2>
+  <p>Standard CRUD:</p>
+  <ul>
+    <li><b>Correction</b> — edit an existing agreement.</li>
+    <li><b>Inquiry</b> — look it up by rate type.</li>
+    <li><b>Inquiry by Route</b> — reverse lookup: given origin-destination, which agreements apply?</li>
+  </ul>
+</article>
+
+<!-- ======================== TRS SO ======================== -->
+<article id="TRS-SO" class="hide">
+  <h1>TRS — Service Order (S/O) Creation &amp; Correction</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TRS">TRS</a> › Service Order</p>
+
+  <p>An S/O is your internal record that says "move this container, from here, to there, using this vendor, at this agreed rate". The S/O becomes the basis for the W/O and later for invoice audit.</p>
+
+  <h2>By region</h2>
+  <dl class="fields">
+    <dt>Europe CY &amp; Door S/O Creation</dt><dd>Full-cargo transportation in the European region. Supports rail/truck/barge combinations.</dd>
+    <dt>USA/CA CY &amp; Door S/O Creation</dt><dd>USA/CA full-cargo. Ties into STCC codes and USA/CA Rail rate surcharges.</dd>
+    <dt>Asia CY &amp; Door S/O Creation</dt><dd>Asia full-cargo. Truck-heavy; feeder integration.</dd>
+    <dt>Empty Repo &amp; EQ On/Off Hire</dt><dd>Empty repositioning between depots and equipment lease on/off-hire movements.</dd>
+    <dt>Chassis &amp; Genset</dt><dd>For N. America: chassis and genset positioning — these are assets, not cargo.</dd>
+    <dt>Supplement</dt><dd>Supplementary S/O for the normal invoice (e.g. add an extra stop, waiting time).</dd>
+    <dt>Other</dt><dd>Special / extraordinary S/O that doesn't fit the templates.</dd>
+  </dl>
+
+  <h2>Flow</h2>
+  <ol>
+    <li>Candidate transport legs are created by upstream modules (BKG/SCE for laden, EQR for empty, CHS for chassis, LSE for lease movements).</li>
+    <li>TRS S/O Creation retrieves the candidates for your scope (Lane, Date, Office).</li>
+    <li>You select the vendor S/P; TRS looks up the applicable agreement and fills the rate.</li>
+    <li>Save the S/O.</li>
+  </ol>
+
+  <h2>S/O Correction</h2>
+  <p>Parallel "Correction" screens for each region / type. Modifies an existing S/O before it becomes a Work Order. After W/O issue, correction requires cancelling the W/O first.</p>
+
+  <h2>Report on Various Service Order / S/O Inquiry</h2>
+  <p>Report &amp; list-view queries for issued S/Os, filterable by many conditions. Useful monthly review: "How many S/Os issued to Vendor XYZ in March? What's their total value?"</p>
+</article>
+
+<!-- ======================== TRS WO ======================== -->
+<article id="TRS-WO" class="hide">
+  <h1>TRS — Work Order (W/O) Issue &amp; Inquiry</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TRS">TRS</a> › Work Order</p>
+  <div class="nav-path"><strong>Service Management &gt; Transportation Service &gt; Work Order &gt; Issue</strong></div>
+
+  <p>The W/O is the formal instruction sent to the vendor. In practice it's a document / EDI transmitted to the vendor saying "pick up this container at X on date Y, drop at Z by date W, here's the reference".</p>
+
+  <h2>Issue workflow</h2>
+  <ol>
+    <li>Search S/Os eligible for W/O issue.</li>
+    <li>Select one or many.</li>
+    <li>Press <b>Issue</b>. TRS generates the W/O document and transmits via the configured channel (EDI, email, fax, print).</li>
+    <li>Issued W/Os are tracked in <b>W/O Inquiry</b>.</li>
+  </ol>
+  <p>Once a W/O is issued, the S/O is locked — use W/O cancellation if you need to change. This exists to prevent double-booking of a vendor.</p>
+</article>
+
+<!-- ======================== TRS Invoice ======================== -->
+<article id="TRS-Invoice" class="hide">
+  <h1>TRS — Invoice Audit &amp; Confirm</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TRS">TRS</a> › Invoice</p>
+  <div class="nav-path"><strong>Service Management &gt; Transportation Service &gt; Invoice &gt; Audit &amp; Confirm</strong></div>
+
+  <h2>The audit</h2>
+  <ol>
+    <li><b>Input the vendor invoice data</b> — either keyed manually, or uploaded from the vendor's Excel/EDI file.</li>
+    <li><b>TRS matches each invoice line to a W/O</b> using vendor / origin / destination / date keys.</li>
+    <li><b>Audit rule fires</b> — compares invoiced amount to the W/O amount (itself sourced from the agreement).</li>
+    <li><b>Coincidence / Discrepancy</b> tabs show the results.</li>
+    <li><b>Confirm</b> after resolving discrepancies; a CSR can then be created.</li>
+  </ol>
+
+  <h2>Invoice Inquiry</h2>
+  <p>Look up all invoice data you've generated. Supports further action: confirmation, cancellation, deletion.</p>
+
+  <h2>Invoice Audit for Volume Refund / DC</h2>
+  <p>Some vendors offer volume discounts or rebates that come as a separate credit note. This sub-screen handles those: the S/P issues a credit, you audit it against the month's cumulative volume.</p>
+
+  <h2>Invoice Creation for Pool Chassis Repositioning</h2>
+  <p>USA-specific. Pool chassis reposition invoicing is its own animal because chassis isn't a container move.</p>
+
+  <div class="callout tip"><strong>Match Pack discipline:</strong> Most discrepancies in TRS invoice audit are S/O / W/O data issues, not rate issues. If many containers on one invoice show discrepancy for the same vendor, check first whether the W/Os were issued correctly — not whether the rate is wrong.</div>
+</article>
+
+<!-- ======================== TRS USA Rail ======================== -->
+<article id="TRS-USARail" class="hide">
+  <h1>TRS — USA / CA Rail Billing</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › <a href="#TRS">TRS</a> › USA Rail</p>
+
+  <p>USA &amp; Canada rail gets a separate sub-module because of two things:</p>
+  <ul>
+    <li><b>404 EDI</b> — the standard EDI message type in which US/CA rail carriers issue their bills. TRS has a dedicated 404 EDI screen to receive and parse them.</li>
+    <li>The surcharge structure is much more complex than truck/barge (see <a href="#TRS-AGMT">Agreement USA Rail Surcharge</a>).</li>
+  </ul>
+
+  <h2>Billing Creation sub-screens</h2>
+  <table>
+    <tr><th>Screen</th><th>Use</th></tr>
+    <tr><td>For I/B Full</td><td>Create S/O for inbound full container via rail. Candidates from SCE.</td></tr>
+    <tr><td>For O/B Full</td><td>Outbound full container via rail.</td></tr>
+    <tr><td>For Empty</td><td>Empty reposition via rail.</td></tr>
+    <tr><td>Billing Correction</td><td>Modify issued rail billing.</td></tr>
+    <tr><td>USA Rail 404 EDI</td><td>Receive / parse the 404 EDI invoice from the rail carrier.</td></tr>
+  </table>
+
+  <h2>Invoice Audit &amp; Confirm (USA Rail)</h2>
+  <p>Parallel to the regular TRS Invoice screen but tuned for 404-EDI flows. Audits the S/P rail bill against W/Os and surcharge tables.</p>
+
+  <h2>Supporting code tables</h2>
+  <ul>
+    <li><b>Commodity Group</b> — grouping commodity codes for rate lookup.</li>
+    <li><b>Control Office Exception</b> — exceptions to default office control rules.</li>
+    <li><b>USA Last City for T&amp;E Cargo</b> — the final rail interchange point for trans-border cargo.</li>
+    <li><b>W/O CC</b> — cost centre mapping for W/Os.</li>
+    <li><b>W/O Remark</b> — standard instructions library.</li>
+    <li><b>STCC</b> — Standard Transportation Commodity Code. US railroads bill by commodity class.</li>
+    <li><b>Invoice Authority</b> — who can authorise invoice confirmation.</li>
+  </ul>
+</article>
+
+<\!-- ======================== ACCRUAL FLOW DIAGRAM ======================== -->
+<article id="AccrualFlow" class="hide">
+  <h1>How accrual works in Allegro — visual map</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Workflows › Accrual flow diagram</p>
+
+  <div class="callout info">
+    <strong>How to read this diagram.</strong> Every coloured box is a real OPUS screen — <b>click it</b> to jump to the wiki entry for that screen. Arrows show the <b>direction of data flow</b>. The diagram is grouped into seven phases that run top-to-bottom over a typical accrual cycle (usually one calendar month per voyage).
+  </div>
+
+  <div style="overflow-x:auto; border:1px solid var(--border); border-radius:8px; padding:12px; background:#fff;">
+    <style>
+      .afd text{font-family:Inter,Segoe UI,sans-serif;font-size:12px;}
+      .afd .phase-label{font-size:13px;font-weight:700;fill:#334155;}
+      .afd .phase-bg{fill:#f8fafc;stroke:#e2e8f0;stroke-width:1;}
+      .afd .phase-1{fill:#f1f5f9;}
+      .afd .phase-2{fill:#fef3c7;}
+      .afd .phase-3{fill:#dbeafe;}
+      .afd .phase-4{fill:#fed7aa;}
+      .afd .phase-5{fill:#e9d5ff;}
+      .afd .phase-6{fill:#d1fae5;}
+      .afd .phase-7{fill:#fee2e2;}
+      .afd .coa rect{fill:#dbeafe;stroke:#2563eb;stroke-width:1.5;}
+      .afd .joo rect{fill:#fce7f3;stroke:#db2777;stroke-width:1.5;}
+      .afd .pso rect{fill:#d1fae5;stroke:#059669;stroke-width:1.5;}
+      .afd .tes rect{fill:#fed7aa;stroke:#ea580c;stroke-width:1.5;}
+      .afd .trs rect{fill:#e9d5ff;stroke:#7c3aed;stroke-width:1.5;}
+      .afd .ext rect{fill:#e5e7eb;stroke:#6b7280;stroke-width:1.5;stroke-dasharray:4 2;}
+      .afd .res rect{fill:#fef08a;stroke:#ca8a04;stroke-width:2;}
+      .afd a:hover rect{filter:brightness(0.92);}
+      .afd .arrow{stroke:#475569;stroke-width:1.5;fill:none;}
+      .afd .arrow-dash{stroke:#94a3b8;stroke-width:1.5;fill:none;stroke-dasharray:5 3;}
+    </style>
+    <svg class="afd" viewBox="0 0 920 1560" width="100%" style="max-width:960px;display:block;margin:0 auto;">
+      <defs>
+        <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#475569"/></marker>
+        <marker id="arrowhead-dash" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto"><polygon points="0 0, 10 3, 0 6" fill="#94a3b8"/></marker>
+      </defs>
+
+      <\!-- PHASE 1: Master Data Setup -->
+      <rect class="phase-bg phase-1" x="10" y="10" width="900" height="180" rx="6"/>
+      <text class="phase-label" x="25" y="32">Phase 1 — Master data setup (before any booking)</text>
+      <text x="25" y="48" font-size="11" fill="#64748b">One-off or periodic. Done by Finance / MDA team.</text>
+
+      <a class="coa" href="#COA-CostTable"><rect x="30" y="65" width="150" height="45" rx="4"/><text x="105" y="83" text-anchor="middle" font-weight="600">COA Cost Table</text><text x="105" y="98" text-anchor="middle" font-size="10">Lane × cost item rates</text></a>
+      <a class="coa" href="#COA-UC-CM"><rect x="195" y="65" width="135" height="45" rx="4"/><text x="262" y="83" text-anchor="middle" font-weight="600">U/C — CM</text><text x="262" y="98" text-anchor="middle" font-size="10">Variable cost per ctr</text></a>
+      <a class="coa" href="#COA-UC-OP"><rect x="345" y="65" width="135" height="45" rx="4"/><text x="412" y="83" text-anchor="middle" font-weight="600">U/C — OP</text><text x="412" y="98" text-anchor="middle" font-size="10">Full unit cost</text></a>
+      <a class="pso" href="#PSO-Tariff"><rect x="495" y="65" width="120" height="45" rx="4" class="pso" fill="#d1fae5"/><text x="555" y="83" text-anchor="middle" font-weight="600">PSO Tariff</text><text x="555" y="98" text-anchor="middle" font-size="10">Port charges</text></a>
+      <a class="tes" href="#TES-AGMT"><rect x="630" y="65" width="120" height="45" rx="4"/><text x="690" y="83" text-anchor="middle" font-weight="600">TES AGMT</text><text x="690" y="98" text-anchor="middle" font-size="10">Terminal rates</text></a>
+      <a class="trs" href="#TRS-AGMT"><rect x="765" y="65" width="130" height="45" rx="4"/><text x="830" y="83" text-anchor="middle" font-weight="600">TRS AGMT</text><text x="830" y="98" text-anchor="middle" font-size="10">Haulage rates</text></a>
+
+      <a class="joo" href="#JOO-Setup"><rect x="30" y="125" width="180" height="45" rx="4"/><text x="120" y="143" text-anchor="middle" font-weight="600">JOO Setup</text><text x="120" y="158" text-anchor="middle" font-size="10">BSA / TDR / RDR / Financial</text></a>
+
+      <\!-- PHASE 2: Trigger events -->
+      <rect class="phase-bg phase-2" x="10" y="200" width="900" height="110" rx="6"/>
+      <text class="phase-label" x="25" y="222">Phase 2 — Upstream triggers (external to accrual)</text>
+      <text x="25" y="238" font-size="11" fill="#64748b">Driven by Sales, Ops, Planning. These are inputs — we don't create them.</text>
+      <g class="ext">
+        <rect x="60" y="250" width="140" height="45" rx="4"/><text x="130" y="275" text-anchor="middle" font-weight="600">BKG (Booking)</text>
+        <rect x="230" y="250" width="140" height="45" rx="4"/><text x="300" y="272" text-anchor="middle" font-weight="600">VSK → VVD</text><text x="300" y="286" text-anchor="middle" font-size="10">Vessel schedule</text>
+        <rect x="400" y="250" width="140" height="45" rx="4"/><text x="470" y="272" text-anchor="middle" font-weight="600">CTM</text><text x="470" y="286" text-anchor="middle" font-size="10">Container move events</text>
+        <rect x="570" y="250" width="140" height="45" rx="4"/><text x="640" y="272" text-anchor="middle" font-weight="600">SCE / FCE</text><text x="640" y="286" text-anchor="middle" font-size="10">Schedule changes</text>
+      </g>
+
+      <\!-- Arrow from phase 1 to phase 2 (combined) -->
+      <path class="arrow" d="M455,175 L455,245" marker-end="url(#arrowhead)"/>
+
+      <\!-- PHASE 3: Estimation -->
+      <rect class="phase-bg phase-3" x="10" y="320" width="900" height="160" rx="6"/>
+      <text class="phase-label" x="25" y="342">Phase 3 — Cost estimation (when VVD is set as target)</text>
+      <text x="25" y="358" font-size="11" fill="#64748b">COA pulls rates + BKG list → allocates cost to every booking on that voyage.</text>
+
+      <a class="coa" href="#COA-Estimated"><rect x="50" y="375" width="200" height="55" rx="4"/><text x="150" y="398" text-anchor="middle" font-weight="600">Estimated Cost by VV</text><text x="150" y="414" text-anchor="middle" font-size="10">Target the voyage-direction</text></a>
+      <a class="coa" href="#COA-Allocation"><rect x="280" y="375" width="240" height="55" rx="4"/><text x="400" y="398" text-anchor="middle" font-weight="600">Network / BKG Allocation</text><text x="400" y="414" text-anchor="middle" font-size="10">Spread cost across every container</text></a>
+      <a class="coa" href="#COA-Reports"><rect x="550" y="375" width="200" height="55" rx="4" class="res" fill="#fef08a"/><text x="650" y="398" text-anchor="middle" font-weight="600">Estimated CM &amp; OP</text><text x="650" y="414" text-anchor="middle" font-size="10">P&amp;L by BKG / Lane / VV</text></a>
+
+      <path class="arrow" d="M250,402 L280,402" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M520,402 L550,402" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M455,300 L455,370" marker-end="url(#arrowhead)"/>
+
+      <text x="460" y="455" font-size="11" fill="#475569" font-style="italic">▲ First view of profitability. Sales &amp; Ops can act on this.</text>
+
+      <\!-- PHASE 4: Actual invoices -->
+      <rect class="phase-bg phase-4" x="10" y="490" width="900" height="220" rx="6"/>
+      <text class="phase-label" x="25" y="512">Phase 4 — Actual invoices arrive (during &amp; after voyage)</text>
+      <text x="25" y="528" font-size="11" fill="#64748b">Vendors send invoices. Each module audits the invoice against its expected amount.</text>
+
+      <a class="pso" href="#PSO-Invoice"><rect x="30" y="545" width="150" height="50" rx="4"/><text x="105" y="568" text-anchor="middle" font-weight="600">PSO Port Charge</text><text x="105" y="583" text-anchor="middle" font-size="10">Invoice + audit</text></a>
+      <a class="pso" href="#PSO-Canal"><rect x="195" y="545" width="130" height="50" rx="4"/><text x="260" y="568" text-anchor="middle" font-weight="600">PSO Canal</text><text x="260" y="583" text-anchor="middle" font-size="10">Suez / Panama</text></a>
+      <a class="tes" href="#TES-MR"><rect x="345" y="545" width="130" height="50" rx="4"/><text x="410" y="568" text-anchor="middle" font-weight="600">TES MR</text><text x="410" y="583" text-anchor="middle" font-size="10">Terminal handling</text></a>
+      <a class="tes" href="#TES-OffDock"><rect x="495" y="545" width="130" height="50" rx="4"/><text x="560" y="568" text-anchor="middle" font-weight="600">TES Off-Dock</text><text x="560" y="583" text-anchor="middle" font-size="10">CY / depot</text></a>
+      <a class="tes" href="#TES-Storage"><rect x="645" y="545" width="120" height="50" rx="4"/><text x="705" y="568" text-anchor="middle" font-weight="600">TES Storage</text><text x="705" y="583" text-anchor="middle" font-size="10">DEM / DET</text></a>
+
+      <a class="trs" href="#TRS-Invoice"><rect x="30" y="610" width="150" height="50" rx="4"/><text x="105" y="633" text-anchor="middle" font-weight="600">TRS Haulage Inv</text><text x="105" y="648" text-anchor="middle" font-size="10">Trucking / rail</text></a>
+      <a class="trs" href="#TRS-USARail"><rect x="195" y="610" width="150" height="50" rx="4"/><text x="270" y="633" text-anchor="middle" font-weight="600">TRS USA Rail</text><text x="270" y="648" text-anchor="middle" font-size="10">Per-diem tariff</text></a>
+      <a class="joo" href="#JOO-Settlement"><rect x="360" y="610" width="160" height="50" rx="4"/><text x="440" y="633" text-anchor="middle" font-weight="600">JOO Settlement</text><text x="440" y="648" text-anchor="middle" font-size="10">Slot / VSA / SCA</text></a>
+
+      <text x="540" y="636" font-size="11" fill="#475569" font-style="italic">→ each module produces a "Confirmed" invoice</text>
+
+      <\!-- Arrows from phase 3 -->
+      <path class="arrow" d="M455,480 L455,540" marker-end="url(#arrowhead)"/>
+
+      <\!-- PHASE 5: CSR → ERP -->
+      <rect class="phase-bg phase-5" x="10" y="720" width="900" height="150" rx="6"/>
+      <text class="phase-label" x="25" y="742">Phase 5 — CSR creation &amp; ERP interface (month-end heavy)</text>
+      <text x="25" y="758" font-size="11" fill="#64748b">Confirmed invoices become A/P vouchers, get approved, and post to ERP.</text>
+
+      <a class="joo" href="#JOO-Monthly"><rect x="30" y="775" width="180" height="55" rx="4"/><text x="120" y="797" text-anchor="middle" font-weight="600">JOO Monthly Clearance</text><text x="120" y="813" text-anchor="middle" font-size="10">Monthly partner settle</text></a>
+      <a class="joo" href="#JOO-CSR"><rect x="230" y="775" width="160" height="55" rx="4"/><text x="310" y="797" text-anchor="middle" font-weight="600">CSR Creation</text><text x="310" y="813" text-anchor="middle" font-size="10">(per module)</text></a>
+      <rect x="410" y="775" width="160" height="55" rx="4" fill="#fbcfe8" stroke="#db2777" stroke-width="1.5"/><text x="490" y="797" text-anchor="middle" font-weight="600">CSR Approval</text><text x="490" y="813" text-anchor="middle" font-size="10">OPUS authority chain</text>
+      <rect x="590" y="775" width="170" height="55" rx="4" class="ext" fill="#e5e7eb" stroke="#6b7280" stroke-dasharray="4 2"/><text x="675" y="797" text-anchor="middle" font-weight="600">ERP / GL Posting</text><text x="675" y="813" text-anchor="middle" font-size="10">(external)</text>
+
+      <path class="arrow" d="M210,802 L230,802" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M390,802 L410,802" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M570,802 L590,802" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M455,710 L455,770" marker-end="url(#arrowhead)"/>
+
+      <\!-- PHASE 6: COA Reconciliation -->
+      <rect class="phase-bg phase-6" x="10" y="880" width="900" height="150" rx="6"/>
+      <text class="phase-label" x="25" y="902">Phase 6 — COA reconciliation (weekly + monthly)</text>
+      <text x="25" y="918" font-size="11" fill="#64748b">COA pulls every posted invoice back, replaces the estimate, recomputes P&amp;L.</text>
+
+      <a class="coa" href="#WF-CostAccrual"><rect x="50" y="935" width="190" height="60" rx="4"/><text x="145" y="958" text-anchor="middle" font-weight="600">COA Weekly Batch</text><text x="145" y="974" text-anchor="middle" font-size="10">Roll up modules → BKG</text></a>
+      <a class="coa" href="#COA-Allocation"><rect x="270" y="935" width="220" height="60" rx="4"/><text x="380" y="958" text-anchor="middle" font-weight="600">BKG Cost Recalculation</text><text x="380" y="974" text-anchor="middle" font-size="10">Replace estimate with actual</text></a>
+      <a class="coa" href="#COA-Reports"><rect x="520" y="935" width="220" height="60" rx="4" class="res" fill="#fef08a"/><text x="630" y="958" text-anchor="middle" font-weight="600">Actualised CM &amp; OP</text><text x="630" y="974" text-anchor="middle" font-size="10">P&amp;L by BKG / Lane / VV</text></a>
+
+      <path class="arrow" d="M240,965 L270,965" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M490,965 L520,965" marker-end="url(#arrowhead)"/>
+      <path class="arrow" d="M455,870 L455,930" marker-end="url(#arrowhead)"/>
+
+      <\!-- PHASE 7: Reporting / analysis -->
+      <rect class="phase-bg phase-7" x="10" y="1040" width="900" height="170" rx="6"/>
+      <text class="phase-label" x="25" y="1062">Phase 7 — Reporting &amp; simulation (what you, as Cost Controller, do)</text>
+      <text x="25" y="1078" font-size="11" fill="#64748b">Compare estimate vs actual, explain variances, feed back into master data.</text>
+
+      <a class="coa" href="#COA-Reports"><rect x="30" y="1095" width="180" height="60" rx="4"/><text x="120" y="1118" text-anchor="middle" font-weight="600">P&amp;L by Lane</text><text x="120" y="1134" text-anchor="middle" font-size="10">Route profitability</text></a>
+      <a class="coa" href="#COA-Reports"><rect x="230" y="1095" width="170" height="60" rx="4"/><text x="315" y="1118" text-anchor="middle" font-weight="600">P&amp;L by VV</text><text x="315" y="1134" text-anchor="middle" font-size="10">Voyage view</text></a>
+      <a class="joo" href="#JOO-Reports"><rect x="420" y="1095" width="200" height="60" rx="4"/><text x="520" y="1118" text-anchor="middle" font-weight="600">Inquiry by BKG / Source</text><text x="520" y="1134" text-anchor="middle" font-size="10">Drill to invoice</text></a>
+      <a class="coa" href="#COA-Simulation"><rect x="640" y="1095" width="230" height="60" rx="4"/><text x="755" y="1118" text-anchor="middle" font-weight="600">Cost Simulation</text><text x="755" y="1134" text-anchor="middle" font-size="10">What-if scenarios</text></a>
+
+      <text x="450" y="1180" text-anchor="middle" font-size="11" fill="#475569" font-style="italic">↻ Variances feed back into Phase 1 master-data corrections for next cycle</text>
+
+      <path class="arrow" d="M455,1030 L455,1090" marker-end="url(#arrowhead)"/>
+
+      <\!-- Feedback loop arrow from phase 7 back to phase 1 -->
+      <path class="arrow-dash" d="M20,1180 Q5,1180 5,1000 Q5,100 20,100" marker-end="url(#arrowhead-dash)"/>
+      <text x="14" y="600" font-size="10" fill="#94a3b8" transform="rotate(-90 14 600)">feedback: tune U/C, tariffs, agreements</text>
+
+      <\!-- Legend -->
+      <rect x="10" y="1230" width="900" height="320" rx="6" fill="#ffffff" stroke="#e2e8f0"/>
+      <text class="phase-label" x="25" y="1252">Legend</text>
+      <g transform="translate(25,1265)">
+        <rect x="0" y="0" width="18" height="14" class="coa" fill="#dbeafe" stroke="#2563eb"/><text x="26" y="11" font-size="11">COA — Cost Accrual (the central engine)</text>
+        <rect x="0" y="22" width="18" height="14" class="joo" fill="#fce7f3" stroke="#db2777"/><text x="26" y="33" font-size="11">JOO — Joint Operation (partner cost)</text>
+        <rect x="0" y="44" width="18" height="14" class="pso" fill="#d1fae5" stroke="#059669"/><text x="26" y="55" font-size="11">PSO — Port Service Order</text>
+        <rect x="0" y="66" width="18" height="14" class="tes" fill="#fed7aa" stroke="#ea580c"/><text x="26" y="77" font-size="11">TES — Terminal (inc. storage)</text>
+        <rect x="0" y="88" width="18" height="14" class="trs" fill="#e9d5ff" stroke="#7c3aed"/><text x="26" y="99" font-size="11">TRS — Transportation (haulage / rail)</text>
+        <rect x="0" y="110" width="18" height="14" class="ext" fill="#e5e7eb" stroke="#6b7280" stroke-dasharray="3 2"/><text x="26" y="121" font-size="11">External — upstream systems or ERP</text>
+        <rect x="0" y="132" width="18" height="14" class="res" fill="#fef08a" stroke="#ca8a04" stroke-width="2"/><text x="26" y="143" font-size="11">Result — the output Cost Controller reads</text>
+      </g>
+      <g transform="translate(430,1265)">
+        <path class="arrow" d="M0,7 L25,7" marker-end="url(#arrowhead)"/><text x="32" y="11" font-size="11">Solid arrow — data flow between screens</text>
+        <path class="arrow-dash" d="M0,29 L25,29" marker-end="url(#arrowhead-dash)"/><text x="32" y="33" font-size="11">Dashed arrow — feedback / external boundary</text>
+      </g>
+    </svg>
+  </div>
+
+  <h2>What happens in each phase</h2>
+
+  <h3>Phase 1 — Master data setup</h3>
+  <p>Before any accrual can run, someone (usually Finance or MDA) has to load the rate tables. The <a href="#COA-CostTable">COA Cost Table</a> is the authoritative rate book. <a href="#COA-UC-CM">U/C-CM</a> and <a href="#COA-UC-OP">U/C-OP</a> are summary unit costs the COA uses for quick allocation. The operational modules each have their own rate store: <a href="#PSO-Tariff">PSO Tariff</a>, <a href="#TES-AGMT">TES AGMT</a>, <a href="#TRS-AGMT">TRS AGMT</a>. <a href="#JOO-Setup">JOO Setup</a> holds the partner allocation rules (BSA, TDR, RDR, Financial Affairs).</p>
+
+  <h3>Phase 2 — Upstream triggers</h3>
+  <p>Accrual doesn't start on its own. It reacts to three events: a new <b>BKG</b> (Booking) comes in from Sales, a <b>VVD</b> (voyage) is confirmed from Vessel Schedule, or a <b>CTM</b> (container move) is posted from Operations. <a href="#COA-Estimated">Estimated Cost by VV</a> is the first screen you run once the voyage is set as the target.</p>
+
+  <h3>Phase 3 — Estimation</h3>
+  <p>COA pulls every booking on the target voyage, multiplies each container by the rate from the cost table, and allocates the result across BKG / Lane / VV (<a href="#COA-Allocation">Allocation logic</a>). This produces the <b>Estimated CM and OP</b> — the first profitability view. Critically, this happens <i>before</i> any vendor invoice arrives.</p>
+
+  <h3>Phase 4 — Actual invoices arrive (50-60 % of your time)</h3>
+  <p>Over the next few weeks, vendor invoices trickle in. Each invoice lands in its home module: <a href="#PSO-Invoice">PSO Port Charge</a>, <a href="#PSO-Canal">PSO Canal</a>, <a href="#TES-MR">TES MR</a>, <a href="#TES-OffDock">TES Off-Dock</a>, <a href="#TES-Storage">TES Storage</a>, <a href="#TRS-Invoice">TRS Haulage Invoice</a>, <a href="#TRS-USARail">TRS USA Rail</a>, and <a href="#JOO-Settlement">JOO Settlement</a>. Each module does the same thing: retrieve expected amount from its rate store, audit against the vendor invoice, and either accept or push discrepancy back. See <a href="#WF-Invoice">Invoice workflow</a> for the full recipe.</p>
+
+  <h3>Phase 5 — CSR creation &amp; ERP interface</h3>
+  <p>A "Confirmed" invoice isn't yet posted to the GL — it still needs to become a CSR (voucher), get approved, and push to ERP. See <a href="#WF-CSR">CSR → ERP workflow</a>. JOO has an extra step: <a href="#JOO-Monthly">JOO Monthly Clearance</a> consolidates everything with a single partner into one net settlement.</p>
+
+  <h3>Phase 6 — COA reconciliation</h3>
+  <p>Every week (sometimes daily), COA runs a batch that pulls every confirmed / posted invoice from PSO, TES, TRS, and JOO back into the BKG-level cost record. The <a href="#WF-CostAccrual">Cost Accrual workflow</a> describes this reconciliation in detail. After the batch: <i>Estimated</i> cost is replaced by <i>Actual</i> cost on the containers that have posted invoices. The remainder stays estimated until those vendors invoice.</p>
+
+  <h3>Phase 7 — Reporting &amp; simulation</h3>
+  <p>This is where you, as Cost Controller, spend most of your analytical time. The core screens are <a href="#COA-Reports">P&amp;L by Lane / VV / BKG</a> and <a href="#COA-Simulation">Cost Simulation</a>. Any big variance (Estimated vs Actual) is a signal: either the rate table is wrong (fix in Phase 1), or the invoice is wrong (push back to vendor), or the upstream data (BKG / VVD / CTM) was incorrect. The feedback loop is the whole point.</p>
+
+  <h2>How your time splits across the phases</h2>
+  <table>
+    <tr><th>Phase</th><th>Who owns it</th><th>Typical time share (Cost Controller)</th><th>Tools</th></tr>
+    <tr><td>1. Master data</td><td>MDA / Finance lead</td><td>5 %</td><td>COA Cost Table, U/C, tariffs</td></tr>
+    <tr><td>2. Upstream triggers</td><td>Sales / Ops / Planning</td><td>0 % (consumed, not produced)</td><td>— (inputs)</td></tr>
+    <tr><td>3. Estimation</td><td>Cost Controller</td><td>10 %</td><td>Est Cost by VV, Allocation</td></tr>
+    <tr><td>4. Actual invoices</td><td>Cost Controller + AP</td><td><b>50-60 %</b></td><td>Every module's Invoice + Audit screens</td></tr>
+    <tr><td>5. CSR → ERP</td><td>Cost Controller + Approver</td><td>10 %</td><td>CSR Creation, CSR Approval</td></tr>
+    <tr><td>6. Reconciliation</td><td>COA (mostly automatic)</td><td>5 %</td><td>Weekly batch monitoring</td></tr>
+    <tr><td>7. Reporting &amp; analysis</td><td>Cost Controller</td><td>15-20 %</td><td>P&amp;L reports, Simulation, Dashboards</td></tr>
+  </table>
+
+  <div class="callout info">
+    <strong>Mental model in one sentence.</strong> Allegro's accrual is a living ledger that books the cost you <i>expect</i> the moment a voyage is planned, then quietly replaces it with what you actually <i>paid</i> as invoices flow in — and the modules around it (PSO / TES / TRS / JOO) are all just different invoice conveyor belts feeding that same central ledger.
+  </div>
+
+  <h2>Further reading</h2>
+  <ul>
+    <li><a href="#WF-CostAccrual">Workflow — Cost Accrual (deep dive)</a> — the step-by-step recipe for the weekly batch</li>
+    <li><a href="#WF-Invoice">Workflow — Invoice audit</a> — the five-step recipe used by every module</li>
+    <li><a href="#WF-CSR">Workflow — CSR → ERP</a> — the voucher lifecycle</li>
+    <li><a href="#WF-Closing">Workflow — Month-end closing</a> — checklist for period-end</li>
+    <li><a href="#COA">COA — Cost Accrual module overview</a></li>
+  </ul>
+</article>
+
+
+
+<!-- ======================== WORKFLOW: COST ACCRUAL ======================== -->
+<article id="WF-CostAccrual" class="hide">
+  <h1>Workflow — Monthly Cost Accrual end-to-end</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Workflows</p>
+  <p>This is the walkthrough you'll live every month as a Cost Controller. It stitches together the five cost modules plus COA into one end-to-end close.</p>
+
+  <h2>Week 1 — preparation</h2>
+  <ol>
+    <li><b>Refresh reference data.</b> In COA:
+      <ul>
+        <li><a href="#COA-CostTable">Cost Table</a> — confirm new cost items / C/A codes added last month are mapped to Performance View, SO Cost Code and Financial Cost Code.</li>
+        <li><a href="#COA-UC-CM">U/C-CM</a> and <a href="#COA-UC-OP">U/C-OP</a> — load updated rates: bunker price, port tariff changes, DEM/DET updates, agent commissions.</li>
+        <li><a href="#COA-Estimated">Target VVD</a> — ensure all month's VVDs are in scope. Run <i>Crosscheck COA vs. BKG</i>.</li>
+      </ul>
+    </li>
+    <li><b>Load new agreements</b> in <a href="#TES-AGMT">TES AGMT</a> and <a href="#TRS-AGMT">TRS AGMT</a> — any newly signed terminal / transport contracts.</li>
+  </ol>
+
+  <h2>Week 2-4 — transactional (day-to-day)</h2>
+  <ol>
+    <li><b>Vendor invoices arrive</b> — process them on the day:
+      <ul>
+        <li>Port / Canal → <a href="#PSO-Invoice">PSO Port Charge Invoice</a></li>
+        <li>Terminal handling &amp; storage → <a href="#TES-MR">TES MR</a>, <a href="#TES-OffDock">Off-Dock CY</a>, <a href="#TES-Storage">MR Storage</a></li>
+        <li>Inland transport → <a href="#TRS-Invoice">TRS Invoice Audit</a></li>
+        <li>Alliance slot hire / OUS → <a href="#JOO-Settlement">JOO Settlement</a> (end of month)</li>
+      </ul>
+    </li>
+    <li>Each confirmed invoice becomes a <b>CSR</b> — approve and interface to ERP promptly to avoid month-end backlog.</li>
+    <li>Monitor <a href="#COA-Allocation">COA Weekly Batch</a> — if it fails, investigate the same day.</li>
+  </ol>
+
+  <h2>Month-end close (last 3 working days)</h2>
+  <ol>
+    <li><b>Freeze invoices</b> — target: all PSO, TES, TRS invoices for the month are Confirmed and interfaced by Day-1.</li>
+    <li><b>JOO Monthly Clearance</b>:
+      <ol type="a">
+        <li>Verify all <a href="#JOO-Reports">target voyages</a> are settled or excluded.</li>
+        <li>Run <a href="#JOO-Monthly">Combined Monthly Clearance Creation</a>.</li>
+        <li>Create <a href="#JOO-CSR">A/P and A/R CSRs</a>, get approval, interface.</li>
+      </ol>
+    </li>
+    <li><b>Run PSO Monthly Estimation</b> — locks the port-charge accrual.</li>
+    <li><b>COA final batch</b> — run the final Weekly Batch covering month-end; verify success.</li>
+    <li><b>Reports</b> — pull <a href="#COA-Reports">P&amp;L by Lane / P&amp;L by VV</a>, Node Cost, Route Cost, Office Report vs Pre Week.</li>
+    <li><b>Accrual vs actual analysis</b>:
+      <ul>
+        <li>Compare COA's accrued CM/OP to the invoice-module actuals.</li>
+        <li>Variances &gt; tolerance → drill into <a href="#COA-Reports">Inquiry by Source Data</a> to find the driver.</li>
+        <li>Document the reason; feed back into U/C table updates for next month.</li>
+      </ul>
+    </li>
+  </ol>
+
+  <div class="callout tip"><strong>Build your own checklist.</strong> Put a <code>Month-End Checklist.xlsx</code> in your folder with rows for each of the above and a date column. Ticks dot in over the last 3 days and by the end nothing is missing. This is where most close-related fire-drills come from — somebody missed a step.</div>
+</article>
+
+<!-- ======================== WORKFLOW: INVOICE ======================== -->
+<article id="WF-Invoice" class="hide">
+  <h1>Workflow — Vendor Invoice Processing</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Workflows</p>
+
+  <p>Every vendor invoice follows the same five-step flow regardless of which module owns it. The screens differ; the process doesn't.</p>
+
+  <h2>The five steps</h2>
+  <ol>
+    <li><b>Receive</b> — invoice arrives via EDI, email, S/P portal, or paper. Log it with invoice number, date, amount, currency.</li>
+    <li><b>Retrieve the expected amount</b>:
+      <ul>
+        <li>PSO retrieves it from the tariff.</li>
+        <li>TES retrieves it from the AGMT.</li>
+        <li>TRS retrieves it from the W/O (which itself came from the agreement).</li>
+        <li>JOO retrieves it from the financial affair × TDR / RDR data.</li>
+      </ul>
+    </li>
+    <li><b>Audit (match expected vs actual)</b>:
+      <ul>
+        <li>Coincidence rows → accept.</li>
+        <li>Discrepancy rows → investigate one of (a) S/P error in the invoice, (b) rate not loaded correctly, (c) data issue in BKG/VVD/CTM upstream. Fix the root cause or adjust the line.</li>
+      </ul>
+    </li>
+    <li><b>Confirm</b> — locks the invoice. From here, you can't edit without cancel-confirm.</li>
+    <li><b>Create CSR &amp; interface</b> — the confirmed invoice becomes an A/P CSR, gets approved in OPUS, then pushes to the ERP.</li>
+  </ol>
+
+  <h2>Common failure modes &amp; fixes</h2>
+  <table>
+    <tr><th>Symptom</th><th>Cause</th><th>Where to fix</th></tr>
+    <tr><td>"No agreement found" during audit</td><td>Agreement not loaded or effective date elapsed</td><td><a href="#TES-AGMT">TES AGMT</a> / <a href="#TRS-AGMT">TRS AGMT</a></td></tr>
+    <tr><td>Discrepancy on every line</td><td>Wrong exchange rate, currency mismatch</td><td>Check invoice currency vs AGMT currency; fix in header</td></tr>
+    <tr><td>Some containers "not found"</td><td>CTM / BKG doesn't have that container for that move</td><td>Ops team — data not posted</td></tr>
+    <tr><td>CSR stuck in Saved state</td><td>No approver configured or approver out of office</td><td>MDA user / authority tables</td></tr>
+    <tr><td>CSR approved but ERP rejected</td><td>GL account inactive, cost centre mismatch, vendor code mismatch</td><td>ERP team — look at the I/F error</td></tr>
+  </table>
+
+  <div class="callout warn"><strong>Never Confirm with unresolved Discrepancies</strong> unless you have explicitly decided to pay them. OPUS allows Confirm with discrepancies open, but the unreconciled rows simply don't post — leaving the vendor under-paid and you with an uncomfortable conversation later.</div>
+</article>
+
+<!-- ======================== WORKFLOW: CSR ======================== -->
+<article id="WF-CSR" class="hide">
+  <h1>Workflow — CSR → ERP interface</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Workflows</p>
+
+  <p>CSR is OPUS's voucher format. The CSR Creation screens live inside each module (JOO, PSO, TES, TRS) but they all behave identically.</p>
+
+  <h2>CSR states</h2>
+  <table>
+    <tr><th>State</th><th>Meaning</th><th>What can change it</th></tr>
+    <tr><td>Saved</td><td>CSR written but not approved. Editable.</td><td>Edit, Delete, Submit for Approval.</td></tr>
+    <tr><td>Waiting Approval</td><td>Approver notified. Read-only.</td><td>Approver: Approve / Reject. Creator can recall.</td></tr>
+    <tr><td>Approved</td><td>Locked for interface. Eligible for ERP push.</td><td>Scheduled I/F batch or manual push.</td></tr>
+    <tr><td>Rejected</td><td>Sent back by approver with a reason.</td><td>Creator edits and resubmits.</td></tr>
+    <tr><td>Interfaced (Success)</td><td>ERP accepted the voucher.</td><td>None — closed.</td></tr>
+    <tr><td>Interfaced (Fail)</td><td>ERP rejected — look at the error.</td><td>Fix the underlying issue, trigger re-interface.</td></tr>
+  </table>
+
+  <h2>CSR I/F Inquiry</h2>
+  <p>Every module has a <b>CSR I/F Inquiry</b> screen. Use it to see the I/F status per CSR with the error message from ERP when it failed. Typical errors:</p>
+  <ul>
+    <li><code>VENDOR NOT FOUND</code> → vendor code in OPUS doesn't exist in ERP master. Ask Finance to add.</li>
+    <li><code>GL ACCOUNT INACTIVE</code> → the account code the Financial Cost Code maps to has been blocked in ERP.</li>
+    <li><code>COST CENTER INVALID</code> → office ↔ cost-centre mapping missing.</li>
+    <li><code>DOUBLE POSTING</code> → same invoice number already exists in ERP for this vendor.</li>
+  </ul>
+  <p>After fixing the ERP-side issue, re-queue the CSR for I/F. Don't re-create the CSR — the original one is what the audit trail wants.</p>
+</article>
+
+<!-- ======================== WORKFLOW: CLOSING ======================== -->
+<article id="WF-Closing" class="hide">
+  <h1>Workflow — Month-end Closing</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Workflows</p>
+
+  <p>A one-page month-end checklist you can adapt for your company.</p>
+
+  <h2>D-3 (three working days before close)</h2>
+  <ul>
+    <li>Every PSO / TES / TRS vendor invoice dated in the month is either Confirmed or on your "won't make it" list (which means accrue manually in COA).</li>
+    <li>All CSRs from earlier in the month are <b>Interfaced (Success)</b>. Chase any <b>Saved</b> or <b>Interfaced (Fail)</b>.</li>
+    <li>JOO has no TDR/RDR uploads pending. If the data isn't in, escalate.</li>
+  </ul>
+
+  <h2>D-2</h2>
+  <ul>
+    <li>JOO: <b>Combined Monthly Clearance</b> created for every counterparty. Any <i>Target Voyage vs Unsettled</i> exceptions investigated.</li>
+    <li>JOO: A/P and A/R CSRs created and sent for approval.</li>
+    <li>PSO: <b>Monthly Estimation Creation</b> run; accrual number saved.</li>
+    <li>COA: Final <b>Weekly Batch Monitoring</b> run clean.</li>
+  </ul>
+
+  <h2>D-1</h2>
+  <ul>
+    <li>JOO CSRs approved and interfaced.</li>
+    <li>COA: <b>BKG Cost Recalculation</b> for any late rate changes.</li>
+    <li>COA Reports pulled: P&amp;L by Lane, P&amp;L by VV, Office Report vs Pre-Week, Logistics Exp. by Node &amp; Link.</li>
+  </ul>
+
+  <h2>D-Day (close)</h2>
+  <ul>
+    <li>Accrual vs actual variance analysis completed.</li>
+    <li>Commentary drafted for management.</li>
+    <li>Month locked in ERP.</li>
+  </ul>
+
+  <h2>D+1 (post-close)</h2>
+  <ul>
+    <li>Any invoice that arrives dated prior-month goes to <i>next-month actual / prior-month accrual-reversal</i>.</li>
+    <li>Update U/C tables with any variance-drivers you identified.</li>
+    <li>Feedback meeting with Ops / Sales / Terminals on structural discrepancies.</li>
+  </ul>
+</article>
+
+<!-- ======================== GLOSSARY ======================== -->
+<article id="Glossary" class="hide">
+  <h1>Glossary — shipping &amp; OPUS/LMS terms</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Reference</p>
+
+  <p>A compact glossary — enough to cover 95% of what you'll read in OPUS manuals, invoices and reports. For the full industry vocabulary see the source <i>glossary_final_shippingterms.pdf</i>.</p>
+
+  <h2>A — C</h2>
+  <dl class="fields">
+    <dt>A/P (Accounts Payable)</dt><dd>Amount your company owes a vendor.</dd>
+    <dt>A/R (Accounts Receivable)</dt><dd>Amount a customer or partner owes you.</dd>
+    <dt>AGMT</dt><dd>Agreement — the rate contract stored in TES/TRS.</dd>
+    <dt>B/L</dt><dd>Bill of Lading. Contract and receipt for the cargo.</dd>
+    <dt>BAF</dt><dd>Bunker Adjustment Factor. Fuel surcharge on freight.</dd>
+    <dt>BKG</dt><dd>Booking.</dd>
+    <dt>BSA</dt><dd>Basic Slot Allocation — your contractual TEU capacity on a shared-service VVD.</dd>
+    <dt>Bunker</dt><dd>Marine fuel. Big cost line for operators.</dd>
+    <dt>C/A Code</dt><dd>Chart-of-Account code in COA; COA's cost hierarchy.</dd>
+    <dt>CAF</dt><dd>Currency Adjustment Factor — FX surcharge on freight.</dd>
+    <dt>CM</dt><dd>Contribution Margin — revenue minus cargo-variable cost (per BKG).</dd>
+    <dt>CMP</dt><dd>Cost Management Process.</dd>
+    <dt>CSR</dt><dd>Consultation Slip Request — the OPUS voucher that interfaces to ERP.</dd>
+    <dt>CTM</dt><dd>Container Movement — the OPUS module tracking container moves.</dd>
+    <dt>CY</dt><dd>Container Yard. Place where containers are stored.</dd>
+  </dl>
+
+  <h2>D — F</h2>
+  <dl class="fields">
+    <dt>DEM</dt><dd>Demurrage — charge for container sitting at port past free time.</dd>
+    <dt>DET</dt><dd>Detention — charge for container sitting <i>outside</i> port past free time.</dd>
+    <dt>DG</dt><dd>Dangerous Goods / hazmat. Attracts surcharges.</dd>
+    <dt>DWT</dt><dd>Deadweight Tonnage — maximum cargo weight a vessel can carry.</dd>
+    <dt>EDI</dt><dd>Electronic Data Interchange. Standardised B2B messages (204/210/214/404 for US rail, etc.).</dd>
+    <dt>EQ</dt><dd>Equipment — containers and chassis.</dd>
+    <dt>EQR</dt><dd>OPUS Equipment module.</dd>
+    <dt>ERP</dt><dd>Enterprise Resource Planning — your Finance/GL system (SAP, Oracle, etc.). OPUS CSRs post here.</dd>
+    <dt>FCL</dt><dd>Full Container Load.</dd>
+    <dt>FD</dt><dd>Free Day(s) — number of days without storage charges.</dd>
+    <dt>FP</dt><dd>Free Pool — pool-based free-time allowance.</dd>
+  </dl>
+
+  <h2>G — M</h2>
+  <dl class="fields">
+    <dt>GRT</dt><dd>Gross Register Tonnage — volumetric measure of vessel size.</dd>
+    <dt>I/B, O/B</dt><dd>Inbound / Outbound.</dd>
+    <dt>IPI</dt><dd>Interior Point Intermodal — US door delivery via rail+truck.</dd>
+    <dt>JOO</dt><dd>Joint Operation module.</dd>
+    <dt>LCL</dt><dd>Less-than-Container-Load.</dd>
+    <dt>LMS</dt><dd>Logistics Management System — your company's nickname for the cost/logistics side of OPUS.</dd>
+    <dt>LOA</dt><dd>Length Overall — total vessel length.</dd>
+    <dt>LOV</dt><dd>List of Values — a lookup popup in OPUS.</dd>
+    <dt>MDA</dt><dd>OPUS Master Data module — office, vendor, currency, vessel particulars.</dd>
+    <dt>MR</dt><dd>Marine Rail — the TES sub-screen handling marine-terminal handling invoices.</dd>
+    <dt>MRI</dt><dd>Master Rate Index — fallback unit cost in COA.</dd>
+  </dl>
+
+  <h2>N — R</h2>
+  <dl class="fields">
+    <dt>NRT</dt><dd>Net Register Tonnage — cargo-carrying portion of vessel volume.</dd>
+    <dt>ODCY</dt><dd>Off-Dock Container Yard — depot outside the marine terminal.</dd>
+    <dt>OP</dt><dd>Operating Profit — CM minus voyage operation costs (per VVD).</dd>
+    <dt>OUS</dt><dd>Over-Used Slot — slots used above BSA in a joint-op service.</dd>
+    <dt>PFMC</dt><dd>Performance. "Sales PFMC" = Sales Performance.</dd>
+    <dt>PSO</dt><dd>Port Service Order module.</dd>
+    <dt>RDR</dt><dd>Regional Departure Report — slot utilisation by region.</dd>
+    <dt>RPB</dt><dd>Revenue Per Box — average freight revenue per container.</dd>
+  </dl>
+
+  <h2>S — Z</h2>
+  <dl class="fields">
+    <dt>S/O</dt><dd>Service Order — a priced instruction to an inland vendor (TRS).</dd>
+    <dt>S/P</dt><dd>Service Provider — a vendor.</dd>
+    <dt>SCE</dt><dd>Service Contract Execution module — creates transport candidates.</dd>
+    <dt>SI</dt><dd>Shipping Instructions from shipper — basis for the B/L.</dd>
+    <dt>STCC</dt><dd>Standard Transportation Commodity Code — US rail commodity code.</dd>
+    <dt>TDR</dt><dd>Terminal Departure Report — slot utilisation by terminal.</dd>
+    <dt>TES</dt><dd>Terminal Invoice module (TML INV).</dd>
+    <dt>TEU</dt><dd>Twenty-foot Equivalent Unit — standard container volume measure.</dd>
+    <dt>THC</dt><dd>Terminal Handling Charge.</dd>
+    <dt>TML</dt><dd>Terminal.</dd>
+    <dt>TRS</dt><dd>Transportation Service module (inland).</dd>
+    <dt>U/C</dt><dd>Unit Cost — the lookup rate in COA.</dd>
+    <dt>VSA</dt><dd>Vessel Sharing Agreement — slot-sharing deal between carriers.</dd>
+    <dt>VSK</dt><dd>OPUS Vessel Schedule module.</dd>
+    <dt>VVD</dt><dd>Vessel / Voyage / Direction — the voyage-leg key.</dd>
+    <dt>W/O</dt><dd>Work Order — formal instruction to an inland vendor (TRS).</dd>
+  </dl>
+</article>
+
+<!-- ======================== CODES ======================== -->
+<article id="Codes" class="hide">
+  <h1>Key codes &amp; abbreviations cheat-sheet</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Reference</p>
+
+  <h2>Three-letter module codes</h2>
+  <table>
+    <tr><th>Code</th><th>Expanded</th><th>What it is</th></tr>
+    <tr><td>COA</td><td>Container Business Performance Analysis</td><td>Cost accrual &amp; profitability engine</td></tr>
+    <tr><td>JOO</td><td>Joint Operation</td><td>Slot / surcharge settlement with alliance partners</td></tr>
+    <tr><td>PSO</td><td>Port Service Order</td><td>Port tariff &amp; port-charge invoicing</td></tr>
+    <tr><td>TES</td><td>TML INV — Terminal Invoice</td><td>Terminal / off-dock invoice processing</td></tr>
+    <tr><td>TRS</td><td>Transportation Service</td><td>Inland transport S/O, W/O, invoices, rail</td></tr>
+    <tr><td>BKG</td><td>Booking</td><td>Cargo booking</td></tr>
+    <tr><td>VSK</td><td>Vessel Schedule</td><td>Voyage scheduling</td></tr>
+    <tr><td>SCE</td><td>Service Contract Execution</td><td>Transport candidate generation</td></tr>
+    <tr><td>CTM</td><td>Container Movement</td><td>Per-container move tracking</td></tr>
+    <tr><td>EQR</td><td>Equipment</td><td>Container / equipment master</td></tr>
+    <tr><td>CHS</td><td>Chassis</td><td>Chassis management</td></tr>
+    <tr><td>LSE</td><td>Lease</td><td>Equipment lease</td></tr>
+    <tr><td>MDA</td><td>Master Data</td><td>Office, vendor, currency master</td></tr>
+    <tr><td>ACM</td><td>Agency Commission</td><td>Agent commission management</td></tr>
+    <tr><td>TPB</td><td>Third-Party Business</td><td>3PL/3PB cost interface</td></tr>
+    <tr><td>OPF</td><td>(Internal Operations)</td><td>Operations data interface</td></tr>
+    <tr><td>USA</td><td>US / Americas specifics</td><td>US-specific rules and screens</td></tr>
+  </table>
+
+  <h2>Screen state / status codes</h2>
+  <table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>Ins</td><td>Inserted — new row about to be saved</td></tr>
+    <tr><td>Upd</td><td>Updated — existing row changed</td></tr>
+    <tr><td>Del</td><td>Delete mark</td></tr>
+    <tr><td>OP / SV / CF / CN</td><td>Open / Saved / Confirmed / Cancelled (varies by screen)</td></tr>
+  </table>
+
+  <h2>Cost / account-type codes</h2>
+  <table>
+    <tr><th>Code</th><th>Meaning</th></tr>
+    <tr><td>OTHC / DTHC</td><td>Origin THC / Destination THC</td></tr>
+    <tr><td>IHAL</td><td>Inland Haul</td></tr>
+    <tr><td>STV</td><td>Stevedorage</td></tr>
+    <tr><td>STG</td><td>Storage</td></tr>
+    <tr><td>PTRF</td><td>Port Tariff</td></tr>
+    <tr><td>BNK</td><td>Bunker</td></tr>
+    <tr><td>HIRE</td><td>Time-charter / daily hire</td></tr>
+    <tr><td>EQHD</td><td>EQ Holding cost</td></tr>
+    <tr><td>COMM</td><td>Agent / booking commission</td></tr>
+    <tr><td>DEM / DET</td><td>Demurrage / Detention</td></tr>
+  </table>
+  <p class="no-article">Note: the actual codes in your system may differ — these are conventions. Your own C/A code list lives in <a href="#COA-CostTable">COA → Register C/A Code</a>.</p>
+</article>
+
+<!-- ======================== FAQ ======================== -->
+<article id="FAQ" class="hide">
+  <h1>FAQ &amp; troubleshooting</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Reference</p>
+
+  <h2>My accrual doesn't match actual — where do I start?</h2>
+  <p>This is the #1 question for Cost Controllers. Systematic approach:</p>
+  <ol>
+    <li>Pull <a href="#COA-Reports">COA → Inquiry by Source Data</a> for the VVD / BKG in question. This shows every invoice that contributed to the actual.</li>
+    <li>For each, check the cost-code mapping. If the SO Cost Code in TES/TRS maps to a different Performance View Code than the accrual's C/A code, you're comparing apples to pears. Fix in <a href="#COA-CostTable">Register C/A Code</a>.</li>
+    <li>If codes align, compare rates. Likely the U/C-CM / U/C-OP rate is stale vs. the invoice rate.</li>
+    <li>If rates also align, check units. Usually a different denominator (e.g. actual is per TEU, accrual is per FFE).</li>
+  </ol>
+
+  <h2>I can't find a booking in COA — why?</h2>
+  <ul>
+    <li>Your <b>Office scope</b> doesn't include that booking's office. Change the Office filter (if you have rights) or request access.</li>
+    <li>The booking's VVD isn't in <a href="#COA-Estimated">Target VVD</a>. Add it.</li>
+    <li>The booking was created after the last Weekly Batch. Wait for batch or force a BKG cost recalc.</li>
+  </ul>
+
+  <h2>My CSR is stuck — what now?</h2>
+  <p>Check the I/F Inquiry screen in the owning module. The error message is always one of: vendor not found, GL inactive, cost centre invalid, double posting. Fix on the ERP side and re-queue — don't re-create.</p>
+
+  <h2>The vendor is disputing my audit — what can I dispute?</h2>
+  <p>TES/TRS/PSO keep a full history of discrepancy reasons. Pull:</p>
+  <ul>
+    <li>The AGMT snapshot at the invoice date (<a href="#TES-AGMT">TES AGMT</a> → Inquiry → Detail → History).</li>
+    <li>The CTM container move list (vendor often disputes that a move happened).</li>
+    <li>The tariff formula / condition active at the time (<a href="#PSO-Tariff">PSO → Port Tariff Inquiry</a>).</li>
+  </ul>
+
+  <h2>Someone changed a rate and now ten thousand bookings are wrong</h2>
+  <p>Use <a href="#COA-Allocation">BKG Cost Recalculation</a> — scope by VVD / Lane / Period, press Execute. Don't fix bookings one by one.</p>
+
+  <h2>The "Down Excel" file is too large to open — why?</h2>
+  <p>Pagination isn't applied to exports. Narrow the date range before exporting, or use the <i>Customized Condition</i> inquiry to reduce columns. A Node-Cost export of a full month's data across all lanes can easily hit 100MB.</p>
+
+  <h2>What if EDI data hasn't arrived from a terminal?</h2>
+  <p>TES audit falls back to manual keying. Enter the invoice header, use <b>Up Excel</b> to upload a container list from the S/P's PDF / Excel. Or wait for the EDI — most terminals settle within 48h of request.</p>
+
+  <h2>When do I use JOO vs. PSO vs. TES?</h2>
+  <table>
+    <tr><th>Charge</th><th>Module</th></tr>
+    <tr><td>Slot hire to alliance partner</td><td>JOO</td></tr>
+    <tr><td>Berthing fee to a port agent</td><td>PSO</td></tr>
+    <tr><td>Stevedorage at the terminal</td><td>TES</td></tr>
+    <tr><td>Storage at an off-dock yard</td><td>TES</td></tr>
+    <tr><td>Trucking the container inland</td><td>TRS</td></tr>
+    <tr><td>Canal transit fee</td><td>PSO</td></tr>
+    <tr><td>Reefer surcharge on a partner's slot</td><td>JOO</td></tr>
+  </table>
+</article>
+
+<!-- ======================== TIPS ======================== -->
+<article id="Tips" class="hide">
+  <h1>Tips for Cost Controllers</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Reference</p>
+
+  <h2>Reports first, screens second</h2>
+  <p>For anything analytical, start with <a href="#COA-Reports">Multi-Dimension Reports</a> — specifically <i>Inquiry by Customized Condition</i> and <i>Inquiry by Source Data</i>. They give you the answer in one trip; the transactional screens give you one record at a time.</p>
+
+  <h2>Down Excel is your friend</h2>
+  <p>Every inquiry in OPUS has a Down Excel button. Pull, analyse in Excel, build your dashboards. This both speeds up your reporting and gives you a snapshot you can refer back to six months later without having to hope the system gives the same answer.</p>
+
+  <h2>Keep a "variance drivers" file</h2>
+  <p>Every month, note the <b>top 3 variance drivers</b> between accrual and actual. After 6 months you'll see patterns — e.g. "Singapore THC always under-accrues by 4%", "USA rail surcharges always over-accrue". Feed these into the U/C tables so next month's accrual is closer.</p>
+
+  <h2>Never Confirm at the end of the day</h2>
+  <p>Confirm locks the invoice. If you Confirm at 17:30 and realise at 09:00 next morning that the rate was wrong, you'll need Cancel-Confirm + re-audit. Save heavily during the day; Confirm in a single morning session when you're fresh.</p>
+
+  <h2>Learn the SO Cost Code ↔ Performance View Code mapping</h2>
+  <p>Print out <a href="#COA-CostTable">Register C/A Code</a>'s SO Cost Code grid and keep it on your desk. 80% of accrual-vs-actual arguments are resolved by consulting this mapping.</p>
+
+  <h2>Use Simulation before committing anything</h2>
+  <p><a href="#COA-Simulation">COA Simulation</a> and <a href="#PSO-Simulation">PSO Tariff Simulation</a> are safe sandboxes. If you're unsure whether a U/C change will ripple correctly, simulate it first.</p>
+
+  <h2>Document your port-charge estimates</h2>
+  <p>PSO's Monthly Estimation is the number you'll be asked to defend. Keep the supporting detail (which tariff rows, which vessel particulars, which omission adjustments) so you can explain variances without re-running the calc.</p>
+
+  <h2>Monday morning routine (15 mins)</h2>
+  <ol>
+    <li><a href="#COA-Estimated">Target VVD</a> → Crosscheck vs BKG — anything missing?</li>
+    <li><a href="#COA-Allocation">Weekly Batch Monitoring</a> — last run status?</li>
+    <li><a href="#JOO-Reports">Target Voyage vs Unsettled</a> — any new overdue?</li>
+    <li>CSR I/F Inquiry (pan across modules) — any failed?</li>
+    <li>PSO Invoice / TES Invoice / TRS Invoice — what's aged in Saved state?</li>
+  </ol>
+
+  <h2>Build once, re-use forever</h2>
+  <p>The monthly dashboards you build (Storage Dwell, Comparison, etc.) can reuse the same COA / TES / TRS source exports. Design your Excel so changing the month's input file regenerates everything. It pays back in Month 3 when the deadline hits.</p>
+
+  <div class="callout tip"><strong>When all else fails:</strong> Screenshot the screen + error + navigation path and log it with your IT vendor. CyberLogitec has a structured support channel; vague emails get vague answers. Include the VVD / BKG / CSR number every time.</div>
+</article>
+
+<!-- ======================== SOURCES ======================== -->
+<article id="Sources" class="hide">
+  <h1>Sources</h1>
+  <p class="breadcrumb"><a href="#Home">Home</a> › Reference</p>
+
+  <p>This wiki was built from the following source documents in your <i>Cost Accrual Materials</i> folder:</p>
+
+  <h2>Official CyberLogitec manuals (primary sources)</h2>
+  <ul>
+    <li><b>OPUS Container User Manual — COA v1.0</b> (113 pp.) — C/A codes, unit costs, estimated performance, multi-dim reports, simulation.</li>
+    <li><b>OPUS Container User Manual — JOO v1.0</b> (58 pp.) — Joint Operation setup, settlement, monthly clearance, CSR, TDR/RDR.</li>
+    <li><b>OPUS Container User Manual — PSO v1.0</b> (57 pp.) — Port Service Order, tariff, planned expense, invoice, canal.</li>
+    <li><b>OPUS Container User Manual — TES v1.0</b> (82 pp.) — TML INV, MR / Off-Dock CY / MR Storage invoices, AGMT.</li>
+    <li><b>OPUS Container User Manual — TRS v1.0</b> (94 pp.) — Transportation Service: agreement, S/O, W/O, invoice, USA/CA rail.</li>
+  </ul>
+
+  <h2>Companion material (supporting)</h2>
+  <ul>
+    <li><b>LMS USER GUIDE — PSO v1.1</b> — Your company's deployment-specific overlay for PSO.</li>
+    <li><b>LMS USER GUIDE — TES v1.0</b></li>
+    <li><b>LMS USER GUIDE — TRS (Inland Rail, Truck, Feeder) v1.1</b></li>
+    <li><b>COA Concept (OPUS Container) / COA Concept 230118.pptx</b> — Conceptual overview of cost-accrual data model.</li>
+    <li><b>Accrual Functional Design.xlsx</b> — Your company's detailed accrual functional-design workbook.</li>
+    <li><b>Invoice Creation — TRS.docx</b>, <b>Offdock depot invoice processing in TES — guideline.docx</b> — Internal SOPs.</li>
+    <li><b>glossary_final_shippingterms.pdf</b> — Full shipping-industry glossary.</li>
+    <li><b>Short-Reason-and-Descriptions.pdf</b> — Reason-code quick reference.</li>
+  </ul>
+
+  <p>The wiki paraphrases rather than reproducing the source manuals verbatim — it's designed as a reading aid, not a replacement. Where this wiki disagrees with the official manual or your company's LMS configuration, defer to the source.</p>
+
+  <h2>Version &amp; scope</h2>
+  <p>The manuals are dated <b>Last Updated 2016.05.09</b>, so the UI may have evolved since. The underlying data model and workflow, however, are structurally stable across OPUS versions. The module codes (COA, JOO, PSO, TES, TRS) and key concepts (VVD, BKG, CSR, BSA, C/A code) have not changed.</p>
+</article>
+
+</div>
+<div class="footer">
+  <hr>
+  <p>This wiki is derived from CyberLogitec OPUS Container User Manuals (COA / JOO / PSO / TES / TRS, Version 1.0, 2016) and companion LMS User Guides.
+  It is intended as an internal reference and reading aid — always defer to the latest official manual and your company's LMS configuration where they differ.</p>
+</div>
+</main>
+</div>
+
+<script>
+// Simple SPA routing: show the article that matches the #hash
+const routes = [
+  "Home","What-is-OPUS","Navigation","UI-patterns","Core-concepts",
+  "COA","COA-CostTable","COA-UC-CM","COA-UC-OP","COA-Estimated","COA-Allocation","COA-Reports","COA-Simulation",
+  "JOO","JOO-Setup","JOO-Settlement","JOO-Monthly","JOO-CSR","JOO-Reports",
+  "PSO","PSO-Tariff","PSO-Simulation","PSO-Planned","PSO-Invoice","PSO-Canal",
+  "TES","TES-MR","TES-OffDock","TES-Storage","TES-AGMT",
+  "TRS","TRS-AGMT","TRS-SO","TRS-WO","TRS-Invoice","TRS-USARail",
+  "AccrualFlow","WF-CostAccrual","WF-Invoice","WF-CSR","WF-Closing",
+  "Glossary","Codes","FAQ","Tips","Sources"
+];
+function showArticle() {
+  const hash = (location.hash || "#Home").replace("#","");
+  document.querySelectorAll("article").forEach(a => a.classList.add("hide"));
+  const el = document.getElementById(hash);
+  if (el) el.classList.remove("hide");
+  else {
+    const home = document.getElementById("Home");
+    if (home) home.classList.remove("hide");
+  }
+  document.querySelectorAll(".sidebar a").forEach(a => a.classList.remove("active"));
+  const link = document.querySelector(`.sidebar a[href="#${hash}"]`);
+  if (link) link.classList.add("active");
+  window.scrollTo(0,0);
+}
+window.addEventListener("hashchange", showArticle);
+window.addEventListener("load", showArticle);
+
+// Client-side search
+const searchEl = document.getElementById("search");
+const resultsEl = document.getElementById("searchResults");
+searchEl.addEventListener("input", e => {
+  const q = e.target.value.trim().toLowerCase();
+  if (q.length < 2) { resultsEl.style.display = "none"; return; }
+  const articles = document.querySelectorAll("article");
+  const matches = [];
+  articles.forEach(a => {
+    const text = a.innerText.toLowerCase();
+    const idx = text.indexOf(q);
+    if (idx >= 0) {
+      const title = a.querySelector("h1")?.innerText || a.id;
+      const ctx = text.substring(Math.max(0, idx-40), idx+80).replace(/\s+/g," ");
+      matches.push({ id: a.id, title, ctx });
+    }
+  });
+  if (!matches.length) { resultsEl.innerHTML = '<div class="result"><em>No matches.</em></div>'; resultsEl.style.display = "block"; return; }
+  resultsEl.innerHTML = matches.slice(0,20).map(m =>
+    `<div class="result" onclick="location.hash='${m.id}'; document.getElementById('searchResults').style.display='none'; document.getElementById('search').value='';">
+       <div class="title">${m.title}</div>
+       <div class="ctx">…${m.ctx}…</div>
+     </div>`
+  ).join("");
+  resultsEl.style.display = "block";
+});
+document.addEventListener("click", e => {
+  if (!e.target.closest(".search-wrap")) resultsEl.style.display = "none";
+});
+</script>
+</body>
+</html>

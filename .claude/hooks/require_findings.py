@@ -32,6 +32,12 @@ if pending:
     open(marker, "w").write("1")
     sys.exit(0)
 
+# 2a. A findings file dated today already exists (e.g. committed by hand): treat as logged.
+import glob, datetime
+if glob.glob(os.path.join(root, "docs", "findings", datetime.date.today().isoformat() + "-*.md")):
+    open(marker, "w").write("1")
+    sys.exit(0)
+
 # 2. Already logged this session, or this is the re-stop after we asked: allow.
 if os.path.exists(marker) or active:
     sys.exit(0)

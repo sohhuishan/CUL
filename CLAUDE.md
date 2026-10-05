@@ -8,6 +8,9 @@ Owner: Cost Controller, container shipping. Work here = accrual vs actual cost a
 3. Mark Status honestly: Confirmed / Hypothesis / Superseded. Never present a hypothesis as fact.
 4. Data in `data/sample/` is SAMPLE (synthetic). Never present sample numbers as real. Real exports go in `data/actual/` (see `data/README.md`).
 
+## Answering "what did we find about X?"
+Run `python3 scripts/findings.py search <keyword>` first and answer from the recorded entries (cite file + status). Only re-analyse if nothing is recorded or the entry is Superseded. Human-friendly searchable view: `reports/findings.html`.
+
 ## Definitions
 - **Variance = Actual − Accrual.** Positive = under-accrued (unfavourable, P&L hit). Negative = over-accrued.
 - **Accrual accuracy** = 1 − Σ|Actual − Accrual| / Σ Actual, on invoiced lines only.

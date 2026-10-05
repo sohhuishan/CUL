@@ -20,9 +20,10 @@ marker = os.path.join(root, ".git", f"findings_logged_{sid}")
 # 1. Commit + push any pending findings.
 pending = git("status", "--porcelain", "--", "docs/findings", "docs/FINDINGS.md").stdout.strip()
 if pending:
-    git("add", "docs/findings", "docs/FINDINGS.md")
+    subprocess.run(["python3", os.path.join(root, "scripts", "findings.py"), "build"], capture_output=True)
+    git("add", "docs/findings", "docs/FINDINGS.md", "reports/findings.html")
     msg = "Log findings\n\nCo-Authored-By: Claude <noreply@anthropic.com>"
-    git("commit", "-m", msg, "--", "docs/findings", "docs/FINDINGS.md")
+    git("commit", "-m", msg, "--", "docs/findings", "docs/FINDINGS.md", "reports/findings.html")
     branch = git("rev-parse", "--abbrev-ref", "HEAD").stdout.strip()
     target = "findings" if branch in ("main", "master", "HEAD") else branch
     for delay in (0, 2, 4, 8, 16):

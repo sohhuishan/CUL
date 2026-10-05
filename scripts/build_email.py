@@ -12,6 +12,6 @@ def build(link="https://github.com/sohhuishan/CUL/blob/reports/reports"):
 <p style="color:#555">Variance = actual − accrual (+ = under-accrued)</p>
 <ul>{''.join(f'<li>{html.escape(h)}</li>' for h in headlines(r))}</ul>
 <table cellpadding=5 style="border-collapse:collapse;border:1px solid #ddd;font-size:13px"><tr style="background:#f3f3f3"><th align=left>Category</th><th>Variance USD</th><th>%</th><th>Accuracy</th></tr>{rows}</table>
-<p><a href="{link}/daily_cost_review.pptx">Download the deck (PPTX)</a> · <a href="{link}/dashboard.html">Dashboard (HTML)</a></p></div>"""
+<p><a href="{link}/daily_cost_review.pptx">Download the deck (PPTX)</a> · <a href="{link}/dashboard.html">Dashboard (HTML)</a> · <a href="{link}/findings.html">All findings (searchable)</a></p></div>"""
     (REPORTS / "email_summary.html").write_text(body); return REPORTS / "email_summary.html"
 if __name__ == "__main__": print(build())

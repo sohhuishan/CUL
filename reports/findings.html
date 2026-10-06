@@ -5,8 +5,52 @@ input,select{font:inherit;padding:8px;border:1px solid var(--l);border-radius:6p
 article{background:var(--s);border:1px solid var(--l);border-radius:10px;padding:12px 14px;margin:10px 0}h2{font-size:16px;margin:0}.m{color:var(--i2);margin:2px 0 6px}
 pre{white-space:pre-wrap;font:13px/1.5 inherit;margin:0;max-height:0;overflow:hidden}article.open pre{max-height:none}h2{cursor:pointer}
 .st{padding:1px 8px;border-radius:99px;background:var(--l)}.Hypothesis{background:#fff3cd;color:#664d03}.Confirmed{background:#d1e7dd;color:#0a3622}</style></head><body><main>
-<h1 style="font-size:20px">Findings (1)</h1><input id="q" placeholder="Search findings (e.g. bunker, Asia-Europe, aged)…" autofocus>
-<select id="f"><option value="">All statuses</option><option>Confirmed</option><option>Hypothesis</option><option>Superseded</option></select><div id="n" class="m"></div><article data-s="Hypothesis" data-t="# workspace setup and sample-data baseline
+<h1 style="font-size:20px">Findings (2)</h1><input id="q" placeholder="Search findings (e.g. bunker, Asia-Europe, aged)…" autofocus>
+<select id="f"><option value="">All statuses</option><option>Confirmed</option><option>Hypothesis</option><option>Superseded</option></select><div id="n" class="m"></div><article data-s="Confirmed" data-t="# company-pc mode, session review, and storage decisions
+
+- **date:** 2026-10-06
+- **status:** confirmed (decisions and build state); the pc pieces are untested
+- **data used:** none (no real accrual/actual data in this repo)
+
+## finding
+- daily review now runs on the company pc, with data, reports and findings kept in company onedrive. github holds code only.
+- the cloud email routine (trig_01gwybfulszcggizntt7upp9) is switched off: it had no gmail connector and cannot see onedrive.
+- a review of ~165 past sessions was written up and published as a private page. it is not in this repo because it contains company figures.
+
+## cause
+cloud sessions cannot reach onedrive or outlook, and company data should not sit in a possibly-public repo.
+
+## evidence
+- pipeline run end to end on linux with redirected folders: dashboard, deck, email summary and findings page all built.
+- not tested: scripts/run_daily.bat, scripts/send_email.ps1 (outlook), the task scheduler command, the hook on windows.
+
+## action / decision
+- set up on the pc per docs/pc_setup.md; send any error from daily_review_errors.log.
+- supply real opus exports to the data folder; until then outputs are marked sample data.
+- decide: make the repo private, or keep company data out of it entirely (current state).
+"><h2>Company-PC mode, session review, and storage decisions</h2><p class="m">2026-10-06 · <b class="st Confirmed">Confirmed</b></p><pre># Company-PC mode, session review, and storage decisions
+
+- **Date:** 2026-10-06
+- **Status:** Confirmed (decisions and build state); the PC pieces are untested
+- **Data used:** none (no real accrual/actual data in this repo)
+
+## Finding
+- Daily review now runs on the company PC, with data, reports and findings kept in company OneDrive. GitHub holds code only.
+- The cloud email routine (trig_01GwyBFuLszcGgizNtT7uPp9) is switched OFF: it had no Gmail connector and cannot see OneDrive.
+- A review of ~165 past sessions was written up and published as a private page. It is not in this repo because it contains company figures.
+
+## Cause
+Cloud sessions cannot reach OneDrive or Outlook, and company data should not sit in a possibly-public repo.
+
+## Evidence
+- Pipeline run end to end on Linux with redirected folders: dashboard, deck, email summary and findings page all built.
+- NOT tested: scripts/run_daily.bat, scripts/send_email.ps1 (Outlook), the Task Scheduler command, the hook on Windows.
+
+## Action / decision
+- Set up on the PC per docs/PC_SETUP.md; send any error from daily_review_errors.log.
+- Supply real OPUS exports to the data folder; until then outputs are marked SAMPLE DATA.
+- Decide: make the repo private, or keep company data out of it entirely (current state).
+</pre></article><article data-s="Hypothesis" data-t="# workspace setup and sample-data baseline
 
 - **date:** 2026-10-05
 - **status:** hypothesis (all numbers are from synthetic sample data, not real)

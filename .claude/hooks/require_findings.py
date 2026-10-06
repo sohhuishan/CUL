@@ -13,12 +13,20 @@ active = data.get("stop_hook_active", False)
 def git(*a, check=False):
     return subprocess.run(["git", "-C", root, *a], capture_output=True, text=True)
 
-if git("rev-parse", "--git-dir").returncode != 0:
-    sys.exit(0)
-marker = os.path.join(root, ".git", f"findings_logged_{sid}")
+sys.path.insert(0, os.path.join(root, "scripts"))
+try:
+    import config as _c
+    EXTERNAL, FDIR = _c.EXTERNAL, str(_c.FINDINGS_DIR)
+except Exception:
+    EXTERNAL, FDIR = False, os.path.join(root, "docs", "findings")
 
-# 1. Commit + push any pending findings.
-pending = git("status", "--porcelain", "--", "docs/findings", "docs/FINDINGS.md").stdout.strip()
+if not EXTERNAL and git("rev-parse", "--git-dir").returncode != 0:
+    sys.exit(0)
+import tempfile
+marker = os.path.join(tempfile.gettempdir(), f"cul_findings_logged_{sid}")
+
+# 1. Commit + push any pending findings (cloud/repo mode only; on the company PC findings stay in OneDrive, never git).
+pending = "" if EXTERNAL else git("status", "--porcelain", "--", "docs/findings", "docs/FINDINGS.md").stdout.strip()
 if pending:
     subprocess.run(["python3", os.path.join(root, "scripts", "findings.py"), "build"], capture_output=True)
     git("add", "docs/findings", "docs/FINDINGS.md", "reports/findings.html")
@@ -35,7 +43,7 @@ if pending:
 
 # 2a. A findings file dated today already exists (e.g. committed by hand): treat as logged.
 import glob, datetime
-if glob.glob(os.path.join(root, "docs", "findings", datetime.date.today().isoformat() + "-*.md")):
+if glob.glob(os.path.join(FDIR, datetime.date.today().isoformat() + "-*.md")):
     open(marker, "w").write("1")
     sys.exit(0)
 
@@ -55,7 +63,7 @@ if n < 6:
 print(json.dumps({
     "decision": "block",
     "reason": ("Before finishing: record this session's findings. Copy docs/findings/_TEMPLATE.md to "
-               "docs/findings/<today>-<topic>.md, fill it (Status honest: Confirmed/Hypothesis), and add a "
+               "<findings folder>/<today>-<topic>.md, fill it (Status honest: Confirmed/Hypothesis), and add a "
                "line to docs/FINDINGS.md. If there were genuinely no findings, write a one-line "
-               "'no new findings' entry instead. The hook will commit and push it."),
+               "'no new findings' entry instead. The hook will commit and push it (repo mode) or leave it in your findings folder (PC mode)."),
 }))

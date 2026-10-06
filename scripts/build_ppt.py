@@ -44,7 +44,7 @@ def table(sl, df, cols, heads, x, y, w, rowh=0.32, size=11):
             c.text_frame.paragraphs[0].font.size = Pt(size)
 
 def build():
-    r = analyse(); t = r["total"]; REPORTS.mkdir(exist_ok=True); sm = r["sample"]
+    r = analyse(); t = r["total"]; REPORTS.mkdir(parents=True, exist_ok=True); sm = r["sample"]
     prs = Presentation(); prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
     bc, a = r["by_cat"], r["aged"]; top = bc.index[0]
 

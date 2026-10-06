@@ -2,3 +2,5 @@ __pycache__/
 *.pyc
 data/actual/*.csv
 local_only/
+config.local.json
+daily_review_errors.log

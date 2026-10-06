@@ -42,7 +42,7 @@ def table(df, cols, fmts):
     return f"<table><thead><tr>{h}</tr></thead><tbody>{b}</tbody></table>"
 
 def build():
-    r = analyse(); t = r["total"]; REPORTS.mkdir(exist_ok=True)
+    r = analyse(); t = r["total"]; REPORTS.mkdir(parents=True, exist_ok=True)
     kpis = [("Accrual accuracy", f"{t.accuracy:.1%}", "invoiced lines"), ("Net variance", f"USD {M(t.variance)}", f"{t.variance_pct:+.1%} of actual · + = under-accrued"),
             ("Unbilled accruals", f"USD {Mp(t.unbilled)}", f"{len(r['aged'])} lines > {AGED_DAYS}d (USD {Mp(r['aged'].accrual_usd.sum())})"),
             ("Material variances", str(len(r["material"])), f"USD {M(r['material'].variance.sum())} net")]
@@ -76,7 +76,7 @@ table{{border-collapse:collapse;width:100%;font-size:12px}}th,td{{text-align:lef
 <div class="card" style="margin-bottom:12px"><h2>Top 10 variances</h2>{table(top,['period','voyage','lane','cost_category','vendor','accrual_usd','actual_usd','var','pct'],[None]*5+[lambda v:f'{v:,.0f}']*3+[lambda v:f'{v:+.1%}'])}</div>
 <div class="card"><h2>Aged unbilled accruals (&gt;{AGED_DAYS} days) — reversal / chase candidates</h2>{table(aged,['period','voyage','lane','cost_category','vendor','accrual_usd','age_days'],[None]*5+[lambda v:f'{v:,.0f}',None])}</div>
 </main></body></html>"""
-    (REPORTS / "dashboard.html").write_text(page)
+    (REPORTS / "dashboard.html").write_text(page, encoding="utf-8")
     return REPORTS / "dashboard.html"
 
 if __name__ == "__main__":

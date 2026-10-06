@@ -4,14 +4,15 @@
 """
 import sys, re, html, json
 from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from config import FINDINGS_DIR as DIR, REPORTS
 ROOT = Path(__file__).resolve().parent.parent
-DIR = ROOT / "docs" / "findings"
 
 def load():
     out = []
     for f in sorted(DIR.glob("*.md"), reverse=True):
         if f.name.startswith("_"): continue
-        t = f.read_text()
+        t = f.read_text(encoding="utf-8")
         title = (re.search(r"^#\s+(.+)", t, re.M) or [None, f.stem])[1]
         status = (re.search(r"\*\*Status:\*\*\s*([A-Za-z]+)", t) or [None, "Unknown"])[1]
         date = (re.search(r"\*\*Date:\*\*\s*(\S+)", t) or [None, f.stem[:10]])[1]
@@ -41,7 +42,7 @@ pre{{white-space:pre-wrap;font:13px/1.5 inherit;margin:0;max-height:0;overflow:h
 <script>const A=[...document.querySelectorAll('article')],q=document.getElementById('q'),f=document.getElementById('f');
 function r(){{let c=0;A.forEach(a=>{{const ok=a.dataset.t.includes(q.value.toLowerCase())&&(!f.value||a.dataset.s===f.value);a.hidden=!ok;c+=ok;if(q.value)a.classList.toggle('open',ok)}});document.getElementById('n').textContent=c+' shown'}}
 q.oninput=f.onchange=r;A.forEach(a=>a.querySelector('h2').onclick=()=>a.classList.toggle('open'));r()</script></main></body></html>"""
-    (ROOT / "reports").mkdir(exist_ok=True); (ROOT / "reports" / "findings.html").write_text(page); print(ROOT / "reports" / "findings.html")
+    REPORTS.mkdir(parents=True, exist_ok=True); (REPORTS / "findings.html").write_text(page, encoding="utf-8"); print(REPORTS / "findings.html")
 
 if __name__ == "__main__":
     c = sys.argv[1] if len(sys.argv) > 1 else "build"

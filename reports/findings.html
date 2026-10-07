@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Findings</title><style>
+:root{--bg:#f6f6f4;--s:#fcfcfb;--ink:#0b0b0b;--i2:#52514e;--l:#e3e2dc}@media(prefers-color-scheme:dark){:root{--bg:#111110;--s:#1a1a19;--ink:#fff;--i2:#c3c2b7;--l:#33322f}}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 system-ui,sans-serif}main{max-width:860px;margin:0 auto;padding:16px}
+input,select{font:inherit;padding:8px;border:1px solid var(--l);border-radius:6px;background:var(--s);color:var(--ink)}input{width:100%;margin-bottom:8px}
+article{background:var(--s);border:1px solid var(--l);border-radius:10px;padding:12px 14px;margin:10px 0}h2{font-size:16px;margin:0}.m{color:var(--i2);margin:2px 0 6px}
+pre{white-space:pre-wrap;font:13px/1.5 inherit;margin:0;max-height:0;overflow:hidden}article.open pre{max-height:none}h2{cursor:pointer}
+.st{padding:1px 8px;border-radius:99px;background:var(--l)}.Hypothesis{background:#fff3cd;color:#664d03}.Confirmed{background:#d1e7dd;color:#0a3622}</style></head><body><main>
+<h1 style="font-size:20px">Findings (2)</h1><input id="q" placeholder="Search findings (e.g. bunker, Asia-Europe, aged)…" autofocus>
+<select id="f"><option value="">All statuses</option><option>Confirmed</option><option>Hypothesis</option><option>Superseded</option></select><div id="n" class="m"></div><article data-s="Confirmed" data-t="# company-pc mode, session review, and storage decisions
+
+- **date:** 2026-10-06
+- **status:** confirmed (decisions and build state); the pc pieces are untested
+- **data used:** none (no real accrual/actual data in this repo)
+
+## finding
+- daily review now runs on the company pc, with data, reports and findings kept in company onedrive. github holds code only.
+- the cloud email routine (trig_01gwybfulszcggizntt7upp9) is switched off: it had no gmail connector and cannot see onedrive.
+- a review of ~165 past sessions was written up and published as a private page. it is not in this repo because it contains company figures.
+
+## cause
+cloud sessions cannot reach onedrive or outlook, and company data should not sit in a possibly-public repo.
+
+## evidence
+- pipeline run end to end on linux with redirected folders: dashboard, deck, email summary and findings page all built.
+- not tested: scripts/run_daily.bat, scripts/send_email.ps1 (outlook), the task scheduler command, the hook on windows.
+
+## action / decision
+- set up on the pc per docs/pc_setup.md; send any error from daily_review_errors.log.
+- supply real opus exports to the data folder; until then outputs are marked sample data.
+- decide: make the repo private, or keep company data out of it entirely (current state).
+"><h2>Company-PC mode, session review, and storage decisions</h2><p class="m">2026-10-06 · <b class="st Confirmed">Confirmed</b></p><pre># Company-PC mode, session review, and storage decisions
+
+- **Date:** 2026-10-06
+- **Status:** Confirmed (decisions and build state); the PC pieces are untested
+- **Data used:** none (no real accrual/actual data in this repo)
+
+## Finding
+- Daily review now runs on the company PC, with data, reports and findings kept in company OneDrive. GitHub holds code only.
+- The cloud email routine (trig_01GwyBFuLszcGgizNtT7uPp9) is switched OFF: it had no Gmail connector and cannot see OneDrive.
+- A review of ~165 past sessions was written up and published as a private page. It is not in this repo because it contains company figures.
+
+## Cause
+Cloud sessions cannot reach OneDrive or Outlook, and company data should not sit in a possibly-public repo.
+
+## Evidence
+- Pipeline run end to end on Linux with redirected folders: dashboard, deck, email summary and findings page all built.
+- NOT tested: scripts/run_daily.bat, scripts/send_email.ps1 (Outlook), the Task Scheduler command, the hook on Windows.
+
+## Action / decision
+- Set up on the PC per docs/PC_SETUP.md; send any error from daily_review_errors.log.
+- Supply real OPUS exports to the data folder; until then outputs are marked SAMPLE DATA.
+- Decide: make the repo private, or keep company data out of it entirely (current state).
+</pre></article><article data-s="Hypothesis" data-t="# workspace setup and sample-data baseline
+
+- **date:** 2026-10-05
+- **status:** hypothesis (all numbers are from synthetic sample data, not real)
+- **data used:** data/sample/accrual_vs_actual.csv
+
+## finding
+pipeline built (analysis, dashboard, 7-slide deck, email summary). on sample data: accuracy 95.1%, net variance +usd 1.16m, 22 unbilled lines &gt;90d. these only demonstrate the pipeline.
+
+## cause
+n/a — no real data in the repo yet.
+
+## action / decision
+- variance = actual − accrual; material = ≥10% and ≥usd 10k; aged = &gt;90 days.
+- daily routine trig_01gwybfulszcggizntt7upp9 (weekdays 17:52 sgt) created without gmail connector — email step will fail until connector is attached from claude.ai routines ui.
+- real data must be supplied via data/actual/ (currently gitignored).
+"><h2>Workspace setup and sample-data baseline</h2><p class="m">2026-10-05 · <b class="st Hypothesis">Hypothesis</b></p><pre># Workspace setup and sample-data baseline
+
+- **Date:** 2026-10-05
+- **Status:** Hypothesis (all numbers are from SYNTHETIC sample data, not real)
+- **Data used:** data/sample/accrual_vs_actual.csv
+
+## Finding
+Pipeline built (analysis, dashboard, 7-slide deck, email summary). On sample data: accuracy 95.1%, net variance +USD 1.16M, 22 unbilled lines &gt;90d. These only demonstrate the pipeline.
+
+## Cause
+n/a — no real data in the repo yet.
+
+## Action / decision
+- Variance = Actual − Accrual; material = ≥10% and ≥USD 10k; aged = &gt;90 days.
+- Daily routine trig_01GwyBFuLszcGgizNtT7uPp9 (weekdays 17:52 SGT) created WITHOUT Gmail connector — email step will fail until connector is attached from claude.ai Routines UI.
+- Real data must be supplied via data/actual/ (currently gitignored).
+</pre></article>
+<script>const A=[...document.querySelectorAll('article')],q=document.getElementById('q'),f=document.getElementById('f');
+function r(){let c=0;A.forEach(a=>{const ok=a.dataset.t.includes(q.value.toLowerCase())&&(!f.value||a.dataset.s===f.value);a.hidden=!ok;c+=ok;if(q.value)a.classList.toggle('open',ok)});document.getElementById('n').textContent=c+' shown'}
+q.oninput=f.onchange=r;A.forEach(a=>a.querySelector('h2').onclick=()=>a.classList.toggle('open'));r()</script></main></body></html>
